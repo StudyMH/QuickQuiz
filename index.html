@@ -39,15 +39,13 @@
             'slide-up': 'slideUp 0.22s cubic-bezier(0.16, 1, 0.3, 1) forwards',
             'slide-down': 'slideDown 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards',
             'fade-in': 'fadeIn 0.2s ease-out forwards',
-            'confetti-fall': 'confettiFall 3s ease-out forwards',
-            'pulse-subtle': 'pulseSubtle 2s infinite ease-in-out'
+            'confetti-fall': 'confettiFall 3s ease-out forwards'
           },
           keyframes: {
             slideUp: { '0%': { transform: 'translateY(12px)', opacity: '0' }, '100%': { transform: 'translateY(0)', opacity: '1' } },
             slideDown: { '0%': { transform: 'translateY(-12px)', opacity: '0' }, '100%': { transform: 'translateY(0)', opacity: '1' } },
             fadeIn: { '0%': { opacity: '0' }, '100%': { opacity: '1' } },
-            confettiFall: { '0%': { transform: 'translateY(-100%) rotate(0deg)', opacity: '1' }, '100%': { transform: 'translateY(100vh) rotate(360deg)', opacity: '0' } },
-            pulseSubtle: { '0%, 100%': { opacity: '1' }, '50%': { opacity: '0.6' } }
+            confettiFall: { '0%': { transform: 'translateY(-100%) rotate(0deg)', opacity: '1' }, '100%': { transform: 'translateY(100vh) rotate(360deg)', opacity: '0' } }
           }
         }
       }
@@ -107,7 +105,12 @@
     .glass { background: rgba(255, 255, 255, 0.96); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
     .dark .glass { background: rgba(15, 23, 42, 0.96); }
     
-    .opt-btn { transition: background-color 0.15s, border-color 0.15s, opacity 0.15s, transform 0.1s; box-sizing: border-box; border: 2px solid transparent; }
+    /* Strict Option Styling (Zero Sticky Hover Glitch on Mobile) */
+    .opt-btn { 
+      transition: background-color 0.12s ease, border-color 0.12s ease, opacity 0.12s ease; 
+      box-sizing: border-box; 
+      border: 2px solid transparent; 
+    }
     .opt-btn:active:not(:disabled) { transform: scale(0.99); }
     .opt-btn.default-state { border-color: #e2e8f0; background-color: #ffffff; }
     .dark .opt-btn.default-state { border-color: #334155; background-color: #1e293b; }
@@ -153,19 +156,18 @@
       transform-origin: center;
     }
 
-    .btn-tactile { transition: transform 0.1s ease, filter 0.15s ease, opacity 0.15s ease; }
+    .btn-tactile { transition: transform 0.1s ease, opacity 0.15s ease; }
     .btn-tactile:active:not(:disabled) { transform: scale(0.96); }
   </style>
 </head>
 <body class="premium-pattern text-slate-800 dark:text-slate-200 font-sans flex flex-col font-m transition-colors duration-300">
 
-  <!-- तिरंगा बॉर्डर -->
   <div class="tiranga-stripe shrink-0 fixed top-0 z-50"></div>
 
-  <!-- Header Area (Mobile-Optimized Zero Overlap) -->
+  <!-- Header Area -->
   <header class="glass border-b border-slate-200/80 dark:border-slate-800/80 shadow-xs shrink-0 z-40 pt-1">
     
-    <!-- Micro Status Bar: Brand & API Key & Streak -->
+    <!-- Micro Status Bar -->
     <div class="max-w-4xl mx-auto px-2.5 sm:px-4 py-1 flex justify-between items-center text-[11px] font-bold">
       <div class="flex items-center gap-1.5 min-w-0">
         <img src="icon.svg" alt="Logo" class="w-4 h-4 rounded-full shrink-0">
@@ -182,44 +184,43 @@
         <div class="flex items-center gap-1 text-orange-600 font-extrabold bg-orange-50 dark:bg-orange-950/40 px-2 py-0.5 rounded-md text-[10px] sm:text-[11px] border border-orange-200 dark:border-orange-800/50" title="सलग बरोबर उत्तरे (Streak)">
           <span>🔥</span> <span id="streakCount">0</span>
         </div>
-        <div id="bufferStatus" class="flex items-center gap-1 text-emerald-600 dark:text-emerald-400 text-[10px] sm:text-[11px] bg-emerald-50 dark:bg-emerald-950/40 px-1.5 py-0.5 rounded-md font-bold border border-emerald-200 dark:border-emerald-800/50" title="रांगेतील तयार प्रश्न">
-          <span class="inline-block w-1.5 h-1.5 rounded-full bg-emerald-500 animate-ping"></span>
+        <div id="bufferStatus" class="flex items-center gap-1 text-emerald-600 dark:text-emerald-400 text-[10px] sm:text-[11px] bg-emerald-50 dark:bg-emerald-950/40 px-1.5 py-0.5 rounded-md font-bold border border-emerald-200 dark:border-emerald-800/50" title="रांगेतील तयार प्रश्न (Buffer)">
+          <span class="inline-block w-0.5 h-0.5 rounded-full bg-emerald-500 animate-ping"></span>
           <span id="bufferCountText">0</span>
         </div>
       </div>
     </div>
 
-    <!-- Main Navigation Bar: Target, Dashboard, Finish & Mobile Action Tools -->
+    <!-- Main Navigation Bar -->
     <div class="max-w-4xl mx-auto px-2.5 sm:px-4 pb-1.5 pt-0.5 flex flex-col gap-1.5">
       <div class="flex items-center gap-1.5 justify-between">
-        <!-- Target Selector Button (Fluid width with text truncate to avoid push) -->
         <button onclick="openFilterModal()" id="btnTargetFilter" aria-label="Open Exam Target" class="flex-1 min-w-0 flex items-center justify-between gap-1.5 px-2.5 py-1.5 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-2xs hover:border-brand-accent group btn-tactile">
           <div class="min-w-0 flex flex-col items-start text-left">
             <span class="text-[8px] text-slate-400 uppercase font-black tracking-wider leading-none mb-0.5 group-hover:text-brand-accent">Target (परीक्षा विषय)</span>
-            <span id="activeFilterText" class="text-xs font-black text-slate-800 dark:text-slate-100 truncate w-full">Group C • Prelims • History</span>
+            <span id="activeFilterText" class="text-xs font-black text-slate-800 dark:text-slate-100 truncate w-full">Group C • Prelims • History (मराठी)</span>
           </div>
           <span class="w-5 h-5 rounded-lg bg-slate-100 dark:bg-slate-700 flex items-center justify-center text-slate-500 text-xs shrink-0">⚙️</span>
         </button>
 
-        <!-- Dashboard Button with Icon & Text -->
         <a href="dashboard.html" title="डॅशबोर्ड व सेव्ह केलेले प्रश्न" class="h-9 px-2.5 rounded-xl bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 font-black text-xs flex items-center gap-1.5 border border-slate-200 dark:border-slate-700 shadow-2xs shrink-0 btn-tactile">
           <span class="text-sm">📖</span> <span>Dashboard</span>
         </a>
 
-        <!-- Finish Test Button (Strictly within view, never pushed off-screen) -->
         <button onclick="confirmFinishQuiz()" id="btnFinishQuiz" title="सराव पूर्ण करून निकाल पहा" class="h-9 px-2.5 sm:px-3 rounded-xl bg-rose-600 hover:bg-rose-700 text-white font-black text-xs flex items-center gap-1 shadow-2xs border border-rose-500 shrink-0 btn-tactile">
         <span>Finish</span>
         </button>
       </div>
 
-      <!-- Compact Utility Toolbar: Snap, Language, Font, Theme -->
+      <!-- Compact Utility Toolbar -->
       <div class="flex items-center justify-between gap-1 pt-0.5 border-t border-slate-100 dark:border-slate-800/60">
         <div class="flex items-center gap-1">
           <button onclick="takeFullScreenSnapshot()" id="btnSnapHeader" title="प्रश्नाचा स्वच्छ स्क्रीनशॉट घ्या" class="h-7 px-2 rounded-lg bg-white dark:bg-slate-800 hover:bg-slate-50 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 text-[10px] font-black flex items-center gap-1 shadow-2xs btn-tactile">
             <span>📸</span> <span>Snap</span>
           </button>
-          <button onclick="toggleLang()" id="langBtn" aria-label="भाषा बदला" class="h-7 px-2 rounded-lg bg-white dark:bg-slate-800 hover:bg-slate-50 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 text-[10px] font-black shadow-2xs btn-tactile">
-            मराठी <span class="text-slate-300 dark:text-slate-600 mx-0.5">|</span> EN
+          
+          <!-- Language Toggle Button: Dynamically Validated & Locked based on Filter -->
+          <button onclick="toggleLang()" id="langBtn" aria-label="भाषा बदला" class="h-7 px-2 rounded-lg bg-white dark:bg-slate-800 hover:bg-slate-50 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 text-[10px] font-black shadow-2xs btn-tactile transition-all">
+            <span id="langBtnText">मराठी | EN</span>
           </button>
         </div>
 
@@ -288,24 +289,14 @@
           </div>
         </div>
 
-        <!-- Live Current Affairs Loader Box (Displayed during Gemini fetching) -->
-        <div id="currentAffairsLoaderBox" class="hidden flex-1 flex flex-col justify-center items-center py-6 px-3 text-center animate-fade-in">
-          <div class="w-10 h-10 rounded-2xl bg-amber-100 dark:bg-amber-950/60 text-amber-600 dark:text-amber-400 flex items-center justify-center text-xl mb-2.5 border border-amber-300 dark:border-amber-800 animate-pulse-subtle">
-            📰
+        <!-- Clean Micro-Spinner Loading Indicator -->
+        <div id="quizLoaderBox" class="hidden flex-1 flex flex-col justify-center items-center py-14 text-center animate-fade-in">
+          <div class="relative w-10 h-10 mb-3">
+            <div class="w-10 h-10 rounded-full border-2 border-slate-200 dark:border-slate-700"></div>
+            <div class="w-10 h-10 rounded-full border-2 border-brand-blue border-t-transparent animate-spin absolute top-0 left-0"></div>
           </div>
-          <span class="text-[9px] font-black uppercase tracking-wider text-amber-600 dark:text-amber-400 bg-amber-50 dark:bg-amber-950/40 px-2 py-0.5 rounded-md border border-amber-200 dark:border-amber-800 mb-1.5">
-            MPSC विशेष चालू घडामोडी माहिती
-          </span>
-          <h4 class="text-xs sm:text-sm font-extrabold text-slate-900 dark:text-white max-w-md mx-auto leading-relaxed" id="loaderFactHeadline">
-            नवीन प्रश्न तयार होत आहे, तोपर्यंत ही महत्त्वाची घडामोडी वाचा...
-          </h4>
-          <p class="text-[11px] text-slate-500 dark:text-slate-400 mt-1 max-w-sm mx-auto" id="loaderFactBody">
-            महाराष्ट्र शासन व राष्ट्रीय घडामोडींवरील ताजी माहिती.
-          </p>
-          <div class="mt-4 flex items-center gap-2 text-xs font-bold text-slate-400">
-            <svg class="animate-spin h-3.5 w-3.5 text-brand-blue" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
-            <span>नवीन प्रश्न तयार होत आहे...</span>
-          </div>
+          <p class="text-xs font-bold text-slate-700 dark:text-slate-300">प्रश्न लोड होत आहेत...</p>
+          <p class="text-[10px] text-slate-400 mt-0.5">MPSC सराव संच तयार होत आहे</p>
         </div>
 
         <!-- Empty State Card -->
@@ -324,10 +315,10 @@
         <!-- Active Question Arena -->
         <div id="quizContentArea" class="flex-1 overflow-y-visible no-scrollbar pb-0.5 hidden">
           <div id="question-text" class="q-text font-bold mb-1 text-slate-800 dark:text-slate-100"></div>
-          <div id="options-container" class="space-y-1 mb-1.5"></div>
+          <div id="options-container" class="space-y-1.5 mb-1.5"></div>
 
           <!-- Solution Breakdown Box -->
-          <div id="solution-container" class="hidden bg-slate-50 dark:bg-slate-800/80 border border-emerald-500/30 rounded-xl p-2.5 sm:p-3 animate-slide-up relative overflow-hidden mt-2">
+          <div id="solution-container" class="hidden bg-slate-50 dark:bg-slate-800/80 border border-emerald-500/30 rounded-xl p-2.5 sm:p-3 animate-slide-up relative overflow-hidden mt-2.5">
             <div class="absolute top-0 left-0 w-1.5 h-full bg-emerald-500"></div>
             <div class="flex items-center justify-between mb-1 pb-1 border-b border-slate-200 dark:border-slate-700/60">
               <h3 class="text-emerald-700 dark:text-emerald-400 font-black text-xs sm:text-sm flex items-center gap-1.5">
@@ -343,7 +334,7 @@
     </div>
   </main>
 
-  <!-- Sticky Footer: Prev, View Solution, Next/Skip -->
+  <!-- Sticky Footer -->
   <footer class="fixed bottom-0 left-0 right-0 z-40 bg-white dark:bg-slate-900 border-t border-slate-200 dark:border-slate-800 flex flex-col shadow-[0_-4px_10px_-1px_rgba(0,0,0,0.08)]">
     <div class="w-full px-3 py-2 flex items-center justify-center gap-1.5 max-w-3xl mx-auto">
       <button onclick="handlePrevAction()" id="btn-prev-action" title="मागील प्रश्न" class="h-10 px-3 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 font-black text-xs flex items-center justify-center gap-1 btn-tactile border border-slate-200 dark:border-slate-700 disabled:opacity-40 disabled:cursor-not-allowed">
@@ -375,17 +366,17 @@
     </div>
   </footer>
 
-  <!-- Toast Notification Bar (Silent / Utility Only) -->
+  <!-- Toast Notification Bar -->
   <div id="toastNotification" class="fixed bottom-24 right-4 sm:right-auto sm:left-1/2 sm:-translate-x-1/2 z-50 transform translate-y-10 opacity-0 transition-all duration-300 bg-slate-900 text-white dark:bg-white dark:text-slate-900 px-3.5 py-2 rounded-xl shadow-xl flex items-center gap-2 text-xs font-bold pointer-events-none border border-slate-700 dark:border-slate-300">
     <span id="toastIcon" class="text-emerald-400 dark:text-emerald-600 text-sm">✓</span>
     <span id="toastMessage">Success!</span>
   </div>
 
   <!-- ========================================================================= -->
-  <!-- मोडल्स (MODALS SYSTEM)                                                    -->
+  <!-- MODALS SYSTEM                                                             -->
   <!-- ========================================================================= -->
 
-  <!-- १. सुधारित निकाल मोडल (Enhanced Performance Result Modal) -->
+  <!-- 1. Result Scorecard Modal (MPSC 1/4 Negative Marking) -->
   <div id="resultModal" role="dialog" aria-modal="true" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-xs hidden items-center justify-center p-3">
     <div class="bg-white dark:bg-slate-800 rounded-3xl w-full max-w-sm p-4 sm:p-5 text-center shadow-2xl border border-slate-200 dark:border-slate-700 animate-slide-up flex flex-col">
       
@@ -396,7 +387,6 @@
       <h3 class="text-sm sm:text-base font-black text-slate-900 dark:text-white">चाचणी निकाल (Performance Summary)</h3>
       <p class="text-[10px] sm:text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">MPSC १/४ (-०.२५) निगेटिव्ह पद्धतीनुसार अंतिम गुण</p>
 
-      <!-- Scorecard Display -->
       <div class="my-3 p-3 rounded-2xl bg-gradient-to-r from-orange-50 via-amber-50 to-orange-50 dark:from-slate-900/60 dark:via-amber-950/30 dark:to-slate-900/60 border border-orange-200 dark:border-amber-800/40">
         <span class="text-[9px] font-black uppercase tracking-wider text-slate-500">अंतिम गुण (Net Score)</span>
         <div class="text-3xl font-black text-orange-600 dark:text-orange-400 leading-tight" id="resFinalScore">0.00</div>
@@ -407,7 +397,6 @@
         </div>
       </div>
 
-      <!-- 3-Column Breakdown -->
       <div class="grid grid-cols-3 gap-1.5 text-center text-xs mb-3.5">
         <div class="p-2 rounded-xl bg-emerald-50 dark:bg-emerald-950/30 border border-emerald-200 dark:border-emerald-800">
           <span class="text-emerald-700 dark:text-emerald-400 font-black text-sm block" id="resCorrect">0</span>
@@ -423,7 +412,6 @@
         </div>
       </div>
 
-      <!-- Action Buttons -->
       <div class="space-y-1.5">
         <button onclick="startNewQuizBatch()" class="w-full py-2.5 rounded-xl bg-brand-blue hover:bg-blue-700 text-white font-black text-xs shadow-md btn-tactile">
           🔄 नवीन सराव सुरू करा (Restart)
@@ -436,7 +424,7 @@
     </div>
   </div>
 
-  <!-- २. Report Error Modal (Direct to Telegram with Clean Snapshot Trigger) -->
+  <!-- 2. Report Error Modal -->
   <div id="reportModal" role="dialog" aria-modal="true" class="fixed inset-0 z-50 bg-slate-900/80 backdrop-blur-xs hidden items-center justify-center p-3 sm:p-4">
     <div class="bg-white dark:bg-slate-800 rounded-2xl w-full max-w-sm shadow-2xl border border-slate-200 dark:border-slate-700 overflow-hidden animate-slide-up flex flex-col">
       <div class="px-4 py-3 bg-rose-50 dark:bg-rose-950/40 border-b border-rose-100 dark:border-rose-900/50 flex items-center justify-between">
@@ -467,7 +455,7 @@
     </div>
   </div>
 
-  <!-- ३. १००% मराठी AI Engine Setup Modal -->
+  <!-- 3. AI Engine Setup Modal with Instant Clear Button -->
   <div id="apiKeyModal" role="dialog" aria-modal="true" class="fixed inset-0 z-50 bg-slate-900/80 backdrop-blur-md hidden items-center justify-center p-4">
     <div class="bg-white dark:bg-slate-800 w-full max-w-md rounded-[2rem] shadow-2xl border border-slate-100 dark:border-slate-700 flex flex-col max-h-[92vh] overflow-hidden animate-slide-up">
       <div class="px-5 py-3.5 border-b border-slate-100 dark:border-slate-700/50 flex items-center justify-between bg-slate-50 dark:bg-slate-800/50 shrink-0">
@@ -495,7 +483,7 @@
             <p class="text-[10px] text-slate-600 dark:text-slate-400">कोणतीही की न टाकता २ डेमो प्रश्न लगेच सोडवून पहा.</p>
           </div>
           <button type="button" onclick="enterInteractiveDemo()" class="px-3 py-1.5 rounded-xl bg-amber-500 hover:bg-amber-600 text-amber-950 font-black text-xs shadow-xs btn-tactile shrink-0">
-            👁️ डेमो खेळा
+            👁️ डेमो पहा
           </button>
         </div>
 
@@ -504,9 +492,17 @@
             <label class="block text-[10px] font-black uppercase text-slate-500 tracking-wider">Google Gemini API Key टाका *</label>
             <span class="text-[9px] bg-slate-100 dark:bg-slate-700 text-slate-500 px-1.5 py-0.5 rounded font-bold" id="activeModelBadge">gemini-flash</span>
           </div>
+          
           <div class="relative">
-            <input type="password" id="apiKeyInput" placeholder="AIzaSy..." class="w-full pl-3 pr-10 py-2.5 text-xs rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900/50 text-slate-800 dark:text-slate-100 font-mono focus:outline-none focus:border-brand-blue">
-            <button type="button" onclick="togglePasswordVisibility('apiKeyInput', this)" class="absolute right-3 top-2.5 text-slate-400 hover:text-slate-600 text-sm">👁️</button>
+            <input type="password" id="apiKeyInput" oninput="handleApiKeyInputChange(this.value)" placeholder="AIzaSy..." class="w-full pl-3 pr-16 py-2.5 text-xs rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900/50 text-slate-800 dark:text-slate-100 font-mono focus:outline-none focus:border-brand-blue">
+            <div class="absolute right-2.5 top-2 flex items-center gap-1.5 text-slate-400">
+              <button type="button" id="btnClearKeyInput" onclick="clearApiKeyInput()" class="hidden w-5 h-5 rounded-full bg-slate-200 dark:bg-slate-700 hover:text-slate-700 dark:hover:text-white text-[11px] font-bold flex items-center justify-center transition-all" title="की पुसा (Clear)">
+                ✕
+              </button>
+              <button type="button" onclick="togglePasswordVisibility('apiKeyInput', this)" class="text-sm hover:text-slate-600 dark:hover:text-slate-200">
+                👁️
+              </button>
+            </div>
           </div>
           <p id="keyStatusMsg" class="text-[10px] font-bold hidden mt-1"></p>
         </div>
@@ -525,7 +521,7 @@
     </div>
   </div>
 
-  <!-- ४. सुधारित "i" अभ्यास माहिती मोडल (Upgraded AI Info Modal) -->
+  <!-- 4. Info Modal -->
   <div id="infoModal" role="dialog" aria-modal="true" class="fixed inset-0 z-50 bg-slate-900/75 backdrop-blur-xs hidden items-center justify-center p-4">
     <div class="bg-white dark:bg-slate-800 w-full max-w-sm rounded-[2rem] shadow-2xl border border-slate-200 dark:border-slate-700 flex flex-col overflow-hidden animate-slide-up">
       <div class="p-4 border-b border-slate-100 dark:border-slate-700 flex items-center justify-between bg-slate-50 dark:bg-slate-800/50 shrink-0">
@@ -554,7 +550,7 @@
     </div>
   </div>
 
-  <!-- ५. परीक्षेचे फिल्टर मोडल (Target Setup Modal) -->
+  <!-- 5. Target Setup Modal With Direct Language Selection -->
   <div id="filterModal" role="dialog" aria-modal="true" class="fixed inset-0 z-50 bg-slate-900/70 backdrop-blur-md hidden flex-col justify-end sm:justify-center items-center p-0 sm:p-4 transition-opacity">
     <div class="bg-white dark:bg-slate-800 w-full sm:max-w-xl sm:rounded-[2rem] rounded-t-[2rem] shadow-2xl border border-slate-100 dark:border-slate-700 flex flex-col overflow-hidden animate-slide-up max-h-[88vh]">
       <div class="p-4 border-b border-slate-100 dark:border-slate-700 flex items-center justify-between shrink-0 bg-slate-50 dark:bg-slate-800/50">
@@ -566,8 +562,19 @@
       </div>
 
       <div class="p-4 sm:p-5 overflow-y-auto space-y-3.5 flex-1">
+        
+        <!-- Step 1: Language Selection -->
         <div>
-          <label class="block text-[10px] font-black text-slate-400 mb-1.5 uppercase tracking-wider">1. Exam Target (परीक्षा निवडा)</label>
+          <label class="block text-[10px] font-black text-slate-400 mb-1.5 uppercase tracking-wider">1. Question Language / माध्यम निवडा (Default: मराठी)</label>
+          <div class="grid grid-cols-3 gap-2">
+            <button onclick="setModalFilter('lang', 'mr')" class="flt-btn lang-filter-btn py-2 px-1 text-center rounded-xl border-2 font-bold text-xs transition-colors">मराठी (Default)</button>
+            <button onclick="setModalFilter('lang', 'en')" class="flt-btn lang-filter-btn py-2 px-1 text-center rounded-xl border-2 font-bold text-xs transition-colors">English Only</button>
+            <button onclick="setModalFilter('lang', 'bi')" class="flt-btn lang-filter-btn py-2 px-1 text-center rounded-xl border-2 font-bold text-xs transition-colors">दोन्ही (Bilingual)</button>
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-[10px] font-black text-slate-400 mb-1.5 uppercase tracking-wider">2. Exam Target (परीक्षा निवडा)</label>
           <div class="grid grid-cols-3 gap-2">
             <button onclick="setModalFilter('exam', 'rajyaseva')" class="flt-btn exam-btn py-2 px-1 text-center rounded-xl border-2 font-bold text-xs transition-colors">Rajyaseva</button>
             <button onclick="setModalFilter('exam', 'group-b')" class="flt-btn exam-btn py-2 px-1 text-center rounded-xl border-2 font-bold text-xs transition-colors">Group B (Combine)</button>
@@ -576,7 +583,7 @@
         </div>
 
         <div>
-          <label class="block text-[10px] font-black text-slate-400 mb-1.5 uppercase tracking-wider">2. Stage (परीक्षेचा टप्पा)</label>
+          <label class="block text-[10px] font-black text-slate-400 mb-1.5 uppercase tracking-wider">3. Stage (परीक्षेचा टप्पा)</label>
           <div class="grid grid-cols-2 gap-2">
             <button onclick="setModalFilter('stage', 'Prelims')" class="flt-btn stage-btn py-2 px-2 text-center rounded-xl border-2 font-bold text-xs transition-colors">Prelims (पूर्व परीक्षा)</button>
             <button onclick="setModalFilter('stage', 'Mains')" class="flt-btn stage-btn py-2 px-2 text-center rounded-xl border-2 font-bold text-xs transition-colors">Mains (मुख्य परीक्षा)</button>
@@ -585,14 +592,14 @@
 
         <div>
           <div class="flex items-center justify-between mb-1.5">
-            <label class="block text-[10px] font-black text-slate-400 uppercase tracking-wider">3. Subjects (विषय निवडा)</label>
+            <label class="block text-[10px] font-black text-slate-400 uppercase tracking-wider">4. Subjects (विषय निवडा)</label>
             <span class="text-[9px] text-brand-blue font-bold">1-Click Group Select Enabled</span>
           </div>
           <div class="space-y-2.5" id="filter-subject-groups-container"></div>
         </div>
 
         <div>
-          <label class="block text-[10px] font-black text-slate-400 mb-1.5 uppercase tracking-wider">4. Difficulty Level (काठिण्य पातळी)</label>
+          <label class="block text-[10px] font-black text-slate-400 mb-1.5 uppercase tracking-wider">5. Difficulty Level (काठिण्य पातळी)</label>
           <div class="grid grid-cols-2 gap-2">
             <button onclick="setModalFilter('diff', 'Medium')" class="flt-btn diff-btn py-2 px-2 rounded-xl border-2 font-bold text-xs transition-colors text-center">Medium (Standard)</button>
             <button onclick="setModalFilter('diff', 'Hard')" class="flt-btn diff-btn py-2 px-2 rounded-xl border-2 font-bold text-xs transition-colors text-center">Hard (Multi-Statement & Pairs)</button>
@@ -608,7 +615,7 @@
     </div>
   </div>
 
-  <!-- ६. मोबाईल डोनेशन मोडल (Fixed-Size Zero Scroll) -->
+  <!-- 6. Mobile UPI Donation Modal -->
   <div id="mobileDonationModal" role="dialog" aria-modal="true" class="fixed inset-0 z-50 bg-black/75 backdrop-blur-xs hidden items-center justify-center p-3 no-print">
     <div class="bg-white dark:bg-[#0d1728] rounded-2xl w-full max-w-sm shadow-2xl border border-slate-200 dark:border-[#1f3358] relative flex flex-col overflow-hidden animate-slide-up">
       <div class="bg-white dark:bg-[#0d1728] px-4 py-2.5 border-b border-slate-100 dark:border-[#1f3358] flex items-center justify-between shrink-0">
@@ -627,8 +634,8 @@
         </p>
 
         <div class="p-2 rounded-lg bg-amber-50 dark:bg-amber-950/40 border border-amber-200/80 dark:border-amber-900/50 text-left">
-          <p class="text-[10px] text-amber-900 dark:text-amber-200 leading-tight font-semibold">
-            💡 <span class="underline">नोंद:</span> ही वेबसाइट विनामूल्य चालवली जात आहे. तुमच्या सहकार्यामुळे ती अखंड व वेगवान राहील.
+          <p class="text-[10px] text-amber-900 dark:text-amber-200 leading-tight font-semibold" style="text-align: center">
+          <span class="underline">महत्त्वाची नोंद</span><br> सध्या ही वेबसाइट विनामूल्य वेब सेवांचा वापर करून चालवली जात आहे. तुमच्या छोट्याशा आर्थिक सहकार्यामुळे वेबसाइट अधिक वेगवान आणि सक्षम ठेवण्यास मदत होईल.
           </p>
         </div>
 
@@ -656,7 +663,7 @@
     </div>
   </div>
 
-  <!-- ७. डेस्कटॉप डोनेशन मोडल (Fixed-Size Live QR Code) -->
+  <!-- 7. Desktop Live QR Donation Modal -->
   <div id="desktopDonationModal" role="dialog" aria-modal="true" class="fixed inset-0 z-50 bg-black/75 backdrop-blur-xs hidden items-center justify-center p-3 no-print">
     <div class="bg-white dark:bg-[#0d1728] rounded-2xl w-full max-w-sm shadow-2xl border-2 border-slate-300 dark:border-[#1f3358] relative flex flex-col overflow-hidden animate-slide-up">
       <div class="bg-white dark:bg-[#0d1728] px-4 py-2.5 border-b border-slate-200 dark:border-[#1f3358] flex items-center justify-between shrink-0">
@@ -707,7 +714,7 @@
     </div>
   </div>
 
-  <!-- ८. आभार मोडल (Thank You Confirmation Modal) -->
+  <!-- 8. Thank You Modal -->
   <div id="thankYouModal" class="fixed inset-0 z-50 bg-black/75 backdrop-blur-xs hidden items-center justify-center p-3 no-print">
     <div class="bg-white dark:bg-[#0d1728] rounded-2xl w-full max-w-xs p-5 shadow-2xl border-2 border-emerald-500 text-center relative animate-slide-up">
       <div class="w-10 h-10 bg-emerald-100 dark:bg-emerald-950 text-emerald-600 rounded-full flex items-center justify-center mx-auto mb-2">
@@ -746,47 +753,26 @@
     let currentHistoryIndex = -1;
     let sessionStartTime = Date.now();
 
-    let lang = 'mr'; 
+    // Default Language: Marathi First
+    let lang = localStorage.getItem('qq_selected_lang') || 'mr'; 
     const sizes = ['s', 'm', 'l'];
     let sIdx = 1;
 
-    // Adaptive Low-Latency Model Fallbacks
+    // Direct High-Speed Gemini Model Tier
     const CANDIDATE_MODELS = [
+      "gemini-3.6-flash",
       "gemini-3.5-flash-lite",
+      "gemini-3.8-flash",
+      "gemini-3.5-flash",
+      "Gemini-3.1-Flash-Lite",
+      "Gemini-2.5-Flash",
+      "Gemini-2.0-Flash"
     ];
     let activeGeminiModel = localStorage.getItem('qq_active_model') || CANDIDATE_MODELS[0];
 
     // Default filters
-    let filters = { exam: 'group-c', stage: 'Prelims', subjects: ['History'], diff: 'Medium' };
+    let filters = { exam: 'group-c', stage: 'Prelims', subjects: ['History'], diff: 'Medium', lang: 'mr' };
     let modalFilters = JSON.parse(JSON.stringify(filters));
-
-    // Dynamic Current Affairs Flash Knowledge Base (Rotated during AI Loading)
-    const CURRENT_AFFAIRS_FLASH = [
-      {
-        headline: "महाराष्ट्र शासनाची 'मुख्यमंत्री वयोश्री योजना'",
-        body: "६५ वर्षे व त्यावरील ज्येष्ठ नागरिकांसाठी उपकरणे खरेदीसाठी ₹३,००० थेट बँक खात्यात वर्ग."
-      },
-      {
-        headline: "ज्ञानपीठ पुरस्कार विजेते",
-        body: "५८ वा ज्ञानपीठ पुरस्कार: प्रसिद्ध गीतकार गुलजार (उर्दू) आणि जगद्गुरू रामभद्राचार्य (संस्कृत)."
-      },
-      {
-        headline: "महाराष्ट्र आर्थिक पाहणी अहवाल: GDP वृद्धी दर",
-        body: "महाराष्ट्राचा सेवा क्षेत्राचा वाटा सर्वाधिक असून कृषी आणि उद्योग क्षेत्रातील भांडवली गुंतवणूक अग्रस्थानी."
-      },
-      {
-        headline: "भारताचे नवीन मुख्य निवडणूक आयुक्त (CEC)",
-        body: "निवडणूक आयोग (नियुक्ती व सेवाशर्ती) कायदा २०२३ नुसार निवड समितीच्या शिफारशीने नियुक्ती."
-      },
-      {
-        headline: "नीती आयोग 'शाश्वत विकास उद्दिष्टे' (SDG) निर्देशांक",
-        body: "महाराष्ट्र सामाजिक व पायाभूत सुविधा निर्देशांकात 'Front Runner' श्रेणीमध्ये समाविष्ट."
-      },
-      {
-        headline: "पद्म पुरस्कार २०२५ - महाराष्ट्र मानकरी",
-        body: "कला, समाजसेवा, साहित्य व शिक्षण क्षेत्रातील राज्यातील नामवंत व्यक्तींचा गौरव."
-      }
-    ];
 
     // Syllabus Hierarchy Tree
     const syllabusHierarchy = {
@@ -795,40 +781,40 @@
           {
             groupId: "gs_pre",
             groupName: "General Studies (सामान्य अध्ययन)",
-            subjects: ["Current Affairs", "History of India", "History of Maharashtra", "Indian National Movement", "Geography of India", "Geography of Maharashtra", "World Geography", "Indian Polity and Constitution", "Maharashtra Administration", "Indian Economy", "Maharashtra Economy", "General Science", "Environment and Ecology"]
+            subjects: ["Current Affairs", "History", "Geography", "Polity", "Economics", "General Science"]
           },
           {
             groupId: "csat_pre",
             groupName: "CSAT (गणित व बुद्धिमत्ता)",
-            subjects: ["CSAT Logical Reasoning", "CSAT Analytical Ability", "CSAT Decision Making", "CSAT Basic Numeracy", "CSAT Data Interpretation", "CSAT Comprehension"]
+            subjects: ["CSAT Logical Reasoning", "CSAT Quantitative Aptitude"]
           }
         ],
         'Mains': [
-          { groupId: "lang_mr", groupName: "मराठी भाषा ज्ञान", subjects: ["Marathi Grammar", "Marathi Vocabulary", "Marathi Comprehension"] },
-          { groupId: "lang_en", groupName: "English Language", subjects: ["English Grammar", "English Vocabulary", "English Comprehension"] },
-          { groupId: "gs_mains", groupName: "GS Papers 1 to 4", subjects: ["Indian History", "Maharashtra History", "Geography of India", "Geography of Maharashtra", "Indian Constitution", "Governance", "Indian Economy", "Maharashtra Economy", "Agriculture", "Science and Technology", "Ethics and Integrity"] }
+          { groupId: "lang_mr", groupName: "मराठी भाषा ज्ञान", subjects: ["Marathi Grammar", "Marathi Vocabulary"] },
+          { groupId: "lang_en", groupName: "English Language", subjects: ["English Grammar", "English Vocabulary"] },
+          { groupId: "gs_mains", groupName: "GS Papers 1 to 4", subjects: ["History", "Geography", "Polity", "Economics", "General Science"] }
         ]
       },
       'group-b': {
         'Prelims': [
-          { groupId: "gs_pre_b", groupName: "General Studies (संयुक्त पूर्व)", subjects: ["Current Affairs", "History of India", "History of Maharashtra", "Geography of India", "Geography of Maharashtra", "Indian Constitution", "Indian Polity", "Economics", "General Science"] },
-          { groupId: "apt_pre_b", groupName: "Aptitude & Reasoning", subjects: ["Arithmetic", "Logical Reasoning", "Intelligence Test"] }
+          { groupId: "gs_pre_b", groupName: "General Studies (संयुक्त पूर्व)", subjects: ["Current Affairs", "History", "Geography", "Polity", "Economics", "General Science"] },
+          { groupId: "apt_pre_b", groupName: "Aptitude & Reasoning", subjects: ["Arithmetic", "Logical Reasoning"] }
         ],
         'Mains': [
-          { groupId: "lang_mr_b", groupName: "मराठी भाषा (Paper 1)", subjects: ["Marathi Grammar", "Marathi Vocabulary", "Marathi Comprehension"] },
-          { groupId: "lang_en_b", groupName: "English Language (Paper 1)", subjects: ["English Grammar", "English Vocabulary", "English Comprehension"] },
-          { groupId: "gs_laws_b", groupName: "Paper 2 — GS & Laws", subjects: ["General Knowledge & Current Affairs", "Indian Constitution & Polity", "Criminal Law & Police Admin (PSI)", "Taxation & Accountancy (STI)", "Administrative Law (ASO)"] }
+          { groupId: "lang_mr_b", groupName: "मराठी भाषा (Paper 1)", subjects: ["Marathi Grammar", "Marathi Vocabulary"] },
+          { groupId: "lang_en_b", groupName: "English Language (Paper 1)", subjects: ["English Grammar", "English Vocabulary"] },
+          { groupId: "gs_laws_b", groupName: "Paper 2 — GS & Laws", subjects: ["Polity", "General Knowledge"] }
         ]
       },
       'group-c': {
         'Prelims': [
-          { groupId: "gs_pre_c", groupName: "General Studies (शालेय स्तर व GS)", subjects: ["Current Affairs", "History", "Geography", "Polity and Constitution", "Economics", "General Science"] },
-          { groupId: "apt_pre_c", groupName: "Aptitude & Reasoning", subjects: ["Arithmetic", "Logical Reasoning", "Intelligence Test"] }
+          { groupId: "gs_pre_c", groupName: "General Studies (शालेय स्तर व GS)", subjects: ["Current Affairs", "History", "Geography", "Polity", "Economics", "General Science"] },
+          { groupId: "apt_pre_c", groupName: "Aptitude & Reasoning", subjects: ["Arithmetic", "Logical Reasoning"] }
         ],
         'Mains': [
-          { groupId: "lang_mr_c", groupName: "मराठी भाषा (Paper 1)", subjects: ["Marathi Grammar", "Marathi Vocabulary", "Marathi Comprehension"] },
-          { groupId: "lang_en_c", groupName: "English Language (Paper 1)", subjects: ["English Grammar", "English Vocabulary", "English Comprehension"] },
-          { groupId: "gs_special_c", groupName: "Paper 2 — Special GS & Acts", subjects: ["General Knowledge & Current Affairs", "Information Technology & Cyber (IT)", "RTI 2005 & RTS 2015 Acts", "Accountancy & Bookkeeping", "Office Procedure & Drafting"] }
+          { groupId: "lang_mr_c", groupName: "मराठी भाषा (Paper 1)", subjects: ["Marathi Grammar", "Marathi Vocabulary"] },
+          { groupId: "lang_en_c", groupName: "English Language (Paper 1)", subjects: ["English Grammar", "English Vocabulary"] },
+          { groupId: "gs_special_c", groupName: "Paper 2 — Special GS & Acts", subjects: ["General Knowledge", "RTI 2005 Act", "Office Procedure"] }
         ]
       }
     };
@@ -894,8 +880,7 @@
       if (closeBtn) closeBtn.classList.add('hidden');
       if (title) title.textContent = "QuickQuiz मध्ये स्वागत आहे!";
       
-      document.getElementById('apiKeyInput').value = '';
-      document.getElementById('keyStatusMsg').classList.add('hidden');
+      clearApiKeyInput();
       updateAPIKeyUI();
       openModal('apiKeyModal');
     }
@@ -916,6 +901,7 @@
       }
 
       document.getElementById('apiKeyInput').value = apiKey;
+      handleApiKeyInputChange(apiKey);
       document.getElementById('keyStatusMsg').classList.add('hidden');
       updateAPIKeyUI();
       openModal('apiKeyModal');
@@ -950,7 +936,7 @@
     function openInfoModal() { openModal('infoModal'); }
 
     /* -------------------------------------------------------------------------
-       4. Session Persistence & Evaluation Flow
+       4. Session Persistence & Language Validation Logic
        ------------------------------------------------------------------------- */
     function evaluateSessionAndReturnFlow() {
       const now = Date.now();
@@ -963,7 +949,7 @@
         localStorage.setItem('qq_user_sessions', sessionCount.toString());
         showSmartGreetingBanner(sessionCount);
       } else {
-        fetchAiQuestionsBatch(true);
+        fetchAiQuestionsBatch(true, 3);
       }
       localStorage.setItem('qq_last_active', now.toString());
     }
@@ -993,7 +979,7 @@
     function handleContinueGreetingTarget() {
       isAwaitingGreetingChoice = false;
       hideSmartGreetingBanner();
-      fetchAiQuestionsBatch(true);
+      fetchAiQuestionsBatch(true, 3);
     }
 
     function handleChangeGreetingTarget() {
@@ -1024,15 +1010,39 @@
     function restoreSavedFilters() {
       const savedFilters = localStorage.getItem('qq_saved_filters');
       if (savedFilters) {
-        try { filters = JSON.parse(savedFilters); } catch(e) {}
+        try { 
+          filters = JSON.parse(savedFilters); 
+          if (!filters.lang) filters.lang = 'mr';
+          lang = filters.lang === 'en' ? 'en' : 'mr';
+        } catch(e) {}
       }
       updateActiveFilterDisplay();
     }
 
+    /* Strict Validation for Enabling/Disabling the Language Toggle Button */
     function updateActiveFilterDisplay() {
       const eName = filters.exam === 'group-c' ? 'Group C' : (filters.exam === 'group-b' ? 'Group B' : 'Rajya');
       const sName = filters.subjects.length > 2 ? `${filters.subjects[0]} +${filters.subjects.length - 1}` : (filters.subjects.join(', ') || 'All');
-      document.getElementById('activeFilterText').textContent = `${eName} • ${filters.stage} • ${sName}`;
+      const lName = filters.lang === 'en' ? 'English' : (filters.lang === 'bi' ? 'द्विभाषिक' : 'मराठी');
+      document.getElementById('activeFilterText').textContent = `${eName} • ${filters.stage} • ${sName} (${lName})`;
+      
+      const langBtn = document.getElementById('langBtn');
+      const langBtnText = document.getElementById('langBtnText');
+      if (langBtn && langBtnText) {
+        if (filters.lang === 'bi') {
+          // Enable: Bilingual mode allows swapping
+          langBtn.disabled = false;
+          langBtn.classList.remove('opacity-30', 'cursor-not-allowed', 'pointer-events-none');
+          langBtnText.innerHTML = lang === 'mr' ? '<b>मराठी</b> | EN' : 'मराठी | <b>EN</b>';
+          langBtn.title = "भाषा बदला (मराठी | इंग्रजी)";
+        } else {
+          // Disable: Single language is locked for speed and token optimization
+          langBtn.disabled = true;
+          langBtn.classList.add('opacity-30', 'cursor-not-allowed', 'pointer-events-none');
+          langBtnText.innerHTML = filters.lang === 'en' ? 'EN Locked' : 'मराठी Locked';
+          langBtn.title = "भाषा बदलण्यासाठी कृपया 'Target' फिल्टर वापरा.";
+        }
+      }
     }
 
     function recordSeenTopic(topic) {
@@ -1115,7 +1125,13 @@
       document.getElementById('fontBadge').textContent = sizes[sIdx].toUpperCase();
     }
     function toggleLang() { 
+      if (filters.lang !== 'bi') {
+        showToast("भाषा बदलण्यासाठी 'Target' वर क्लिक करा.");
+        return;
+      }
       lang = (lang === 'mr') ? 'en' : 'mr'; 
+      localStorage.setItem('qq_selected_lang', lang);
+      updateActiveFilterDisplay();
       renderQuestionUI(); 
     }
     function getLocalText(obj) {
@@ -1125,8 +1141,41 @@
     }
 
     /* -------------------------------------------------------------------------
-       6. API Key Verification & Adaptive Model Engine
+       6. API Key Input Management with Instant Clear Button
        ------------------------------------------------------------------------- */
+    function handleApiKeyInputChange(val) {
+      const clearBtn = document.getElementById('btnClearKeyInput');
+      const statusEl = document.getElementById('keyStatusMsg');
+      
+      if (val && val.trim().length > 0) {
+        if (clearBtn) clearBtn.classList.remove('hidden');
+      } else {
+        if (clearBtn) clearBtn.classList.add('hidden');
+      }
+
+      if (statusEl && !statusEl.classList.contains('hidden')) {
+        statusEl.classList.add('hidden');
+        document.getElementById('btnSaveKey').classList.add('hidden');
+        document.getElementById('btnTestKey').classList.remove('hidden');
+      }
+    }
+
+    function clearApiKeyInput() {
+      const input = document.getElementById('apiKeyInput');
+      const clearBtn = document.getElementById('btnClearKeyInput');
+      const statusEl = document.getElementById('keyStatusMsg');
+      
+      if (input) {
+        input.value = '';
+        input.focus();
+      }
+      if (clearBtn) clearBtn.classList.add('hidden');
+      if (statusEl) statusEl.classList.add('hidden');
+      
+      document.getElementById('btnSaveKey').classList.add('hidden');
+      document.getElementById('btnTestKey').classList.remove('hidden');
+    }
+
     function updateAPIKeyUI() {
       const key = getStoredApiKey();
       const statusText = document.getElementById('apiKeyStatusText');
@@ -1205,7 +1254,7 @@
         const badge = document.getElementById('activeModelBadge');
         if (badge) badge.textContent = activeGeminiModel;
       } else {
-        statusEl.textContent = "✕ कनेक्शन अयशस्वी. कृपया Google AI Studio वरून योग्य की तपासा.";
+        statusEl.textContent = "✕ कनेक्शन अयशस्वी. कृपया योग्य की कॉपी करा किंवा ✕ दाबून पुन्हा पेस्ट करा.";
         statusEl.className = "text-[10px] font-bold text-rose-500 block mt-1";
       }
     }
@@ -1237,7 +1286,7 @@
       sessionStorage.removeItem('qq_session_history');
       sessionHistory = [];
       currentHistoryIndex = -1;
-      document.getElementById('apiKeyInput').value = '';
+      clearApiKeyInput();
       updateAPIKeyUI();
       closeModal('apiKeyModal');
       
@@ -1263,61 +1312,40 @@
         {
           "id": "DEMO_1", "subject": "Geography", "topic": "महाराष्ट्रातील नद्या व संगम", "difficulty": "Medium", "isPYQ": true, "year": 2022,
           "questionType": "match_pairs",
-          "question": { 
-            "mr": "महाराष्ट्रातील प्रसिद्ध नदी संगम व त्यांची ठिकाणे यांसंदर्भात योग्य जोड्या जुळवा:",
-            "en": "Match the following river confluences with locations in Maharashtra:"
-          },
+          "question": "महाराष्ट्रातील प्रसिद्ध नदी संगम व त्यांची ठिकाणे यांसंदर्भात योग्य जोड्या जुळवा:",
           "matchPairs": {
-            "colA": {
-              "mr": ["अ. प्रकाशे", "ब. मुडावद", "क. माहूली", "ड. तुळापूर"],
-              "en": ["A. Prakashe", "B. Mudavad", "C. Mahuli", "D. Tulapur"]
-            },
-            "colB": {
-              "mr": ["I. तापी-पांझरा", "II. तापी-गोमती", "III. भीमा-इंद्रायणी", "IV. कृष्णा-वेण्णा"],
-              "en": ["I. Tapi-Panjhra", "II. Tapi-Gomati", "III. Bhima-Indrayani", "IV. Krishna-Venna"]
-            }
+            "colA": ["अ. प्रकाशे", "ब. मुडावद", "क. माहूली", "ड. तुळापूर"],
+            "colB": ["I. तापी-पांझरा", "II. तापी-गोमती", "III. भीमा-इंद्रायणी", "IV. कृष्णा-वेण्णा"]
           },
           "options": [ 
-            { "mr": "अ-II, ब-I, क-IV, ड-III", "en": "A-II, B-I, C-IV, D-III" },
-            { "mr": "अ-I, ब-II, क-III, ड-IV", "en": "A-I, B-II, C-III, D-IV" },
-            { "mr": "अ-IV, ब-III, क-II, ड-I", "en": "A-IV, B-III, C-II, D-I" },
-            { "mr": "अ-II, ब-IV, क-I, ड-III", "en": "A-II, B-IV, C-I, D-III" }
+            "अ-II, ब-I, क-IV, ड-III",
+            "अ-I, ब-II, क-III, ड-IV",
+            "अ-IV, ब-III, क-II, ड-I",
+            "अ-II, ब-IV, क-I, ड-III"
           ],
           "correctAnswerIndex": 0,
-          "solution": { 
-            "mr": "अचूक जुळणी:\n• प्रकाशे (नंदुरबार) = तापी व गोमती नदी संगम.\n• मुडावद (धुळे) = तापी व पांझरा नदी संगम.\n• माहूली (सातारा) = कृष्णा व वेण्णा संगम.\n• तुळापूर (पुणे) = भीमा व इंद्रायणी संगम.",
-            "en": "Prakashe is Tapi-Gomati; Mudavad is Tapi-Panjhra; Mahuli is Krishna-Venna; Tulapur is Bhima-Indrayani.",
-            "reference": "Maharashtra State Board & PYQ"
-          }
+          "solution": "अचूक जुळणी:\n• प्रकाशे (नंदुरबार) = तापी व गोमती नदी संगम.\n• मुडावद (धुळे) = तापी व पांझरा नदी संगम.\n• माहूली (सातारा) = कृष्णा व वेण्णा संगम.\n• तुळापूर (पुणे) = भीमा व इंद्रायणी संगम.",
+          "reference": "Maharashtra State Board & PYQ"
         },
         {
           "id": "DEMO_2", "subject": "History", "topic": "गोपाळ हरी देशमुख (लोकहितवादी)", "difficulty": "Hard", "isPYQ": true, "year": 2021,
           "questionType": "multi_statement",
-          "question": { 
-            "mr": "गोपाळ हरी देशमुख (लोकहितवादी) यांच्या शतपत्रांच्या संदर्भात खालील विधाने विचारात घ्या:", 
-            "en": "Consider the following statements regarding Gopal Hari Deshmukh's Shatapatre:" 
-          },
+          "question": "गोपाळ हरी देशमुख (लोकहितवादी) यांच्या शतपत्रांच्या संदर्भात खालील विधाने विचारात घ्या:", 
           "statements": [
-            { "label": { "mr": "अ", "en": "A" }, "text": { "mr": "ही शतपत्रे 'प्रभाकर' या साप्ताहिकात प्रसिद्ध झाली होती.", "en": "These Shatapatre were published in the weekly 'Prabhakar'." } },
-            { "label": { "mr": "ब", "en": "B" }, "text": { "mr": "त्यांनी ब्रिटिश प्रशासकीय व वैज्ञानिक पद्धतींचे स्वागत केले.", "en": "He welcomed British administrative and scientific methods." } },
-            { "label": { "mr": "क", "en": "C" }, "text": { "mr": "जातसंस्था व सामाजिक रूढींवर त्यांनी कडाडून प्रहार केला.", "en": "He strongly attacked social evils like casteism." } }
+            { "label": "अ", "text": "ही शतपत्रे 'प्रभाकर' या साप्ताहिकात प्रसिद्ध झाली होती." },
+            { "label": "ब", "text": "त्यांनी ब्रिटिश प्रशासकीय व वैज्ञानिक पद्धतींचे स्वागत केले." },
+            { "label": "क", "text": "जातसंस्था व सामाजिक रूढींवर त्यांनी कडाडून प्रहार केला." }
           ],
-          "concludingPrompt": {
-            "mr": "वरीलपैकी कोणते/ती विधाने बरोबर आहेत?",
-            "en": "Which of the above statements is/are correct?"
-          },
+          "concludingPrompt": "वरीलपैकी कोणते/ती विधाने बरोबर आहेत?",
           "options": [ 
-            { "mr": "सर्व विधाने बरोबर", "en": "All statements are correct" },
-            { "mr": "फक्त अ आणि ब", "en": "Only A and B" },
-            { "mr": "फक्त ब आणि क", "en": "Only B and C" },
-            { "mr": "फक्त अ आणि क", "en": "Only A and C" }
+            "सर्व विधाने बरोबर",
+            "फक्त अ आणि ब",
+            "फक्त ब आणि क",
+            "फक्त अ आणि क"
           ],
           "correctAnswerIndex": 0,
-          "solution": { 
-            "mr": "लोकहितवादींनी १८४८ ते १८५० या काळात प्रभाकर साप्ताहिकात शतपत्रे लिहिली. यात त्यांनी सामाजिक, धार्मिक आणि राजकीय सुधारणांवर व्यापक विचार मांडले.", 
-            "en": "Lokhitwadi wrote Shatapatre in weekly Prabhakar between 1848 and 1850.",
-            "reference": "11th State Board History (Modern Maharashtra)" 
-          }
+          "solution": "लोकहितवादींनी १८४८ ते १८५० या काळात प्रभाकर साप्ताहिकात शतपत्रे लिहिली. यात त्यांनी सामाजिक, धार्मिक आणि राजकीय सुधारणांवर व्यापक विचार मांडले.", 
+          "reference": "11th State Board History (Modern Maharashtra)" 
         }
       ];
       loadNextQuestion();
@@ -1325,59 +1353,54 @@
     }
 
     /* -------------------------------------------------------------------------
-       7. AI Question Generator with Current Affairs Loading Shield
+       7. AI Question Generator with Strict Single-Language Flat Output
        ------------------------------------------------------------------------- */
-    function calculateDynamicDateRange() {
-      const today = new Date();
-      const lastYear = new Date(today.getFullYear() - 1, today.getMonth(), today.getDate());
-      const options = { month: 'long', year: 'numeric' };
-      return `${lastYear.toLocaleDateString('en-US', options)} to ${today.toLocaleDateString('en-US', options)}`;
-    }
-
-    function constructMasterMpscPrompt() {
+    function constructMasterMpscPrompt(batchSize = 2) {
       let examContext = "";
       if(filters.exam === 'rajyaseva') {
-        examContext = "Exam: MPSC Rajyaseva. Analytical depth, constitutional articles, comparative evaluations, multi-statement options, scholarly Devanagari.";
+        examContext = "Exam: MPSC Rajyaseva. Analytical depth, constitutional articles, comparative evaluations.";
       } else if (filters.exam === 'group-b') {
-        examContext = "Exam: Combine Group B. Highly factual, specific dates, census data, articles, post-specific laws.";
+        examContext = "Exam: Combine Group B. Highly factual, specific dates, census data, articles.";
       } else {
         examContext = "Exam: Combine Group C. 8th to 12th standard Maharashtra State Board textbooks and direct MPSC PYQ patterns.";
       }
 
       let stageContext = filters.stage === 'Prelims' ? "Stage: Prelims" : "Stage: Mains";
       let subjectsList = filters.subjects.join(', ');
-      let microSyllabus = "";
-      const dynamicDate = calculateDynamicDateRange();
       
-      if(subjectsList.includes("Current Affairs")) microSyllabus += `\n- Current Affairs: Strictly ${dynamicDate}. Maharashtra government initiatives and awards.`;
-      if(subjectsList.includes("History")) microSyllabus += `\n- History: Modern Indian History (1857-1947), Maharashtra Social Reformers (Phule, Shahu, Ambedkar, Agarkar, Lokhitwadi).`;
-      if(subjectsList.includes("Geography")) microSyllabus += `\n- Geography: Maharashtra Physical, River confluences (संगम), Census 2011, mountain ranges.`;
-      if(subjectsList.includes("Marathi")) microSyllabus += `\n- Marathi Grammar: Standard Mo. Ra. Walambe rules (संधी, समास, प्रयोग, काळ, म्हणी).`;
-      if(subjectsList.includes("English")) microSyllabus += `\n- English: Tenses, Voice, Reported Speech, Idioms following MPSC PYQ trends.`;
+      let langInstruction = "";
+      if (filters.lang === 'mr') {
+        langInstruction = "OUTPUT LANGUAGE: Strictly 100% Marathi only. No English translation. All question, option, statement, and solution values must be flat Marathi strings.";
+      } else if (filters.lang === 'en') {
+        langInstruction = "OUTPUT LANGUAGE: Strictly 100% English only. No Marathi translation. All question, option, statement, and solution values must be flat English strings.";
+      } else {
+        langInstruction = "OUTPUT LANGUAGE: Authentic Bilingual. Provide both Marathi and English in an object format: {\"mr\": \"...\", \"en\": \"...\"}.";
+      }
 
       const seenBlacklist = getSeenTopicsBlacklist();
       let antiRepeat = seenBlacklist ? `\nDO NOT repeat recent topics: [${seenBlacklist}].` : "";
       const entropy = Date.now().toString(36) + Math.random().toString(36).substring(2, 6);
 
       return `You are Chief Examination Setter for MPSC Maharashtra.
-Generate 5 completely authentic, 100% factually accurate MPSC multiple-choice practice questions.
+Generate exactly ${batchSize} completely authentic, 100% factually accurate MPSC multiple-choice practice questions.
 
 SPECIFICATIONS:
 - ${examContext} | ${stageContext} | Subjects: ${subjectsList} | Difficulty: ${filters.diff} | Seed: ${entropy}
+- ${langInstruction}
 ${antiRepeat}
-${microSyllabus}
 
-CRITICAL RULES FOR QUESTION TYPES:
+CRITICAL RULES FOR QUESTION TYPES (NEVER MIX OR CONFUSE THESE):
 1. MULTI-STATEMENT ("questionType": "multi_statement"):
-   - Statements (अ, ब, क, ड) MUST be inside the "statements" array!
-   - NEVER put statements inside options! Options must only be choice combinations like "फक्त अ आणि ब", "सर्व विधाने बरोबर".
-   - "statements": [
-      { "label": { "mr": "अ", "en": "A" }, "text": { "mr": "...", "en": "..." } },
-      { "label": { "mr": "ब", "en": "B" }, "text": { "mr": "...", "en": "..." } }
-   ]
+   - "statements" MUST contain the statements to evaluate (e.g. statement text, labeled अ, ब, क).
+   - "matchPairs" MUST BE NULL!
+   - Question headline MUST NOT mention "जोड्या जुळवा" or "Match the pairs".
+   - Options must only be choice combinations like "फक्त अ आणि ब", "सर्व विधाने बरोबर".
 2. MATCH THE PAIRS ("questionType": "match_pairs"):
-   - Provide clean pairs: "colA" and "colB".
-3. STANDARD ("questionType": "standard"): Direct single question.
+   - "matchPairs" MUST contain "colA" and "colB" arrays of 4 items each.
+   - "statements" MUST BE NULL!
+   - Options must only be code combinations like "अ-II, ब-I, क-IV, ड-III".
+3. STANDARD ("questionType": "standard"):
+   - Single direct question. "statements" and "matchPairs" MUST BE NULL.
 
 Return ONLY a valid JSON array matching this exact schema:
 [
@@ -1389,80 +1412,84 @@ Return ONLY a valid JSON array matching this exact schema:
     "isPYQ": true,
     "year": 2023,
     "questionType": "multi_statement",
-    "question": { "mr": "...", "en": "..." },
-    "matchPairs": {
-      "colA": { "mr": ["अ. ...", "ब. ..."], "en": ["A. ...", "B. ..."] },
-      "colB": { "mr": ["I. ...", "II. ..."], "en": ["I. ...", "II. ..."] }
-    },
+    "question": "...",
+    "matchPairs": null,
     "statements": [
-      { "label": { "mr": "अ", "en": "A" }, "text": { "mr": "...", "en": "..." } }
+      { "label": "अ", "text": "..." },
+      { "label": "ब", "text": "..." }
     ],
-    "concludingPrompt": { "mr": "वरीलपैकी कोणते/ती विधाने बरोबर आहेत?", "en": "Which of the above statements is/are correct?" },
+    "concludingPrompt": "वरीलपैकी कोणते/ती विधाने बरोबर आहेत?",
     "options": [
-      { "mr": "...", "en": "..." },
-      { "mr": "...", "en": "..." },
-      { "mr": "...", "en": "..." },
-      { "mr": "...", "en": "..." }
+      "...",
+      "...",
+      "...",
+      "..."
     ],
     "correctAnswerIndex": 0,
-    "solution": { "mr": "...", "en": "...", "reference": "Standard Book / PYQ" }
+    "solution": "...",
+    "reference": "Standard Book / PYQ"
   }
 ]`;
     }
 
-    function normalizeMultiStatementArtifact(q) {
-      if (!q || !Array.isArray(q.options) || q.options.length < 4) return q;
+    function validateAndCleanQuestion(q) {
+      if (!q || !Array.isArray(q.options) || q.options.length < 4) return null;
 
-      const firstOptText = (typeof q.options[0] === 'object' ? (q.options[0].mr || q.options[0].en || '') : q.options[0]).trim();
-      const statementMatch = firstOptText.match(/(?:^[अ|A][\.\)\s])([\s\S]*?)(?=(?:[ब|B][\.\)\s]))/);
+      const qText = typeof q.question === 'object' ? (q.question.mr || q.question.en || '') : String(q.question || '');
+      const isPairHeadline = qText.includes("जोड्या जुळवा") || qText.toLowerCase().includes("match the following") || qText.toLowerCase().includes("match the pairs");
 
-      if (statementMatch && (!q.statements || q.statements.length === 0)) {
-        q.questionType = 'multi_statement';
-        const parts = firstOptText.split(/(?=[अबकडABCD][\.\)\s])/g).map(s => s.trim()).filter(Boolean);
-        q.statements = parts.map((part) => {
-          const lblMatch = part.match(/^([अबकडABCD])[\.\)\s](.*)$/);
-          return {
-            label: { mr: lblMatch ? lblMatch[1] : "•", en: lblMatch ? lblMatch[1] : "•" },
-            text: { mr: lblMatch ? lblMatch[2].trim() : part, en: lblMatch ? lblMatch[2].trim() : part }
-          };
-        });
-
-        q.options[0] = { mr: "फक्त अ आणि ब बरोबर", en: "Only A and B are correct" };
-        if (!q.concludingPrompt) {
-          q.concludingPrompt = { mr: "वरीलपैकी कोणती विधाने बरोबर आहेत?", en: "Which of the above statements are correct?" };
+      if (isPairHeadline && q.questionType !== 'match_pairs') {
+        if (q.matchPairs && q.matchPairs.colA && q.matchPairs.colB) {
+          q.questionType = 'match_pairs';
+          q.statements = null;
+        } else {
+          return null;
         }
       }
+
+      if (q.questionType === 'multi_statement' && Array.isArray(q.statements)) {
+        const hasPairCodesInStatements = q.statements.some(st => {
+          const sText = typeof st.text === 'object' ? (st.text.mr || st.text.en || '') : String(st.text || '');
+          return /^[I|V|X|\d]+[\s\.\-]/i.test(sText.trim()) || /^[-\s]*[I|V|X|\d]+$/i.test(sText.trim());
+        });
+        if (hasPairCodesInStatements) return null;
+      }
+
       return q;
     }
 
-    function showCurrentAffairsLoadingState() {
-      const loaderBox = document.getElementById('currentAffairsLoaderBox');
-      const headlineEl = document.getElementById('loaderFactHeadline');
-      const bodyEl = document.getElementById('loaderFactBody');
-      const quizArea = document.getElementById('quizContentArea');
+    /* -------------------------------------------------------------------------
+       8. Lockout Controller (Only locks when buffer is empty & user waits)
+       ------------------------------------------------------------------------- */
+    function toggleGlobalLockout(isLocked) {
+      const controls = [
+        document.getElementById('btn-main-action'),
+        document.getElementById('btn-prev-action'),
+        document.getElementById('btnViewSolution'),
+        document.getElementById('btnFinishQuiz'),
+        document.getElementById('btn-save'),
+        document.getElementById('btn-report'),
+        document.getElementById('btn-info'),
+        document.getElementById('btnTargetFilter')
+      ];
 
-      const randomFact = CURRENT_AFFAIRS_FLASH[Math.floor(Math.random() * CURRENT_AFFAIRS_FLASH.length)];
-      if (headlineEl && bodyEl) {
-        headlineEl.textContent = randomFact.headline;
-        bodyEl.textContent = randomFact.body;
-      }
+      controls.forEach(ctrl => {
+        if (!ctrl) return;
+        if (isLocked) {
+          ctrl.disabled = true;
+          ctrl.classList.add('opacity-50', 'pointer-events-none');
+        } else {
+          ctrl.disabled = false;
+          ctrl.classList.remove('opacity-50', 'pointer-events-none');
+        }
+      });
 
-      if (loaderBox && quizArea) {
-        quizArea.classList.add('hidden');
-        loaderBox.classList.remove('hidden');
+      if (!isLocked) {
+        updateNavigationButtons();
       }
     }
 
-    function hideCurrentAffairsLoadingState() {
-      const loaderBox = document.getElementById('currentAffairsLoaderBox');
-      const quizArea = document.getElementById('quizContentArea');
-      if (loaderBox && quizArea) {
-        loaderBox.classList.add('hidden');
-        quizArea.classList.remove('hidden');
-      }
-    }
-
-    async function fetchAiQuestionsBatch(isInitial = false) {
+    async function fetchAiQuestionsBatch(isExplicitWait = false, batchSize = 1) {
       if (isDemoActive) return;
 
       const apiKey = getStoredApiKey();
@@ -1471,18 +1498,18 @@ Return ONLY a valid JSON array matching this exact schema:
       if (isFetchingAI) return;
       isFetchingAI = true;
 
-      // Disable related buttons during fetching to prevent race conditions
-      setGlobalButtonsInteraction(false);
-      showCurrentAffairsLoadingState();
-
-      if (isInitial && questionQueue.length === 0) {
+      // Only engage full screen loader if queue is genuinely 0 and user is actively blocked
+      if (isExplicitWait && questionQueue.length === 0) {
+        toggleGlobalLockout(true);
         setMainButtonLoading(true);
+        document.getElementById('quizContentArea')?.classList.add('hidden');
+        document.getElementById('quizLoaderBox')?.classList.remove('hidden');
       }
 
-      const prompt = constructMasterMpscPrompt();
+      const prompt = constructMasterMpscPrompt(batchSize);
       const payload = { 
         contents: [{ parts: [{ text: prompt }] }], 
-        generationConfig: { responseMimeType: "application/json", temperature: 0.35 } 
+        generationConfig: { responseMimeType: "application/json", temperature: 0.25 } 
       };
 
       let success = false;
@@ -1505,25 +1532,32 @@ Return ONLY a valid JSON array matching this exact schema:
             rawText = rawText.replace(/```json/gi, '').replace(/```/g, '').trim();
             const parsed = JSON.parse(rawText);
             if (Array.isArray(parsed) && parsed.length > 0) {
-              const cleaned = parsed.map(normalizeMultiStatementArtifact);
-              questionQueue.push(...cleaned);
-              activeGeminiModel = model;
-              localStorage.setItem('qq_active_model', model);
-              updateBufferStatusUI();
-              saveActiveSessionState();
-              success = true;
-              break;
+              const cleaned = parsed.map(validateAndCleanQuestion).filter(Boolean);
+              if (cleaned.length > 0) {
+                questionQueue.push(...cleaned);
+                activeGeminiModel = model;
+                localStorage.setItem('qq_active_model', model);
+                updateBufferStatusUI();
+                saveActiveSessionState();
+                success = true;
+                break;
+              }
             }
           }
         } catch (e) {}
       }
 
       isFetchingAI = false;
-      hideCurrentAffairsLoadingState();
-      setGlobalButtonsInteraction(true);
+
+      if (isExplicitWait) {
+        toggleGlobalLockout(false);
+        setMainButtonLoading(false);
+        document.getElementById('quizLoaderBox')?.classList.add('hidden');
+        document.getElementById('quizContentArea')?.classList.remove('hidden');
+      }
       
       if (success) {
-        if (!currentQuestion || isInitial) {
+        if (!currentQuestion || isExplicitWait) {
            loadNextQuestion();
         } else if (isWaitingForNext) {
            isWaitingForNext = false;
@@ -1531,29 +1565,10 @@ Return ONLY a valid JSON array matching this exact schema:
         }
       } else if (questionQueue.length === 0 && !currentQuestion) {
         setMainButtonLoading(false);
+        toggleGlobalLockout(false);
+        document.getElementById('quizLoaderBox')?.classList.add('hidden');
+        document.getElementById('quizContentArea')?.classList.remove('hidden');
         showToast("AI Quota किंवा नेटवर्क समस्या. पुन्हा प्रयत्न करत आहोत...", true);
-      }
-    }
-
-    function setGlobalButtonsInteraction(enabled) {
-      const prevBtn = document.getElementById('btn-prev-action');
-      const saveBtn = document.getElementById('btn-save');
-      const reportBtn = document.getElementById('btn-report');
-      const infoBtn = document.getElementById('btn-info');
-      const finishBtn = document.getElementById('btnFinishQuiz');
-
-      if (!enabled) {
-        if (prevBtn) prevBtn.disabled = true;
-        if (saveBtn) saveBtn.disabled = true;
-        if (reportBtn) reportBtn.disabled = true;
-        if (infoBtn) infoBtn.disabled = true;
-        if (finishBtn) finishBtn.disabled = true;
-      } else {
-        if (saveBtn) saveBtn.disabled = false;
-        if (reportBtn) reportBtn.disabled = false;
-        if (infoBtn) infoBtn.disabled = false;
-        if (finishBtn) finishBtn.disabled = false;
-        updateNavigationButtons();
       }
     }
 
@@ -1590,7 +1605,7 @@ Return ONLY a valid JSON array matching this exact schema:
     }
 
     /* -------------------------------------------------------------------------
-       8. Core Question Renderer & Direct Solution Scroll
+       9. Core Question Renderer & Direct Solution Scroll
        ------------------------------------------------------------------------- */
     function loadNextQuestion() {
       if (currentHistoryIndex !== -1) {
@@ -1626,8 +1641,7 @@ Return ONLY a valid JSON array matching this exact schema:
           showToast("डेमो पूर्ण झाला! अमर्यादित सरावासाठी की जोडा.");
         } else {
           isWaitingForNext = true;
-          setMainButtonLoading(true);
-          if (!isFetchingAI) fetchAiQuestionsBatch(false);
+          fetchAiQuestionsBatch(true, 2);
         }
         return;
       }
@@ -1648,8 +1662,9 @@ Return ONLY a valid JSON array matching this exact schema:
       updateNavigationButtons();
       saveActiveSessionState();
 
+      // Silent Rolling Buffer refill: triggers when buffer has 2 or fewer questions
       if (questionQueue.length <= 2 && !isFetchingAI && !isDemoActive) {
-        fetchAiQuestionsBatch(false);
+        fetchAiQuestionsBatch(false, 1);
       }
     }
 
@@ -1684,24 +1699,6 @@ Return ONLY a valid JSON array matching this exact schema:
       }
     }
 
-    function sanitizeQuestionText(rawText, hasStructuredStatements) {
-      if (!hasStructuredStatements || !rawText) return rawText;
-      const lines = rawText.split('\n');
-      const filtered = [];
-      for (let line of lines) {
-        const trimmed = line.trim();
-        if (/^[अबकडABCD]\s*[\.\-\)]/i.test(trimmed)) continue;
-        if (trimmed.includes('वरीलपैकी कोणते') || trimmed.includes('विधाने बरोबर') || trimmed.includes('विधाने चूक')) continue;
-        filtered.push(trimmed);
-      }
-      return filtered.filter(Boolean).join(' ').trim();
-    }
-
-    function sanitizeStatementText(text) {
-      if (!text) return "";
-      return text.toString().replace(/[\r\n]+/g, ' ').replace(/\s{2,}/g, ' ').trim();
-    }
-
     function renderQuestionUI() {
       if (!currentQuestion) return;
       
@@ -1724,20 +1721,7 @@ Return ONLY a valid JSON array matching this exact schema:
 
       // Question Headline
       const qTextEl = document.getElementById('question-text');
-      let basePromptHtml = '';
-      if (typeof currentQuestion.question === 'object') {
-        let mrQ = currentQuestion.question.mr || '';
-        let enQ = currentQuestion.question.en || '';
-
-        if (hasStatements) {
-          mrQ = sanitizeQuestionText(mrQ, true);
-          enQ = sanitizeQuestionText(enQ, true);
-        }
-
-        basePromptHtml = (lang === 'mr') ? (mrQ || enQ) : (enQ || mrQ);
-      } else {
-        basePromptHtml = hasStatements ? sanitizeQuestionText(currentQuestion.question, true) : currentQuestion.question;
-      }
+      let basePromptHtml = getLocalText(currentQuestion.question);
 
       // Match the Pairs Table
       if (currentQuestion.questionType === 'match_pairs' && currentQuestion.matchPairs) {
@@ -1772,13 +1756,12 @@ Return ONLY a valid JSON array matching this exact schema:
         `;
       }
 
-      // Multi-Statement Renderer (Zero line-break gap bug)
+      // Multi-Statement Renderer
       if (hasStatements) {
         let stmtHtml = '<div class="space-y-0.5 my-1 p-1.5 px-2 rounded-xl bg-slate-50 dark:bg-slate-900/40 border border-slate-200 dark:border-slate-700">';
         currentQuestion.statements.forEach(st => {
           let labelText = typeof st.label === 'object' ? (st.label[lang] || st.label['mr'] || st.label['en'] || '') : (st.label || '');
-          let rawBody = typeof st.text === 'object' ? (st.text[lang] || st.text['mr'] || st.text['en'] || '') : (st.text || '');
-          let cleanBody = sanitizeStatementText(rawBody);
+          let cleanBody = typeof st.text === 'object' ? (st.text[lang] || st.text['mr'] || st.text['en'] || '') : (st.text || '');
 
           stmtHtml += `
             <div class="flex items-start gap-1.5 py-0.5">
@@ -1789,20 +1772,14 @@ Return ONLY a valid JSON array matching this exact schema:
         });
         stmtHtml += '</div>';
 
-        let concluding = '';
-        if (typeof currentQuestion.concludingPrompt === 'object') {
-          concluding = currentQuestion.concludingPrompt[lang] || currentQuestion.concludingPrompt['mr'] || currentQuestion.concludingPrompt['en'] || '';
-        } else {
-          concluding = currentQuestion.concludingPrompt || (lang === 'en' ? "Which of the above statements is/are correct?" : "वरीलपैकी कोणते/ती विधाने बरोबर आहेत?");
-        }
-
+        let concluding = getLocalText(currentQuestion.concludingPrompt) || (lang === 'en' ? "Which of the above statements is/are correct?" : "वरीलपैकी कोणते/ती विधाने बरोबर आहेत?");
         stmtHtml += `<p class="font-extrabold text-xs sm:text-[13px] text-slate-900 dark:text-white mt-0.5 mb-1">${concluding}</p>`;
         basePromptHtml += stmtHtml;
       }
 
       qTextEl.innerHTML = basePromptHtml;
 
-      // Options Rendering
+      // Options Rendering (Touch Optimized, Zero Sticky Hover)
       const optCont = document.getElementById('options-container');
       optCont.innerHTML = '';
       const letters = ['A', 'B', 'C', 'D'];
@@ -1813,7 +1790,7 @@ Return ONLY a valid JSON array matching this exact schema:
         const isCorrectOption = (idx === currentQuestion.correctAnswerIndex);
         const isUserSelection = (idx === selectedOptionIndex);
 
-        let classes = 'opt-btn w-full text-left py-2 px-2.5 sm:p-2.5 rounded-xl flex items-start justify-between gap-2 shadow-2xs focus:outline-none focus:ring-2 focus:ring-brand-blue';
+        let classes = 'opt-btn w-full text-left py-2 px-2.5 sm:p-2.5 rounded-xl flex items-start justify-between gap-2 shadow-2xs focus:outline-none';
         let badge = 'bg-slate-100 dark:bg-slate-700 text-slate-500 dark:text-slate-300 border border-slate-200 dark:border-slate-600';
         let badgeHtml = '';
 
@@ -1832,14 +1809,11 @@ Return ONLY a valid JSON array matching this exact schema:
             badge = 'bg-slate-100 dark:bg-slate-800 text-slate-400 border border-transparent';
           }
         } else {
-          classes += ' default-state hover:bg-slate-50 dark:hover:bg-slate-700 cursor-pointer hover:-translate-y-0.5';
+          classes += ' default-state cursor-pointer';
           btn.onclick = () => handleAnswerValidation(idx);
         }
 
-        let optTextHtml = typeof opt === 'object' 
-          ? (lang === 'mr' ? (opt.mr || opt.en) : (opt.en || opt.mr)) 
-          : opt;
-
+        let optTextHtml = getLocalText(opt);
         btn.className = classes;
         btn.innerHTML = `<div class="flex items-start gap-2 min-w-0 flex-1"><div class="w-5 h-5 sm:w-6 sm:h-6 rounded-full font-bold text-[11px] sm:text-xs flex items-center justify-center shrink-0 transition-colors mt-0.5 ${badge}">${letter}</div><div class="min-w-0 flex-1 pt-0.5 opt-text font-semibold">${optTextHtml}</div></div><div class="shrink-0 pt-0.5">${badgeHtml}</div>`;
         optCont.appendChild(btn);
@@ -1855,8 +1829,8 @@ Return ONLY a valid JSON array matching this exact schema:
       if (isAnswered) {
         document.getElementById('solution-text').textContent = getLocalText(currentQuestion.solution);
         const refBadge = document.getElementById('referenceBadge');
-        if (currentQuestion.solution?.reference) {
-          refBadge.textContent = currentQuestion.solution.reference;
+        if (currentQuestion.reference || currentQuestion.solution?.reference) {
+          refBadge.textContent = currentQuestion.reference || currentQuestion.solution.reference;
           refBadge.classList.remove('hidden');
         } else {
           refBadge.classList.add('hidden');
@@ -1883,8 +1857,22 @@ Return ONLY a valid JSON array matching this exact schema:
     }
 
     /* -------------------------------------------------------------------------
-       9. Option Selection & Smooth Solution Auto-Scroll (No Popups)
+       10. Option Validation & Precision Auto-Scroll Fix
        ------------------------------------------------------------------------- */
+    function scrollToSolutionBox() {
+      const scrollArea = document.getElementById('quizScrollArea');
+      const solBox = document.getElementById('solution-container');
+      if (!scrollArea || !solBox) return;
+
+      setTimeout(() => {
+        const targetOffset = solBox.offsetTop - 15;
+        scrollArea.scrollTo({
+          top: targetOffset,
+          behavior: 'smooth'
+        });
+      }, 100);
+    }
+
     function handleAnswerValidation(selectedIndex) {
       if (isAnswered) return;
       isAnswered = true;
@@ -1914,12 +1902,7 @@ Return ONLY a valid JSON array matching this exact schema:
 
       renderQuestionUI();
       saveActiveSessionState();
-
-      // Smooth scroll straight into the solution analysis container without notifications
-      setTimeout(() => {
-        const solBox = document.getElementById('solution-container');
-        if (solBox) solBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-      }, 100);
+      scrollToSolutionBox();
     }
 
     function showSolutionManually() {
@@ -1941,10 +1924,7 @@ Return ONLY a valid JSON array matching this exact schema:
       
       renderQuestionUI();
       saveActiveSessionState();
-      setTimeout(() => {
-        const solBox = document.getElementById('solution-container');
-        if (solBox) solBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-      }, 100);
+      scrollToSolutionBox();
     }
 
     function handleMainAction() {
@@ -1964,7 +1944,7 @@ Return ONLY a valid JSON array matching this exact schema:
     }
 
     /* -------------------------------------------------------------------------
-       10. Result Scorecard Engine (MPSC 1/4 Negative Marking)
+       11. Result Scorecard Engine (MPSC 1/4 Negative Marking)
        ------------------------------------------------------------------------- */
     function confirmFinishQuiz() {
       const totalAttempted = sessionHistory.length + (isAnswered ? 1 : 0);
@@ -2008,7 +1988,6 @@ Return ONLY a valid JSON array matching this exact schema:
       const totalAnswered = correct + wrong;
       const accuracy = totalAnswered > 0 ? Math.round((correct / totalAnswered) * 100) : 0;
 
-      // Speed in seconds per question
       const elapsedSeconds = Math.max(1, Math.floor((Date.now() - sessionStartTime) / 1000));
       const speed = Math.round(elapsedSeconds / Math.max(1, totalAnswered + skipped));
 
@@ -2034,11 +2013,11 @@ Return ONLY a valid JSON array matching this exact schema:
       correctStreak = 0;
       localStorage.setItem('qq_correct_streak', '0');
       document.getElementById('streakCount').textContent = '0';
-      fetchAiQuestionsBatch(true);
+      fetchAiQuestionsBatch(true, 3);
     }
 
     /* -------------------------------------------------------------------------
-       11. High-Precision Snapshots (Free of Popups & Backdrops)
+       12. High-Precision Snapshots (Modal & Overlay-Free)
        ------------------------------------------------------------------------- */
     function takeReportQuestionSnapshot() {
       closeModal('reportModal');
@@ -2077,7 +2056,7 @@ Return ONLY a valid JSON array matching this exact schema:
     }
 
     /* -------------------------------------------------------------------------
-       12. Filter Modal Setup
+       13. Filter Modal Setup
        ------------------------------------------------------------------------- */
     function setModalFilter(type, val) {
       if(type === 'exam' || type === 'stage') {
@@ -2086,8 +2065,8 @@ Return ONLY a valid JSON array matching this exact schema:
         if (groups.length > 0 && groups[0].subjects.length > 0) {
           modalFilters.subjects = [groups[0].subjects[0]];
         }
-      } else if (type === 'diff') {
-        modalFilters.diff = val;
+      } else if (type === 'diff' || type === 'lang') {
+        modalFilters[type] = val;
       } else if (type === 'subject') {
         if (modalFilters.subjects.includes(val)) {
           if (modalFilters.subjects.length > 1) {
@@ -2165,6 +2144,14 @@ Return ONLY a valid JSON array matching this exact schema:
         `;
       });
 
+      // Update Language Filter Chips
+      document.querySelectorAll('.lang-filter-btn').forEach(btn => {
+        const key = btn.textContent.includes('मराठी') ? 'mr' : (btn.textContent.includes('English') ? 'en' : 'bi');
+        btn.className = (modalFilters.lang || 'mr') === key 
+          ? 'flt-btn lang-filter-btn py-2 px-1 text-center rounded-xl border-2 border-brand-blue bg-blue-50 dark:bg-blue-900/20 text-brand-blue dark:text-blue-400 font-extrabold text-xs'
+          : 'flt-btn lang-filter-btn py-2 px-1 text-center rounded-xl border-2 border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 font-bold text-xs hover:border-slate-300';
+      });
+
       document.querySelectorAll('.exam-btn').forEach(btn => {
         const key = btn.textContent.includes('Rajyaseva') ? 'rajyaseva' : (btn.textContent.includes('Group B') ? 'group-b' : 'group-c');
         btn.className = modalFilters.exam === key 
@@ -2191,6 +2178,9 @@ Return ONLY a valid JSON array matching this exact schema:
       isAwaitingGreetingChoice = false;
       isDemoActive = false; 
       filters = JSON.parse(JSON.stringify(modalFilters));
+      if (!filters.lang) filters.lang = 'mr';
+      lang = (filters.lang === 'en') ? 'en' : 'mr';
+      localStorage.setItem('qq_selected_lang', lang);
       localStorage.setItem('qq_saved_filters', JSON.stringify(filters));
       updateActiveFilterDisplay();
       closeModal('filterModal');
@@ -2202,7 +2192,7 @@ Return ONLY a valid JSON array matching this exact schema:
       sessionStorage.removeItem('qq_current_q');
       sessionStorage.removeItem('qq_active_queue');
       sessionStorage.removeItem('qq_session_history');
-      fetchAiQuestionsBatch(true);
+      fetchAiQuestionsBatch(true, 3);
     }
 
     function openFilterModal() { 
@@ -2212,7 +2202,7 @@ Return ONLY a valid JSON array matching this exact schema:
     }
 
     /* -------------------------------------------------------------------------
-       13. Vault Storage
+       14. Vault Storage
        ------------------------------------------------------------------------- */
     function toggleSave() {
       if (!currentQuestion) return;
@@ -2239,7 +2229,7 @@ Return ONLY a valid JSON array matching this exact schema:
     }
 
     /* -------------------------------------------------------------------------
-       14. Dual Donation Module (Mobile UPI Intent + Desktop Live QR)
+       15. Dual Donation Module (Mobile UPI Intent + Desktop Live QR)
        ------------------------------------------------------------------------- */
     var DONATION_SECRET_UPI_VPA = "vikram.joshi9089@oksbi";
     var donationSelectedAmount = 100;
@@ -2369,7 +2359,7 @@ Return ONLY a valid JSON array matching this exact schema:
     });
 
     /* -------------------------------------------------------------------------
-       15. Utility Helpers & Service Worker
+       16. Utility Helpers & Service Worker
        ------------------------------------------------------------------------- */
     function shareWebsite() {
       const shareData = { title: 'QuickQuiz By StudySphere', text: 'MPSC परीक्षांची तयारी करा १००% मोफत AI टेस्ट्ससह!\n👉 Web: ' + window.location.href, url: window.location.href };
