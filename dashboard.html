@@ -1,0 +1,1012 @@
+<!DOCTYPE html>
+<html lang="mr" class="h-full">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>QuickQuiz Revision Vault & Analytics | StudySphere</title>
+
+  <!-- PWA & Favicon Linkage -->
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" type="image/svg+xml" href="icon.svg">
+  <meta name="theme-color" content="#ea580c">
+
+  <!-- Fonts: Plus Jakarta Sans, Mukta, Noto Sans Devanagari -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Mukta:wght@400;500;600;700;800&family=Noto+Sans+Devanagari:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', '"Mukta"', '"Noto Sans Devanagari"', 'sans-serif']
+          },
+          colors: {
+            brand: {
+              accent: '#f95959',
+              blue: '#2563eb',
+            }
+          },
+          animation: {
+            'slide-up': 'slideUp 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards',
+            'fade-in': 'fadeIn 0.2s ease-out forwards'
+          },
+          keyframes: {
+            slideUp: { '0%': { transform: 'translateY(12px)', opacity: '0' }, '100%': { transform: 'translateY(0)', opacity: '1' } },
+            fadeIn: { '0%': { opacity: '0' }, '100%': { opacity: '1' } }
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    html, body {
+      min-height: 100%;
+      -webkit-tap-highlight-color: transparent;
+      text-rendering: optimizeLegibility;
+      -webkit-font-smoothing: antialiased;
+    }
+    .tiranga-stripe {
+      background: linear-gradient(90deg, #ea580c 0%, #ea580c 33.33%, #ffffff 33.33%, #ffffff 66.66%, #15803d 66.66%, #15803d 100%);
+      height: 4px;
+      width: 100%;
+    }
+    .premium-pattern {
+      background-color: #f8fafc;
+      background-image: radial-gradient(#cbd5e1 1px, transparent 1px);
+      background-size: 24px 24px;
+    }
+    .dark .premium-pattern {
+      background-color: #0f172a;
+      background-image: radial-gradient(#334155 1px, transparent 1px);
+      background-size: 24px 24px;
+    }
+    .glass {
+      background: rgba(255, 255, 255, 0.94);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
+    .dark .glass {
+      background: rgba(15, 23, 42, 0.94);
+    }
+    .pairs-table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0;
+      border-radius: 0.65rem;
+      overflow: hidden;
+      margin: 0;
+    }
+    .pairs-table td {
+      padding: 0.35rem 0.55rem;
+      font-size: 0.85rem;
+      border-bottom: 1px solid #e2e8f0;
+      background: #ffffff;
+      line-height: 1.4;
+    }
+    .dark .pairs-table td {
+      background: #0f172a;
+      border-color: #334155;
+      color: #e2e8f0;
+    }
+    .pairs-table tr:last-child td {
+      border-bottom: none;
+    }
+    @media print {
+      header, footer, .no-print, button, input { display: none !important; }
+      body { background: white !important; color: black !important; }
+      .vault-card { page-break-inside: avoid; border: 1px solid #ccc !important; box-shadow: none !important; margin-bottom: 1rem !important; }
+    }
+  </style>
+</head>
+<body class="premium-pattern text-slate-800 dark:text-slate-100 font-sans min-h-screen flex flex-col transition-colors duration-300">
+
+  <!-- Top Tiranga Accent Stripe -->
+  <div class="tiranga-stripe shrink-0 fixed top-0 z-50"></div>
+
+  <!-- Header -->
+  <header class="glass border-b border-slate-200/80 dark:border-slate-800/80 shadow-xs sticky top-0 z-40 pt-1">
+    <div class="max-w-4xl mx-auto px-3 sm:px-4 py-2 flex items-center justify-between gap-2">
+      
+      <!-- Back to Quiz Link & App Badge -->
+      <div class="flex items-center gap-2 min-w-0">
+        <a href="index.html" class="h-8 px-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-200 font-black text-xs flex items-center gap-1.5 active:scale-95 transition-all border border-slate-200 dark:border-slate-700 shadow-2xs">
+          <span>🔙</span> <span>सराव (Quiz)</span>
+        </a>
+        <div class="flex items-center gap-1.5 truncate">
+          <img src="icon.svg" alt="Logo" class="w-4 h-4 rounded-full shrink-0">
+          <span class="text-sm font-black tracking-tight text-slate-900 dark:text-white uppercase truncate">Revision Vault</span>
+          <span class="text-[9px] font-extrabold uppercase px-1.5 py-0.2 rounded bg-amber-100 dark:bg-amber-900/40 text-amber-800 dark:text-amber-300 border border-amber-200 dark:border-amber-700/50 hidden xs:inline-block">Pro</span>
+        </div>
+      </div>
+
+      <!-- Action Toolbar (Guide, Drill Mode, Export, Import, Clear All, Theme) -->
+      <div class="flex items-center gap-1 sm:gap-1.5 shrink-0">
+        <button onclick="openDrillModeModal()" id="btnDrillTrigger" title="Start Interactive Practice Drill with Saved Questions" class="h-8 px-2.5 rounded-xl bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white text-xs font-black flex items-center gap-1 active:scale-95 transition-all shadow-xs">
+          <span>🎯</span> <span class="hidden md:inline">सराव चाचणी</span>
+        </button>
+
+        <button onclick="openGuideModal()" title="Import/Export Guide & Help" aria-label="Open Guide" class="h-8 w-8 rounded-xl bg-sky-50 dark:bg-sky-950/40 hover:bg-sky-100 text-sky-700 dark:text-sky-300 border border-sky-200 dark:border-sky-800 text-xs font-black flex items-center justify-center active:scale-95 transition-all shadow-2xs">
+          <span>📖</span>
+        </button>
+
+        <button onclick="exportVaultToJson()" title="Export Vault as JSON backup" aria-label="Export Vault" class="h-8 px-2 rounded-xl bg-white dark:bg-slate-800 hover:bg-slate-50 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 text-xs font-bold flex items-center gap-1 active:scale-95 transition-all shadow-2xs">
+          <span>💾</span> <span class="hidden sm:inline">Export</span>
+        </button>
+
+        <!-- Hidden file input for import -->
+        <input type="file" id="importFileInput" accept=".json,application/json" class="hidden" onchange="handleFileImport(event)">
+        <button onclick="triggerImportFileInput()" title="Import JSON backup questions" aria-label="Import Vault" class="h-8 px-2 rounded-xl bg-white dark:bg-slate-800 hover:bg-slate-50 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 text-xs font-bold flex items-center gap-1 active:scale-95 transition-all shadow-2xs">
+          <span>📥</span> <span class="hidden sm:inline">Import</span>
+        </button>
+
+        <button onclick="requestClearAllVault()" title="Clear all saved questions" aria-label="Clear All Vault" class="h-8 px-2 rounded-xl bg-rose-50 hover:bg-rose-100 dark:bg-rose-950/40 dark:hover:bg-rose-900/40 border border-rose-200 dark:border-rose-900/60 text-rose-600 dark:text-rose-400 text-xs font-bold flex items-center gap-1 active:scale-95 transition-all shadow-2xs">
+          <span>🗑️</span> <span class="hidden sm:inline">Clear</span>
+        </button>
+
+        <button onclick="window.print()" title="Print / Save PDF Study Sheet" class="h-8 w-8 rounded-xl bg-white dark:bg-slate-800 hover:bg-slate-50 border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 flex items-center justify-center active:scale-95 transition-all shadow-2xs no-print">
+          <span>🖨️</span>
+        </button>
+
+        <button onclick="toggleTheme()" aria-label="Toggle Theme" class="h-8 w-8 rounded-xl bg-white dark:bg-slate-800 hover:bg-slate-50 border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 flex items-center justify-center active:scale-95 transition-all shadow-2xs">
+          <span id="themeIcon" class="text-xs">🌓</span>
+        </button>
+      </div>
+
+    </div>
+
+    <!-- Sub-bar: Search & Live Filter Chips -->
+    <div class="max-w-4xl mx-auto px-3 sm:px-4 py-2 border-t border-slate-100 dark:border-slate-800/60 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-2">
+      <!-- Search Input -->
+      <div class="relative flex-1 max-w-sm">
+        <span class="absolute inset-y-0 left-0 pl-2.5 flex items-center pointer-events-none text-slate-400 text-xs">🔍</span>
+        <input type="text" id="vaultSearchInput" oninput="handleSearchInput(event)" placeholder="प्रश्नातून किंवा स्पष्टीकरणातून शोधा..." class="w-full pl-8 pr-3 py-1.5 text-xs rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-800 dark:text-slate-100 focus:outline-none focus:border-brand-blue shadow-2xs transition-all">
+      </div>
+
+      <!-- Subject Filter Chips Container -->
+      <div id="subjectFilterContainer" class="flex items-center gap-1 overflow-x-auto no-scrollbar shrink-0 py-0.5"></div>
+    </div>
+  </header>
+
+  <!-- Main Container -->
+  <main class="max-w-4xl mx-auto px-3 sm:px-4 py-3 w-full flex-1 flex flex-col">
+    <!-- Quick Analytics Row -->
+    <div id="analyticsSection" class="grid grid-cols-2 sm:grid-cols-4 gap-2 mb-3">
+      <div class="p-2.5 rounded-2xl bg-white dark:bg-slate-800 border border-slate-200/80 dark:border-slate-700 shadow-2xs flex items-center gap-2.5">
+        <div class="w-8 h-8 rounded-xl bg-amber-50 dark:bg-amber-900/30 text-amber-600 flex items-center justify-center text-sm font-black shrink-0">⭐</div>
+        <div class="min-w-0">
+          <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider leading-none">साठवलेले प्रश्न</p>
+          <h4 id="statTotalCount" class="text-base font-black text-slate-900 dark:text-white mt-0.5 leading-none">0</h4>
+        </div>
+      </div>
+
+      <div class="p-2.5 rounded-2xl bg-white dark:bg-slate-800 border border-slate-200/80 dark:border-slate-700 shadow-2xs flex items-center gap-2.5">
+        <div class="w-8 h-8 rounded-xl bg-rose-50 dark:bg-rose-900/30 text-rose-600 flex items-center justify-center text-sm font-black shrink-0">🔥</div>
+        <div class="min-w-0">
+          <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider leading-none">PYQs प्रमाण</p>
+          <h4 id="statPyqCount" class="text-base font-black text-slate-900 dark:text-white mt-0.5 leading-none">0</h4>
+        </div>
+      </div>
+
+      <div class="p-2.5 rounded-2xl bg-white dark:bg-slate-800 border border-slate-200/80 dark:border-slate-700 shadow-2xs flex items-center gap-2.5">
+        <div class="w-8 h-8 rounded-xl bg-indigo-50 dark:bg-indigo-900/30 text-indigo-600 flex items-center justify-center text-sm font-black shrink-0">📚</div>
+        <div class="min-w-0">
+          <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider leading-none">एकूण विषय</p>
+          <h4 id="statSubjectsCount" class="text-base font-black text-slate-900 dark:text-white mt-0.5 leading-none">0</h4>
+        </div>
+      </div>
+
+      <div class="p-2.5 rounded-2xl bg-white dark:bg-slate-800 border border-slate-200/80 dark:border-slate-700 shadow-2xs flex items-center gap-2.5">
+        <div class="w-8 h-8 rounded-xl bg-emerald-50 dark:bg-emerald-900/30 text-emerald-600 flex items-center justify-center text-sm font-black shrink-0">⚡</div>
+        <div class="min-w-0">
+          <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider leading-none">Hard काठिण्य</p>
+          <h4 id="statHardCount" class="text-base font-black text-slate-900 dark:text-white mt-0.5 leading-none">0</h4>
+        </div>
+      </div>
+    </div>
+
+    <!-- Active List -->
+    <div id="vaultList" class="space-y-3 flex-1"></div>
+  </main>
+
+  <!-- Interactive Drill / Practice Mode Modal -->
+  <div id="drillModal" role="dialog" aria-modal="true" class="fixed inset-0 z-50 bg-slate-900/80 backdrop-blur-md hidden items-center justify-center p-3 sm:p-4">
+    <div class="bg-white dark:bg-slate-800 w-full max-w-2xl rounded-2xl shadow-2xl border border-slate-200 dark:border-slate-700 flex flex-col max-h-[92vh] overflow-hidden animate-slide-up">
+      <!-- Drill Header -->
+      <div class="px-4 py-3 border-b border-slate-100 dark:border-slate-700 flex items-center justify-between bg-slate-50 dark:bg-slate-800/50 shrink-0">
+        <div class="flex items-center gap-2">
+          <div class="w-8 h-8 rounded-xl bg-amber-500 text-slate-950 flex items-center justify-center text-base font-black">🎯</div>
+          <div>
+            <h3 class="font-black text-sm text-slate-900 dark:text-white">व्हॉल्ट रिव्हिजन चाचणी (Drill Mode)</h3>
+            <span id="drillProgressText" class="text-[10px] font-bold text-slate-500 dark:text-slate-400">प्रश्न १ / ५</span>
+          </div>
+        </div>
+        <div class="flex items-center gap-2">
+          <span id="drillScoreBadge" class="px-2 py-0.5 rounded-full bg-emerald-100 dark:bg-emerald-900/40 text-emerald-800 dark:text-emerald-300 text-[10px] font-extrabold">Score: 0</span>
+          <button onclick="closeDrillModal()" class="p-1.5 text-slate-400 hover:text-slate-800 dark:hover:text-white rounded-lg">✕</button>
+        </div>
+      </div>
+
+      <!-- Drill Question Body -->
+      <div class="p-4 overflow-y-auto flex-1 space-y-3" id="drillCardBody"></div>
+
+      <!-- Drill Controls -->
+      <div class="px-4 py-3 border-t border-slate-100 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/50 flex items-center justify-between gap-2 shrink-0">
+        <button onclick="prevDrillQuestion()" id="btnDrillPrev" class="px-3 py-2 rounded-xl bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-200 text-xs font-bold transition-all disabled:opacity-40">मागे</button>
+        <div class="flex items-center gap-2">
+          <button onclick="toggleDrillSolution()" id="btnDrillReveal" class="px-3 py-2 rounded-xl bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800 text-emerald-700 dark:text-emerald-300 text-xs font-bold transition-all">💡 स्पष्टीकरण पहा</button>
+          <button onclick="nextDrillQuestion()" id="btnDrillNext" class="px-4 py-2 rounded-xl bg-brand-blue hover:bg-blue-700 text-white text-xs font-black transition-all">पुढचा प्रश्न ↗</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Step-by-Step Import & Export Guide Modal -->
+  <div id="guideModal" role="dialog" aria-modal="true" class="fixed inset-0 z-50 bg-slate-900/75 backdrop-blur-xs hidden items-center justify-center p-3 sm:p-4">
+    <div class="bg-white dark:bg-slate-800 w-full max-w-lg rounded-2xl p-5 shadow-2xl border border-slate-200 dark:border-slate-700 space-y-4 animate-slide-up max-h-[90vh] overflow-y-auto">
+      <div class="flex items-center justify-between border-b pb-3 border-slate-100 dark:border-slate-700">
+        <div class="flex items-center gap-2">
+          <span class="text-xl">📖</span>
+          <h3 class="text-sm font-black text-slate-900 dark:text-white">Import & Export वापर मार्गदर्शक (User Guide)</h3>
+        </div>
+        <button onclick="closeModal('guideModal')" class="text-slate-400 hover:text-slate-800 dark:hover:text-white font-bold">✕</button>
+      </div>
+
+      <div class="space-y-3 text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
+        <!-- Section 1: Backup / Export -->
+        <div class="p-3 rounded-xl bg-blue-50/70 dark:bg-blue-950/30 border border-blue-200 dark:border-blue-900/60">
+          <h4 class="font-black text-blue-900 dark:text-blue-300 flex items-center gap-1.5 mb-1 text-xs">
+            <span>💾</span> 1. डेटाचा सुरक्षित बॅकअप कसा घ्यावा? (How to Export)
+          </h4>
+          <ol class="list-decimal list-inside space-y-1 text-slate-700 dark:text-slate-300">
+            <li>वर दिलेल्या <strong>'Export'</strong> बटणावर क्लिक करा.</li>
+            <li>तुमच्या डिव्हाइसवर एका क्षणात <code>.json</code> फाईल डाउनलोड होईल.</li>
+            <li>या फाईलमध्ये तुमचे सर्व सेव्ह केलेले प्रश्न, जोड्या आणि स्पष्टीकरणे सुरक्षित असतात.</li>
+            <li>ही फाईल तुम्ही गुगल ड्राइव्ह किंवा टेलिग्रामवर सेव्ह करून ठेवू शकता.</li>
+          </ol>
+        </div>
+
+        <!-- Section 2: Import / Restore -->
+        <div class="p-3 rounded-xl bg-emerald-50/70 dark:bg-emerald-950/30 border border-emerald-200 dark:border-emerald-900/60">
+          <h4 class="font-black text-emerald-900 dark:text-emerald-300 flex items-center gap-1.5 mb-1 text-xs">
+            <span>📥</span> 2. नवीन डिव्हाइसवर प्रश्न कसे आणावे? (How to Import)
+          </h4>
+          <ol class="list-decimal list-inside space-y-1 text-slate-700 dark:text-slate-300">
+            <li>वर दिलेल्या <strong>'Import'</strong> बटणावर क्लिक करा.</li>
+            <li>तुमच्याकडील पूर्वी डाउनलोड केलेली <code>.json</code> फाईल निवडा.</li>
+            <li>सिस्टम आपोआप फाईल तपासून डुप्लिकेट प्रश्न वगळून सर्व प्रश्न तुमच्या व्हॉल्टमध्ये समाविष्ट करेल.</li>
+            <li>मित्रांनी पाठवलेले किंवा अभ्यास गटातील सेव्ह प्रश्न संचही तुम्ही सहज इम्पोर्ट करू शकता.</li>
+          </ol>
+        </div>
+
+        <!-- Section 3: Safe Clear Data -->
+        <div class="p-3 rounded-xl bg-amber-50/70 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-900/60">
+          <h4 class="font-black text-amber-900 dark:text-amber-400 flex items-center gap-1.5 mb-1 text-xs">
+            <span>🛡️</span> 3. डेटा सुरक्षा व खबरदारी (Safety Notice)
+          </h4>
+          <p>ब्राउझरची कॅशे (Cache/Cookies) क्लिअर केल्यास लोकल व्हॉल्ट रिकामा होऊ नये म्हणून आठवड्यातून एकदा 'Export' द्वारे बॅकअप नक्की डाउनलोड करा.</p>
+        </div>
+      </div>
+
+      <div class="pt-2 border-t border-slate-100 dark:border-slate-700 flex justify-end">
+        <button onclick="closeModal('guideModal')" class="px-4 py-2 rounded-xl bg-slate-900 dark:bg-white text-white dark:text-slate-900 font-extrabold text-xs shadow-xs active:scale-95">समजले (Got it)</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Safe Clear All Confirmation Modal with Pre-Download Option -->
+  <div id="clearAllModal" role="dialog" aria-modal="true" class="fixed inset-0 z-50 bg-slate-900/75 backdrop-blur-xs hidden items-center justify-center p-3 sm:p-4">
+    <div class="bg-white dark:bg-slate-800 w-full max-w-md rounded-2xl p-5 shadow-2xl border border-slate-200 dark:border-slate-700 space-y-3.5 text-center animate-slide-up">
+      <div class="w-12 h-12 rounded-full bg-rose-100 dark:bg-rose-900/40 text-rose-600 flex items-center justify-center mx-auto text-xl">⚠️</div>
+      <h3 class="text-sm font-extrabold text-slate-900 dark:text-white">सर्व प्रश्न हटवायचे आहेत का? (Warning)</h3>
+      <p class="text-xs text-slate-500 dark:text-slate-400 leading-relaxed max-w-sm mx-auto">
+        व्हॉल्टमधील सर्व साठवलेले प्रश्न कायमचे रिकामे केले जातील. डेटा गमावला जाऊ नये म्हणून आधी <strong>बॅकअप डाउनलोड करा</strong> अशी आम्ही शिफारस करतो.
+      </p>
+
+      <!-- Pre-download Safeguard Button -->
+      <div class="p-3 rounded-xl bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-800 text-left flex items-center justify-between gap-2">
+        <div class="min-w-0">
+          <h5 class="text-xs font-bold text-amber-900 dark:text-amber-200">डेटा सुरक्षित ठेवा</h5>
+          <p class="text-[10px] text-amber-700 dark:text-amber-400">हटवण्यापूर्वी १-क्लिक बॅकअप फाईल घ्या</p>
+        </div>
+        <button onclick="exportVaultToJson()" class="px-3 py-1.5 rounded-xl bg-amber-500 hover:bg-amber-600 text-slate-950 font-black text-xs shadow-xs shrink-0 active:scale-95 transition-all">
+          💾 आधी डाउनलोड करा
+        </button>
+      </div>
+
+      <div class="flex items-center gap-2 pt-2 border-t border-slate-100 dark:border-slate-700/70">
+        <button onclick="closeClearAllModal()" class="flex-1 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-700 dark:hover:bg-slate-600 text-slate-700 dark:text-slate-200 text-xs font-bold transition-all">रद्द करा (Cancel)</button>
+        <button onclick="executeClearAll()" class="flex-1 py-2.5 rounded-xl bg-rose-600 hover:bg-rose-700 text-white text-xs font-extrabold shadow-sm transition-all">हो, सर्व हटवा (Clear All)</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Delete Single Confirmation Modal -->
+  <div id="deleteModal" role="dialog" aria-modal="true" class="fixed inset-0 z-50 bg-slate-900/70 backdrop-blur-xs hidden items-center justify-center p-4">
+    <div class="bg-white dark:bg-slate-800 w-full max-w-sm rounded-2xl p-5 shadow-2xl border border-slate-200 dark:border-slate-700 space-y-3 text-center animate-slide-up">
+      <div class="w-10 h-10 rounded-full bg-rose-100 dark:bg-rose-900/40 text-rose-600 flex items-center justify-center mx-auto text-lg">🗑️</div>
+      <h3 class="text-sm font-extrabold text-slate-900 dark:text-white">प्रश्न व्हॉल्टमधून काढायचा आहे का?</h3>
+      <p class="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
+        हा प्रश्न तुमच्या सेव्ह केलेल्या व्हॉल्टमधून कायमचा काढला जाईल.
+      </p>
+      <div class="flex items-center gap-2 pt-2">
+        <button onclick="closeDeleteModal()" class="flex-1 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-700 dark:hover:bg-slate-600 text-slate-700 dark:text-slate-200 text-xs font-bold transition-all">रद्द करा</button>
+        <button id="confirmDeleteBtn" onclick="executeDeleteSingle()" class="flex-1 py-2 rounded-xl bg-rose-600 hover:bg-rose-700 text-white text-xs font-extrabold shadow-sm transition-all">हो, काढा</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification Bar -->
+  <div id="toastNotification" class="fixed bottom-6 right-4 sm:right-auto sm:left-1/2 sm:-translate-x-1/2 z-50 transform translate-y-10 opacity-0 transition-all duration-300 bg-slate-900 text-white dark:bg-white dark:text-slate-900 px-3.5 py-2 rounded-xl shadow-xl flex items-center gap-2 text-xs font-bold pointer-events-none border border-slate-700 dark:border-slate-300">
+    <span id="toastIcon" class="text-emerald-400 dark:text-emerald-600 text-sm">✓</span>
+    <span id="toastMessage">Success!</span>
+  </div>
+
+  <!-- Application Logic -->
+  <script>
+    let activeSubjectFilter = 'ALL';
+    let searchQuery = '';
+    let pendingDeleteId = null;
+
+    // Drill Mode State
+    let drillQuestionList = [];
+    let drillCurrentIndex = 0;
+    let drillSelectedAnswers = {};
+    let drillScore = 0;
+
+    window.onload = () => {
+      initTheme();
+      renderVault();
+      registerServiceWorker();
+    };
+
+    function initTheme() {
+      if (localStorage.getItem('theme') === 'dark' || (!localStorage.getItem('theme') && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+        document.documentElement.classList.add('dark');
+      } else {
+        document.documentElement.classList.remove('dark');
+      }
+      const icon = document.getElementById('themeIcon');
+      if (icon) icon.textContent = document.documentElement.classList.contains('dark') ? '☀️' : '🌙';
+    }
+
+    function toggleTheme() {
+      document.documentElement.classList.toggle('dark');
+      localStorage.setItem('theme', document.documentElement.classList.contains('dark') ? 'dark' : 'light');
+      initTheme();
+      showToast(document.documentElement.classList.contains('dark') ? 'Dark Mode' : 'Light Mode');
+    }
+
+    function getVaultData() {
+      try {
+        return JSON.parse(localStorage.getItem('studySphereVault') || '{}');
+      } catch (e) {
+        return {};
+      }
+    }
+
+    function updateAnalyticsBar(vault) {
+      const allQuestions = Object.values(vault);
+      const total = allQuestions.length;
+      const pyq = allQuestions.filter(q => q.isPYQ).length;
+      const hard = allQuestions.filter(q => (q.difficulty || '').toLowerCase() === 'hard').length;
+      
+      const subjects = new Set();
+      allQuestions.forEach(q => { if(q.subject) subjects.add(q.subject); });
+
+      document.getElementById('statTotalCount').textContent = total.toString();
+      document.getElementById('statPyqCount').textContent = pyq.toString();
+      document.getElementById('statSubjectsCount').textContent = subjects.size.toString();
+      document.getElementById('statHardCount').textContent = hard.toString();
+
+      const btnDrill = document.getElementById('btnDrillTrigger');
+      if (btnDrill) {
+        btnDrill.disabled = (total === 0);
+        btnDrill.style.opacity = total === 0 ? '0.5' : '1';
+      }
+    }
+
+    function handleSearchInput(e) {
+      searchQuery = e.target.value.toLowerCase().trim();
+      renderVault();
+    }
+
+    function renderVault() {
+      const vault = getVaultData();
+      const listEl = document.getElementById('vaultList');
+      const allKeys = Object.keys(vault);
+
+      updateAnalyticsBar(vault);
+
+      if (allKeys.length === 0) {
+        renderSubjectFilterChips([]);
+        listEl.innerHTML = `
+          <div class="text-center py-12 px-4 bg-white dark:bg-slate-800/80 rounded-2xl border-2 border-dashed border-slate-200 dark:border-slate-700 flex flex-col items-center justify-center animate-fade-in">
+            <div class="w-14 h-14 bg-amber-50 dark:bg-amber-900/30 text-amber-500 rounded-2xl flex items-center justify-center text-2xl mb-3 shadow-2xs">
+              ⭐
+            </div>
+            <h3 class="text-sm font-extrabold text-slate-900 dark:text-white">व्हॉल्ट रिकामा आहे (Vault is Empty)</h3>
+            <p class="text-xs text-slate-500 dark:text-slate-400 mt-1 max-w-sm leading-relaxed">
+              सराव करताना अवघड किंवा महत्त्वाच्या प्रश्नांवर <strong>'⭐ Save'</strong> बटणावर क्लिक करा, किंवा आधी घेतलेला बॅकअप वरून <strong>'Import'</strong> करा.
+            </p>
+            <div class="flex items-center gap-2 mt-4">
+              <a href="index.html" class="px-4 py-2 rounded-xl bg-brand-blue text-white text-xs font-black shadow-xs active:scale-95 transition-all">
+                सराव सुरू करा ↗
+              </a>
+              <button onclick="triggerImportFileInput()" class="px-3.5 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-700 dark:hover:bg-slate-600 text-slate-700 dark:text-slate-200 text-xs font-bold transition-all">
+                📥 फाईल इम्पोर्ट करा
+              </button>
+            </div>
+          </div>
+        `;
+        return;
+      }
+
+      // Collect subjects
+      const subjectSet = new Set();
+      allKeys.forEach(k => {
+        if (vault[k]?.subject) subjectSet.add(vault[k].subject);
+      });
+      renderSubjectFilterChips(Array.from(subjectSet));
+
+      // Filter by subject and search keyword
+      const filteredKeys = allKeys.filter(k => {
+        const item = vault[k];
+        if (!item) return false;
+
+        if (activeSubjectFilter !== 'ALL' && item.subject !== activeSubjectFilter) {
+          return false;
+        }
+
+        if (searchQuery) {
+          let qText = typeof item.question === 'object' ? (item.question.mr || item.question.en || '') : (item.question || '');
+          let solText = typeof item.solution === 'object' ? (item.solution.mr || item.solution.en || '') : (item.solution || '');
+          let topicText = item.topic || '';
+          let subText = item.subject || '';
+          const fullContent = (qText + " " + solText + " " + topicText + " " + subText).toLowerCase();
+          return fullContent.includes(searchQuery);
+        }
+
+        return true;
+      });
+
+      if (filteredKeys.length === 0) {
+        listEl.innerHTML = `
+          <div class="text-center py-8 bg-white dark:bg-slate-800/60 rounded-2xl border border-slate-200 dark:border-slate-700 text-xs text-slate-500">
+            शोधाशी सुसंगत प्रश्न आढळले नाहीत.
+          </div>
+        `;
+        return;
+      }
+
+      let html = '';
+      filteredKeys.forEach(id => {
+        const item = vault[id];
+        html += buildVaultCardHtml(id, item);
+      });
+
+      listEl.innerHTML = html;
+    }
+
+    function renderSubjectFilterChips(subjects) {
+      const container = document.getElementById('subjectFilterContainer');
+      if (!container) return;
+
+      if (subjects.length === 0) {
+        container.innerHTML = '';
+        return;
+      }
+
+      let chips = `<button onclick="setSubjectFilter('ALL')" class="px-2 py-1 rounded-lg text-[10px] font-extrabold transition-all shrink-0 ${activeSubjectFilter === 'ALL' ? 'bg-brand-blue text-white shadow-2xs' : 'bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-700'}">सर्व (${getVaultCount()})</button>`;
+
+      subjects.forEach(sub => {
+        const count = Object.values(getVaultData()).filter(q => q.subject === sub).length;
+        const isActive = activeSubjectFilter === sub;
+        chips += `<button onclick="setSubjectFilter('${sub}')" class="px-2 py-1 rounded-lg text-[10px] font-extrabold transition-all shrink-0 truncate max-w-[140px] ${isActive ? 'bg-brand-blue text-white shadow-2xs' : 'bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-700'}">${sub} (${count})</button>`;
+      });
+
+      container.innerHTML = chips;
+    }
+
+    function getVaultCount() {
+      return Object.keys(getVaultData()).length;
+    }
+
+    function setSubjectFilter(sub) {
+      activeSubjectFilter = sub;
+      renderVault();
+    }
+
+    function sanitizeQuestionText(rawText, hasStructuredStatements) {
+      if (!hasStructuredStatements || !rawText) return rawText;
+      const lines = rawText.split('\n');
+      const filtered = [];
+      for (let line of lines) {
+        const trimmed = line.trim();
+        if (/^[अबकडABCD]\s*[\.\-\)]/i.test(trimmed)) continue;
+        if (trimmed.includes('वरीलपैकी कोणते') || trimmed.includes('विधाने बरोबर') || trimmed.includes('विधाने चूक')) continue;
+        filtered.push(trimmed);
+      }
+      return filtered.filter(Boolean).join(' ').trim();
+    }
+
+    function buildVaultCardHtml(id, q) {
+      if (!q) return '';
+
+      const sub = q.subject || 'MPSC';
+      const diff = q.difficulty || 'Medium';
+      const pyqTag = q.isPYQ ? `<span class="px-1.5 py-0.2 rounded text-[8px] font-black uppercase bg-rose-100 dark:bg-rose-900/40 text-rose-600 dark:text-rose-400 border border-rose-200 dark:border-rose-800">🔥 PYQ ${q.year || ''}</span>` : '';
+      const topicTag = q.topic ? `<span class="px-1.5 py-0.2 rounded text-[8px] font-bold bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 truncate max-w-[150px]">${q.topic}</span>` : '';
+
+      const hasStatements = (q.questionType === 'multi_statement' && Array.isArray(q.statements));
+      let mainText = '';
+      if (typeof q.question === 'object') {
+        mainText = q.question.mr || q.question.en || '';
+      } else {
+        mainText = q.question || '';
+      }
+      if (hasStatements) {
+        mainText = sanitizeQuestionText(mainText, true);
+      }
+
+      let pairsHtml = '';
+      if (q.questionType === 'match_pairs' && q.matchPairs) {
+        let colA = [];
+        let colB = [];
+
+        if (Array.isArray(q.matchPairs.colA)) {
+          colA = q.matchPairs.colA;
+          colB = q.matchPairs.colB || [];
+        } else if (q.matchPairs.colA && typeof q.matchPairs.colA === 'object') {
+          colA = q.matchPairs.colA.mr || q.matchPairs.colA.en || [];
+          colB = q.matchPairs.colB?.mr || q.matchPairs.colB?.en || [];
+        }
+
+        const maxLen = Math.max(colA.length, colB.length);
+        let rows = '';
+        for (let i = 0; i < maxLen; i++) {
+          rows += `
+            <tr>
+              <td class="font-bold text-slate-800 dark:text-slate-100 border-r border-slate-200 dark:border-slate-700 w-1/2">${colA[i] || ''}</td>
+              <td class="font-medium text-slate-700 dark:text-slate-200 w-1/2">${colB[i] || ''}</td>
+            </tr>
+          `;
+        }
+        pairsHtml = `
+          <div class="overflow-x-auto my-1.5">
+            <table class="pairs-table border border-slate-200 dark:border-slate-700">
+              <tbody>${rows}</tbody>
+            </table>
+          </div>
+        `;
+      }
+
+      let statementsHtml = '';
+      if (hasStatements) {
+        statementsHtml += '<div class="space-y-0.5 my-1 p-1.5 px-2 rounded-xl bg-slate-50 dark:bg-slate-900/50 border border-slate-200 dark:border-slate-700">';
+        q.statements.forEach(st => {
+          let labelText = typeof st.label === 'object' ? (st.label.mr || st.label.en || '') : (st.label || '');
+          let rawBody = typeof st.text === 'object' ? (st.text.mr || st.text.en || '') : (st.text || '');
+          let cleanBody = rawBody.toString().replace(/[\r\n]+/g, ' ').replace(/\s{2,}/g, ' ').trim();
+
+          statementsHtml += `
+            <div class="flex items-start gap-1.5 py-0.5">
+              <span class="w-4 h-4 rounded bg-slate-200 dark:bg-slate-700 text-slate-800 dark:text-slate-200 font-black text-[10px] flex items-center justify-center shrink-0 mt-0.5">${labelText}</span>
+              <p class="text-xs font-semibold text-slate-700 dark:text-slate-200 leading-snug flex-1 m-0 p-0">${cleanBody}</p>
+            </div>
+          `;
+        });
+        statementsHtml += '</div>';
+        if (q.concludingPrompt) {
+          let promptText = typeof q.concludingPrompt === 'object' ? (q.concludingPrompt.mr || q.concludingPrompt.en || '') : q.concludingPrompt;
+          statementsHtml += `<p class="font-extrabold text-xs text-slate-900 dark:text-white mt-0.5 mb-1.5">${promptText}</p>`;
+        }
+      }
+
+      const letters = ['A', 'B', 'C', 'D'];
+      let optionsHtml = '';
+      if (Array.isArray(q.options)) {
+        optionsHtml += '<div class="grid grid-cols-1 sm:grid-cols-2 gap-1.5 my-2">';
+        q.options.forEach((opt, idx) => {
+          const isCorrect = (idx === q.correctAnswerIndex);
+          const letter = letters[idx];
+          const text = typeof opt === 'object' ? (opt.mr || opt.en || '') : opt;
+
+          if (isCorrect) {
+            optionsHtml += `
+              <div class="p-2 rounded-xl bg-emerald-50 dark:bg-emerald-950/30 border border-emerald-400 dark:border-emerald-700 flex items-start gap-2">
+                <span class="w-5 h-5 rounded-full bg-emerald-500 text-white font-black text-[10px] flex items-center justify-center shrink-0 mt-0.5">${letter}</span>
+                <div class="flex-1 min-w-0">
+                  <p class="text-xs font-bold text-emerald-950 dark:text-emerald-200 leading-tight">${text}</p>
+                  <span class="text-[9px] font-black text-emerald-600 dark:text-emerald-400 uppercase">✓ अचूक उत्तर (Correct)</span>
+                </div>
+              </div>
+            `;
+          } else {
+            optionsHtml += `
+              <div class="p-2 rounded-xl bg-slate-50 dark:bg-slate-800/40 border border-slate-200 dark:border-slate-700/60 flex items-start gap-2 text-slate-500 dark:text-slate-400">
+                <span class="w-5 h-5 rounded-full bg-slate-200 dark:bg-slate-700 text-slate-600 dark:text-slate-300 font-bold text-[10px] flex items-center justify-center shrink-0 mt-0.5">${letter}</span>
+                <p class="text-xs font-medium leading-tight flex-1">${text}</p>
+              </div>
+            `;
+          }
+        });
+        optionsHtml += '</div>';
+      }
+
+      let solText = '';
+      let refText = '';
+      if (typeof q.solution === 'object') {
+        solText = q.solution.mr || q.solution.en || '';
+        refText = q.solution.reference || '';
+      } else {
+        solText = q.solution || '';
+      }
+
+      return `
+        <div class="vault-card bg-white dark:bg-slate-800 rounded-2xl p-3.5 sm:p-4 border border-amber-300/80 dark:border-amber-900/60 shadow-xs relative animate-slide-up flex flex-col">
+          
+          <div class="flex items-center justify-between pb-2 mb-2 border-b border-slate-100 dark:border-slate-700/60">
+            <div class="flex items-center gap-1.5 flex-wrap">
+              <span class="px-1.5 py-0.2 rounded text-[9px] font-black uppercase bg-indigo-50 dark:bg-indigo-900/40 text-indigo-700 dark:text-indigo-300 border border-indigo-200 dark:border-indigo-800">${sub}</span>
+              <span class="px-1.5 py-0.2 rounded text-[9px] font-black uppercase bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300">${diff}</span>
+              ${pyqTag}
+              ${topicTag}
+            </div>
+
+            <button onclick="requestDeleteSingle('${id}')" title="व्हॉल्टमधून काढा" aria-label="Remove Question" class="no-print h-6 px-2 rounded-lg bg-rose-50 hover:bg-rose-100 dark:bg-rose-950/40 dark:hover:bg-rose-900/40 text-rose-600 dark:text-rose-400 text-[10px] font-extrabold flex items-center gap-1 transition-all active:scale-95 border border-rose-200 dark:border-rose-900/50">
+              <span>✕</span> <span>काढा</span>
+            </button>
+          </div>
+
+          <div class="text-xs sm:text-[13px] font-bold text-slate-800 dark:text-slate-100 whitespace-pre-line leading-relaxed mb-1">
+            ${mainText}
+          </div>
+
+          ${pairsHtml}
+          ${statementsHtml}
+          ${optionsHtml}
+
+          <div class="mt-2 p-2.5 sm:p-3 rounded-xl bg-amber-50/70 dark:bg-amber-950/20 border border-amber-200/80 dark:border-amber-900/40">
+            <div class="flex items-center justify-between mb-1">
+              <span class="font-extrabold text-amber-800 dark:text-amber-400 text-[11px] flex items-center gap-1">
+                <span>💡</span> <span>सविस्तर स्पष्टीकरण (Detailed Analysis):</span>
+              </span>
+              ${refText ? `<span class="text-[9px] font-bold text-amber-700 dark:text-amber-400 bg-amber-100 dark:bg-amber-900/40 px-1.5 py-0.2 rounded border border-amber-200 dark:border-amber-800">${refText}</span>` : ''}
+            </div>
+            <p class="text-[11px] font-medium text-slate-700 dark:text-slate-300 leading-relaxed whitespace-pre-line">${solText}</p>
+          </div>
+
+        </div>
+      `;
+    }
+
+    // ==========================================
+    // 🎯 REUSABLE INTERACTIVE DRILL PRACTICE MODE
+    // ==========================================
+    function openDrillModeModal() {
+      const vault = getVaultData();
+      const keys = Object.keys(vault);
+      if (keys.length === 0) {
+        showToast("चाचणीसाठी आधी व्हॉल्टमध्ये प्रश्न असणे आवश्यक आहे.");
+        return;
+      }
+
+      drillQuestionList = Object.values(vault);
+      drillCurrentIndex = 0;
+      drillSelectedAnswers = {};
+      drillScore = 0;
+
+      renderDrillQuestion();
+      openModal('drillModal');
+    }
+
+    function renderDrillQuestion() {
+      const q = drillQuestionList[drillCurrentIndex];
+      const body = document.getElementById('drillCardBody');
+      const progress = document.getElementById('drillProgressText');
+      const scoreBadge = document.getElementById('drillScoreBadge');
+      const btnPrev = document.getElementById('btnDrillPrev');
+      const btnNext = document.getElementById('btnDrillNext');
+
+      progress.textContent = `प्रश्न ${drillCurrentIndex + 1} / ${drillQuestionList.length} • (${q.subject || 'MPSC'})`;
+      scoreBadge.textContent = `Score: ${drillScore} / ${drillQuestionList.length}`;
+      btnPrev.disabled = (drillCurrentIndex === 0);
+      btnNext.textContent = (drillCurrentIndex === drillQuestionList.length - 1) ? 'चाचणी पूर्ण करा ✓' : 'पुढचा प्रश्न ↗';
+
+      let qText = typeof q.question === 'object' ? (q.question.mr || q.question.en || '') : q.question;
+
+      let pairsHtml = '';
+      if (q.questionType === 'match_pairs' && q.matchPairs) {
+        let colA = Array.isArray(q.matchPairs.colA) ? q.matchPairs.colA : (q.matchPairs.colA?.mr || []);
+        let colB = Array.isArray(q.matchPairs.colB) ? q.matchPairs.colB : (q.matchPairs.colB?.mr || []);
+        let rows = '';
+        for (let i = 0; i < Math.max(colA.length, colB.length); i++) {
+          rows += `<tr><td class="font-bold border-r border-slate-200 dark:border-slate-700 p-1 w-1/2">${colA[i] || ''}</td><td class="p-1 w-1/2">${colB[i] || ''}</td></tr>`;
+        }
+        pairsHtml = `<table class="pairs-table border border-slate-200 dark:border-slate-700 my-1 text-xs"><tbody>${rows}</tbody></table>`;
+      }
+
+      let letters = ['A', 'B', 'C', 'D'];
+      let optionsHtml = '<div class="space-y-1.5 my-2">';
+      const userSelected = drillSelectedAnswers[drillCurrentIndex];
+
+      q.options.forEach((opt, idx) => {
+        const text = typeof opt === 'object' ? (opt.mr || opt.en || '') : opt;
+        let btnClass = "w-full text-left p-2.5 rounded-xl border text-xs font-bold transition-all flex items-center justify-between ";
+
+        if (userSelected !== undefined) {
+          if (idx === q.correctAnswerIndex) {
+            btnClass += "bg-emerald-100 border-emerald-500 text-emerald-950 dark:bg-emerald-950/40 dark:text-emerald-200 font-extrabold";
+          } else if (idx === userSelected) {
+            btnClass += "bg-rose-100 border-rose-500 text-rose-950 dark:bg-rose-950/40 dark:text-rose-200";
+          } else {
+            btnClass += "opacity-50 border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800";
+          }
+        } else {
+          btnClass += "border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 hover:border-brand-blue";
+        }
+
+        optionsHtml += `
+          <button onclick="handleDrillAnswerSelect(${idx})" ${userSelected !== undefined ? 'disabled' : ''} class="${btnClass}">
+            <span class="flex items-center gap-2"><span class="w-5 h-5 rounded-full bg-slate-100 dark:bg-slate-700 flex items-center justify-center text-[10px]">${letters[idx]}</span> <span>${text}</span></span>
+            ${userSelected !== undefined && idx === q.correctAnswerIndex ? '<span>✓</span>' : ''}
+          </button>
+        `;
+      });
+      optionsHtml += '</div>';
+
+      let solText = typeof q.solution === 'object' ? (q.solution.mr || q.solution.en || '') : q.solution;
+
+      body.innerHTML = `
+        <div class="space-y-2">
+          <p class="text-xs sm:text-sm font-extrabold text-slate-900 dark:text-white leading-relaxed">${qText}</p>
+          ${pairsHtml}
+          ${optionsHtml}
+          <div id="drillSolutionBox" class="${userSelected !== undefined ? 'block' : 'hidden'} p-2.5 rounded-xl bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-800 text-[11px] text-slate-700 dark:text-slate-300">
+            <strong>💡 स्पष्टीकरण:</strong> ${solText}
+          </div>
+        </div>
+      `;
+    }
+
+    function handleDrillAnswerSelect(idx) {
+      if (drillSelectedAnswers[drillCurrentIndex] !== undefined) return;
+      drillSelectedAnswers[drillCurrentIndex] = idx;
+      const q = drillQuestionList[drillCurrentIndex];
+      if (idx === q.correctAnswerIndex) {
+        drillScore++;
+        showToast("अचूक उत्तर! (Correct)");
+      } else {
+        showToast("चुकीचे उत्तर!", true);
+      }
+      renderDrillQuestion();
+    }
+
+    function toggleDrillSolution() {
+      const box = document.getElementById('drillSolutionBox');
+      if (box) box.classList.toggle('hidden');
+    }
+
+    function nextDrillQuestion() {
+      if (drillCurrentIndex < drillQuestionList.length - 1) {
+        drillCurrentIndex++;
+        renderDrillQuestion();
+      } else {
+        closeDrillModal();
+        showToast(`चाचणी समाप्त! तुमचा गुण: ${drillScore} / ${drillQuestionList.length}`);
+      }
+    }
+
+    function prevDrillQuestion() {
+      if (drillCurrentIndex > 0) {
+        drillCurrentIndex--;
+        renderDrillQuestion();
+      }
+    }
+
+    function closeDrillModal() {
+      closeModal('drillModal');
+    }
+
+    // ==========================================
+    // 💾 IMPORT & EXPORT ENGINE (FULL-FEATURED)
+    // ==========================================
+    function exportVaultToJson() {
+      const vault = getVaultData();
+      const keys = Object.keys(vault);
+      if (keys.length === 0) {
+        showToast("Export करण्यासाठी व्हॉल्टमध्ये प्रश्न नाहीत.");
+        return;
+      }
+      const dataStr = JSON.stringify(vault, null, 2);
+      const blob = new Blob([dataStr], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      const dateStr = new Date().toISOString().slice(0, 10);
+      a.href = url;
+      a.download = `QuickQuiz_MPSC_Vault_Backup_${dateStr}.json`;
+      a.click();
+      URL.revokeObjectURL(url);
+      showToast("✓ व्हॉल्ट बॅकअप यशस्वीपणे सेव्ह झाला!");
+    }
+
+    function triggerImportFileInput() {
+      const fileInput = document.getElementById('importFileInput');
+      if (fileInput) {
+        fileInput.value = '';
+        fileInput.click();
+      }
+    }
+
+    function handleFileImport(event) {
+      const file = event.target.files?.[0];
+      if (!file) return;
+
+      if (!file.name.endsWith('.json')) {
+        showToast("कृपया वैध .json बॅकअप फाईल निवडा.", true);
+        return;
+      }
+
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        try {
+          const content = e.target.result;
+          const parsed = JSON.parse(content);
+          
+          if (typeof parsed !== 'object' || parsed === null) {
+            throw new Error("Invalid JSON structure");
+          }
+
+          const existingVault = getVaultData();
+          let addedCount = 0;
+          let updatedCount = 0;
+
+          // Support both Object mapping and Array format imports
+          const importItems = Array.isArray(parsed) ? parsed : Object.values(parsed);
+
+          importItems.forEach((q, idx) => {
+            if (q && (q.question || q.questionType)) {
+              const id = q.id || `IMPORT_${Date.now()}_${idx}`;
+              if (existingVault[id]) {
+                existingVault[id] = q;
+                updatedCount++;
+              } else {
+                existingVault[id] = q;
+                addedCount++;
+              }
+            }
+          });
+
+          if (addedCount === 0 && updatedCount === 0) {
+            showToast("या फाईलमध्ये सुसंगत MPSC प्रश्न आढळले नाहीत.", true);
+            return;
+          }
+
+          localStorage.setItem('studySphereVault', JSON.stringify(existingVault));
+          renderVault();
+          showToast(`✓ यशस्वी! +${addedCount} नवीन प्रश्न जोडले, ${updatedCount} अपडेट झाले.`);
+        } catch (err) {
+          showToast("फाईल उघडताना त्रुटी! कृपया वैध QuickQuiz फाईल वापरा.", true);
+        }
+      };
+      reader.readAsText(file);
+    }
+
+    // ==========================================
+    // 🛡️ SAFE CLEAR ALL DATA SAFELOCKS
+    // ==========================================
+    function requestClearAllVault() {
+      const vault = getVaultData();
+      if (Object.keys(vault).length === 0) {
+        showToast("व्हॉल्ट आधीच रिकामा आहे.");
+        return;
+      }
+      openModal('clearAllModal');
+    }
+
+    function closeClearAllModal() {
+      closeModal('clearAllModal');
+    }
+
+    function executeClearAll() {
+      localStorage.setItem('studySphereVault', JSON.stringify({}));
+      closeClearAllModal();
+      activeSubjectFilter = 'ALL';
+      searchQuery = '';
+      const input = document.getElementById('vaultSearchInput');
+      if (input) input.value = '';
+      renderVault();
+      showToast("व्हॉल्ट पूर्णपणे रिकामा केला गेला.");
+    }
+
+    function requestDeleteSingle(id) {
+      pendingDeleteId = id;
+      openModal('deleteModal');
+    }
+
+    function closeDeleteModal() {
+      pendingDeleteId = null;
+      closeModal('deleteModal');
+    }
+
+    function executeDeleteSingle() {
+      if (!pendingDeleteId) return;
+      const vault = getVaultData();
+      delete vault[pendingDeleteId];
+      localStorage.setItem('studySphereVault', JSON.stringify(vault));
+      closeDeleteModal();
+      renderVault();
+      showToast("प्रश्न व्हॉल्टमधून काढला गेला.");
+    }
+
+    function openGuideModal() {
+      openModal('guideModal');
+    }
+
+    function openModal(id) {
+      const m = document.getElementById(id);
+      if (m) {
+        m.classList.remove('hidden');
+        m.classList.add('flex');
+      }
+    }
+
+    function closeModal(id) {
+      const m = document.getElementById(id);
+      if (m) {
+        m.classList.add('hidden');
+        m.classList.remove('flex');
+      }
+    }
+
+    let toastTimeout;
+    function showToast(msg, isError = false) {
+      const toast = document.getElementById('toastNotification');
+      const text = document.getElementById('toastMessage');
+      const icon = document.getElementById('toastIcon');
+      if (!toast || !text) return;
+
+      text.textContent = msg;
+      if (isError) {
+        toast.className = "fixed bottom-6 right-4 sm:right-auto sm:left-1/2 sm:-translate-x-1/2 z-50 transform translate-y-0 opacity-100 transition-all duration-300 bg-rose-950 text-white px-3.5 py-2 rounded-xl shadow-xl flex items-center gap-2 text-xs font-bold border border-rose-600";
+        icon.textContent = '✕';
+        icon.className = 'text-rose-400 text-sm';
+      } else {
+        toast.className = "fixed bottom-6 right-4 sm:right-auto sm:left-1/2 sm:-translate-x-1/2 z-50 transform translate-y-0 opacity-100 transition-all duration-300 bg-slate-900 text-white dark:bg-white dark:text-slate-900 px-3.5 py-2 rounded-xl shadow-xl flex items-center gap-2 text-xs font-bold border border-slate-700 dark:border-slate-300";
+        icon.textContent = '✓';
+        icon.className = 'text-emerald-400 dark:text-emerald-600 text-sm';
+      }
+
+      clearTimeout(toastTimeout);
+      toastTimeout = setTimeout(() => {
+        toast.classList.remove('translate-y-0', 'opacity-100');
+        toast.classList.add('translate-y-10', 'opacity-0');
+      }, 3000);
+    }
+
+    function registerServiceWorker() {
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('sw.js').catch(err => {
+          console.warn('SW registration failed:', err);
+        });
+      }
+    }
+
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape') {
+        closeDeleteModal();
+        closeClearAllModal();
+        closeModal('guideModal');
+        closeDrillModal();
+      }
+    });
+  </script>
+</body>
+</html>

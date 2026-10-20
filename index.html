@@ -1,0 +1,2097 @@
+<!DOCTYPE html>
+<html lang="mr" class="h-full">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>QuickQuiz By StudySphere | Premium MPSC Practice</title>
+  
+  <!-- PWA & Circular Favicon Linkage -->
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" type="image/svg+xml" href="icon.svg">
+  <meta name="theme-color" content="#ea580c">
+
+  <!-- Google Fonts: Mukta, Noto Sans Devanagari, Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Mukta:wght@400;500;600;700;800&family=Noto+Sans+Devanagari:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- html2canvas for Snapshots -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: { 
+            sans: ['"Plus Jakarta Sans"', '"Mukta"', '"Noto Sans Devanagari"', 'sans-serif'] 
+          },
+          colors: {
+            brand: {
+              accent: '#f95959',
+              blue: '#2563eb',
+            }
+          },
+          animation: {
+            'slide-up': 'slideUp 0.22s cubic-bezier(0.16, 1, 0.3, 1) forwards',
+            'slide-down': 'slideDown 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards',
+            'fade-in': 'fadeIn 0.2s ease-out forwards',
+            'confetti-fall': 'confettiFall 3s ease-out forwards'
+          },
+          keyframes: {
+            slideUp: { '0%': { transform: 'translateY(10px)', opacity: '0' }, '100%': { transform: 'translateY(0)', opacity: '1' } },
+            slideDown: { '0%': { transform: 'translateY(-10px)', opacity: '0' }, '100%': { transform: 'translateY(0)', opacity: '1' } },
+            fadeIn: { '0%': { opacity: '0' }, '100%': { opacity: '1' } },
+            confettiFall: { '0%': { transform: 'translateY(-100%) rotate(0deg)', opacity: '1' }, '100%': { transform: 'translateY(100vh) rotate(360deg)', opacity: '0' } }
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    html, body {
+      height: 100%; 
+      height: 100dvh;
+      overflow: hidden; 
+      overscroll-behavior-y: none;
+      -webkit-tap-highlight-color: transparent;
+      font-feature-settings: "liga" 1, "kern" 1;
+      text-rendering: optimizeLegibility;
+      -webkit-font-smoothing: antialiased;
+    }
+    
+    .tiranga-stripe { 
+      background: linear-gradient(90deg, #ea580c 0%, #ea580c 33.33%, #ffffff 33.33%, #ffffff 66.66%, #15803d 66.66%, #15803d 100%); 
+      height: 4px; 
+      width: 100%; 
+    }
+    .premium-pattern { 
+      background-color: #f8fafc; 
+      background-image: radial-gradient(#cbd5e1 1px, transparent 1px); 
+      background-size: 24px 24px; 
+    }
+    .dark .premium-pattern { 
+      background-color: #0f172a; 
+      background-image: radial-gradient(#334155 1px, transparent 1px); 
+      background-size: 24px 24px; 
+    }
+    
+    ::-webkit-scrollbar { width: 4px; height: 4px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 8px; }
+    .dark ::-webkit-scrollbar-thumb { background: #475569; } 
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+    :root { --q-size: 0.95rem; --opt-size: 0.86rem; --opt-sub: 0.76rem; }
+    .font-s { --q-size: 0.88rem; --opt-size: 0.80rem; --opt-sub: 0.70rem; }
+    .font-m { --q-size: 0.95rem; --opt-size: 0.86rem; --opt-sub: 0.76rem; }
+    .font-l { --q-size: 1.05rem; --opt-size: 0.94rem; --opt-sub: 0.84rem; }
+
+    .q-text, .opt-text, .opt-subtext {
+      overflow-wrap: anywhere; 
+      word-break: normal;
+      hyphens: auto;
+    }
+    .q-text { font-size: var(--q-size); line-height: 1.45; letter-spacing: 0.01em; }
+    .opt-text { font-size: var(--opt-size); line-height: 1.35; }
+    .opt-subtext { font-size: var(--opt-sub); line-height: 1.3; }
+
+    button:focus-visible, a:focus-visible, input:focus-visible { outline: 2px solid #3b82f6; outline-offset: 2px; }
+    .glass { background: rgba(255, 255, 255, 0.94); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
+    .dark .glass { background: rgba(15, 23, 42, 0.94); }
+    
+    .opt-btn { transition: background-color 0.15s, border-color 0.15s, opacity 0.15s; box-sizing: border-box; border: 2px solid transparent; }
+    .opt-btn.default-state { border-color: #e2e8f0; background-color: #ffffff; }
+    .dark .opt-btn.default-state { border-color: #334155; background-color: #1e293b; }
+    
+    .opt-btn.selected-correct { background-color: #ecfdf5; border-color: #10b981; }
+    .dark .opt-btn.selected-correct { background-color: rgba(16, 185, 129, 0.15); border-color: #10b981; }
+    
+    .opt-btn.selected-wrong { background-color: #fff1f2; border-color: #f43f5e; }
+    .dark .opt-btn.selected-wrong { background-color: rgba(244, 63, 94, 0.15); border-color: #f43f5e; }
+    
+    .opt-btn.disabled-state { opacity: 0.65; cursor: not-allowed; border-color: transparent; }
+    .confetti { position: fixed; top: -10px; z-index: 100; pointer-events: none; width: 10px; height: 10px; }
+
+    .pairs-table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0;
+      border-radius: 0.6rem;
+      overflow: hidden;
+      margin: 0;
+    }
+    .pairs-table td {
+      padding: 0.25rem 0.5rem;
+      font-size: var(--opt-size);
+      border-bottom: 1px solid #e2e8f0;
+      background: #ffffff;
+      line-height: 1.35;
+    }
+    .dark .pairs-table td {
+      background: #0f172a;
+      border-color: #334155;
+      color: #e2e8f0;
+    }
+    .pairs-table tr:last-child td {
+      border-bottom: none;
+    }
+
+    @keyframes heartBlinkBorder {
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.2); opacity: 0.5; }
+    }
+    .blink-heart-border {
+      animation: heartBlinkBorder 1.3s ease-in-out infinite;
+      display: inline-flex;
+      transform-origin: center;
+    }
+  </style>
+</head>
+<body class="premium-pattern text-slate-800 dark:text-slate-200 font-sans flex flex-col font-m transition-colors duration-300">
+
+  <div class="tiranga-stripe shrink-0 fixed top-0 z-50"></div>
+
+  <!-- Header Area -->
+  <header class="glass border-b border-slate-200/60 dark:border-slate-800/60 shadow-xs shrink-0 z-40 pt-1">
+    <!-- Micro Status Bar -->
+    <div class="max-w-5xl mx-auto px-3 sm:px-4 py-1 flex justify-between items-center text-[11px] font-bold">
+      <div class="flex items-center gap-1.5 min-w-0">
+        <img src="icon.svg" alt="Logo" class="w-4 h-4 rounded-full shrink-0">
+        <span class="text-sm font-black tracking-tight text-slate-900 dark:text-white uppercase truncate">QuickQuiz</span>
+        <span class="text-[9px] font-extrabold uppercase px-1.5 py-0.5 rounded-md bg-amber-100 dark:bg-amber-900/40 text-amber-800 dark:text-amber-300 border border-amber-200 dark:border-amber-700/50 tracking-wider shrink-0">
+          By StudySphere
+        </span>
+      </div>
+
+      <div class="flex items-center gap-1.5 sm:gap-2 shrink-0">
+        <button onclick="openApiKeyModal()" aria-label="API Key Settings" class="text-slate-500 hover:text-brand-accent transition-colors flex items-center gap-1 cursor-pointer bg-slate-100 dark:bg-slate-800 px-2 py-0.5 rounded-md text-[10px] sm:text-[11px]">
+          <span>🔑</span> <span id="apiKeyStatusText">API Key</span>
+        </button>
+        <div class="flex items-center gap-1 text-orange-500 font-extrabold bg-orange-50 dark:bg-orange-900/20 px-2 py-0.5 rounded-md text-[10px] sm:text-[11px]" title="Consecutive Correct Streak">
+          <span>🔥</span> <span id="streakCount">0 Streak</span>
+        </div>
+        <div id="bufferStatus" class="flex items-center gap-1 text-emerald-600 dark:text-emerald-400 text-[10px] sm:text-[11px] bg-emerald-50 dark:bg-emerald-900/20 px-2 py-0.5 rounded-md font-bold" title="Questions ready in queue">
+          <span class="inline-block w-1.5 h-1.5 rounded-full bg-emerald-500 animate-ping"></span>
+          <span id="bufferCountText">0</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Main Navigation Bar with Target & Dash side by side -->
+    <div class="max-w-5xl mx-auto px-3 sm:px-4 py-1 flex flex-wrap sm:flex-nowrap items-center justify-between gap-1.5">
+      <div class="w-full sm:flex-1 sm:max-w-[400px] flex items-center gap-1.5">
+        <button onclick="openFilterModal()" aria-label="Open Exam Filter" class="flex-1 flex items-center justify-between gap-2 px-2.5 py-1.5 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 active:scale-[0.98] transition-all shadow-xs hover:border-brand-accent group">
+          <div class="min-w-0 flex flex-col items-start w-full">
+            <span class="text-[9px] text-slate-400 uppercase font-black tracking-wider leading-none mb-0.5 group-hover:text-brand-accent transition-colors">Study Target</span>
+            <span id="activeFilterText" class="text-xs font-extrabold text-slate-800 dark:text-slate-200 truncate w-full text-left">Group C • Prelims • History</span>
+          </div>
+          <div class="w-6 h-6 rounded-lg bg-slate-50 dark:bg-slate-700 flex items-center justify-center group-hover:bg-rose-50 dark:group-hover:bg-rose-900/30 transition-colors shrink-0">
+            <svg class="w-3.5 h-3.5 text-slate-400 group-hover:text-brand-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M10.5 6h9.75M10.5 6a1.5 1.5 0 11-3 0m3 0a1.5 1.5 0 10-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-9.75 0h9.75"/></svg>
+          </div>
+        </button>
+
+        <a href="dashboard.html" title="Open Dashboard & Vault" class="h-9 px-2.5 rounded-xl bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 font-extrabold text-[11px] flex items-center gap-1 active:scale-95 transition-all border border-slate-200 dark:border-slate-700 shadow-xs shrink-0">
+          <span>📖</span> <span class="hidden xs:inline">Dash</span>
+        </a>
+      </div>
+
+      <!-- Toolbar: Snap, Lang, Font, Theme -->
+      <div class="flex items-center gap-1 sm:gap-1.5 shrink-0 w-full sm:w-auto justify-between sm:justify-end">
+        <button onclick="takeFullScreenSnapshot()" aria-label="Take Snapshot" title="Take Screenshot" class="h-8 px-2.5 rounded-xl bg-white dark:bg-slate-800 hover:bg-slate-50 border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 text-[11px] font-black flex items-center gap-1 active:scale-95 transition-all shadow-xs">
+          <span class="text-xs">📸</span> <span>Snap</span>
+        </button>
+        <button onclick="toggleLang()" id="langBtn" aria-label="Toggle Language" class="h-8 px-2.5 rounded-xl bg-white dark:bg-slate-800 hover:bg-slate-50 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 text-[11px] font-black active:scale-95 transition-all shadow-xs">
+          मराठी <span class="text-slate-300 dark:text-slate-600 mx-0.5">|</span> EN
+        </button>
+        <button onclick="toggleFont()" aria-label="Toggle Font Size" class="h-8 px-2 rounded-xl bg-white dark:bg-slate-800 hover:bg-slate-50 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 text-[11px] font-black flex items-center gap-1 active:scale-95 transition-all shadow-xs">
+          <span class="tracking-tighter">A<span class="text-[9px]">A</span></span>
+          <span id="fontBadge" class="text-[8px] bg-brand-accent text-white px-1.5 py-0.5 rounded font-bold">M</span>
+        </button>
+        <button onclick="toggleTheme()" aria-label="Toggle Theme" class="h-8 w-8 rounded-xl bg-white dark:bg-slate-800 hover:bg-slate-50 border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 flex items-center justify-center active:scale-95 transition-all shadow-xs">
+          <span id="themeIcon" class="text-xs">🌓</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Smart Session Greeting Banner -->
+    <div id="smartGreetingBanner" class="hidden border-t-2 border-amber-400 bg-gradient-to-r from-amber-50 via-orange-50 to-amber-50 dark:from-amber-950/60 dark:via-orange-950/40 dark:to-amber-950/60 p-2 text-xs animate-slide-down">
+      <div class="max-w-5xl mx-auto flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+        <div class="flex items-start gap-2 min-w-0">
+          <span class="text-base shrink-0">👋</span>
+          <div class="min-w-0">
+            <div class="flex items-center gap-1.5 flex-wrap">
+              <span class="font-black text-amber-950 dark:text-amber-100 text-xs">Welcome Back!</span>
+              <span id="sessionTagBadge" class="px-1.5 py-0.2 rounded text-[8px] font-black uppercase bg-amber-200 dark:bg-amber-900/60 text-amber-900 dark:text-amber-300 border border-amber-300 dark:border-amber-700">
+                Session #1 today
+              </span>
+            </div>
+            <p class="text-[11px] text-amber-900 dark:text-amber-200 leading-snug">
+              Target: <strong id="greetingTargetText" class="font-extrabold text-slate-900 dark:text-white">Group C • Prelims • History</strong>
+              <span class="text-amber-700 dark:text-amber-400 ml-1">(Streak: <strong id="greetingStreakCount" class="text-orange-600">0</strong>)</span>
+            </p>
+          </div>
+        </div>
+
+        <div class="flex items-center gap-2 shrink-0 self-end sm:self-auto w-full sm:w-auto">
+          <button onclick="handleContinueGreetingTarget()" class="flex-1 sm:flex-initial px-3 py-1 rounded-xl bg-amber-500 hover:bg-amber-600 text-slate-950 font-black text-xs shadow-xs active:scale-95 transition-all">
+            ▶️ Continue
+          </button>
+          <button onclick="handleChangeGreetingTarget()" class="flex-1 sm:flex-initial px-3 py-1 rounded-xl bg-white dark:bg-slate-800 hover:bg-slate-50 text-slate-800 dark:text-slate-200 border border-slate-300 dark:border-slate-600 font-bold text-xs shadow-xs active:scale-95 transition-all">
+            ⚙️ Change Target
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="flex-1 overflow-y-auto relative w-full scroll-smooth flex flex-col" id="quizScrollArea">
+    <div class="max-w-3xl mx-auto px-2 sm:px-4 pt-1 pb-20 w-full flex-1 flex flex-col">
+      <div class="bg-white dark:bg-slate-800 rounded-2xl shadow-xs border border-slate-100 dark:border-slate-700/60 pt-2 pb-2.5 px-2.5 sm:p-3 relative flex-1 flex flex-col transition-all">
+        
+        <!-- Header Tag Strip (Fixed dimensions to prevent layout shifts) -->
+        <div class="flex items-center justify-between gap-1 mb-1 pb-1 border-b border-slate-100 dark:border-slate-700/50 shrink-0">
+          <div id="question-tags" class="flex flex-wrap items-center gap-1 flex-1 min-w-0"></div>
+          
+          <div class="flex items-center gap-1 shrink-0">
+            <button id="btn-save" onclick="toggleSave()" aria-label="Save Question" class="h-6 w-16 box-border justify-center rounded-lg border-2 border-slate-200 dark:border-slate-600 bg-slate-50 dark:bg-slate-700/50 text-[10px] font-extrabold text-slate-600 dark:text-slate-300 flex items-center gap-1 shadow-xs active:scale-95 transition-all hover:border-amber-400 group">
+              <span id="saveIcon">☆</span> <span id="saveText">Save</span>
+            </button>
+            <button onclick="openReportModal()" aria-label="Report Error" title="Report Error" class="h-6 px-1.5 rounded-lg border-2 border-slate-200 dark:border-slate-600 bg-rose-50 dark:bg-rose-900/20 text-[10px] font-extrabold text-rose-500 flex items-center gap-1 shadow-xs active:scale-95 transition-all hover:bg-rose-100">
+              🚩
+            </button>
+            <button onclick="openInfoModal()" aria-label="Info" class="h-6 w-6 rounded-lg border-2 border-slate-200 dark:border-slate-600 bg-slate-50 dark:bg-slate-700/50 text-[11px] font-serif italic font-bold text-slate-400 hover:text-sky-500 shadow-xs active:scale-95 transition-all">
+              i
+            </button>
+          </div>
+        </div>
+
+        <!-- Empty State Card -->
+        <div id="emptyState" class="hidden text-center py-6 px-3 rounded-2xl border-2 border-dashed border-slate-200 dark:border-slate-700 bg-slate-50/50 dark:bg-slate-800/50 flex-1 flex flex-col justify-center items-center">
+          <div class="w-11 h-11 bg-white dark:bg-slate-800 rounded-2xl shadow-xs flex items-center justify-center mx-auto mb-2 border border-slate-100 dark:border-slate-700 text-lg">🔑</div>
+          <h3 class="text-sm font-extrabold text-slate-900 dark:text-white mb-0.5">Connect AI Engine</h3>
+          <p class="text-xs text-slate-500 dark:text-slate-400 mb-2.5 max-w-sm mx-auto leading-relaxed">
+            Please setup your free Google Gemini API Key to unlock authentic MPSC practice questions.
+          </p>
+          <div class="flex items-center gap-2">
+            <button onclick="openApiKeyModal(true)" class="px-3.5 py-1.5 rounded-xl bg-brand-blue text-white font-extrabold text-xs shadow-md active:scale-95 hover:bg-blue-700">Setup API Key</button>
+            <button onclick="enterInteractiveDemo()" class="px-3 py-1.5 rounded-xl bg-amber-500 text-slate-950 font-black text-xs shadow-xs active:scale-95">Play Demo</button>
+          </div>
+        </div>
+
+        <!-- Active Question Arena -->
+        <div id="quizContentArea" class="flex-1 overflow-y-visible no-scrollbar pb-0.5 hidden">
+          <div id="question-text" class="q-text font-bold mb-1 text-slate-800 dark:text-slate-100"></div>
+          <div id="options-container" class="space-y-1 mb-1.5"></div>
+
+          <!-- Solution Breakdown Box -->
+          <div id="solution-container" class="hidden bg-slate-50 dark:bg-slate-800/80 border border-emerald-500/30 rounded-xl p-2.5 sm:p-3 animate-slide-up relative overflow-hidden mt-1.5">
+            <div class="absolute top-0 left-0 w-1.5 h-full bg-emerald-500"></div>
+            <div class="flex items-center justify-between mb-1 pb-1 border-b border-slate-200 dark:border-slate-700/60">
+              <h3 class="text-emerald-700 dark:text-emerald-400 font-black text-xs sm:text-sm flex items-center gap-1.5">
+                <span class="text-base">💡</span> Detailed Analysis
+              </h3>
+              <span id="referenceBadge" class="text-[9px] sm:text-[10px] font-extrabold px-2 py-0.5 rounded bg-emerald-100 dark:bg-emerald-900/30 text-emerald-800 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800/50 truncate max-w-[150px]"></span>
+            </div>
+            <div id="solution-text" class="text-slate-700 dark:text-slate-300 opt-subtext font-medium leading-relaxed"></div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </main>
+
+  <!-- Sticky Footer: Prev, View Solution, Next/Skip -->
+  <footer class="fixed bottom-0 left-0 right-0 z-40 bg-white dark:bg-slate-900 border-t border-slate-200 dark:border-slate-800 flex flex-col shadow-[0_-4px_10px_-1px_rgba(0,0,0,0.08)]">
+    <div class="w-full px-3 py-2 flex items-center justify-center gap-1.5 max-w-3xl mx-auto">
+      <button onclick="handlePrevAction()" id="btn-prev-action" title="Previous Question" class="h-10 px-3 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 font-black text-xs flex items-center justify-center gap-1 active:scale-95 transition-all border border-slate-200 dark:border-slate-700 disabled:opacity-40 disabled:cursor-not-allowed">
+        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg>
+        <span>मागे</span>
+      </button>
+      
+      <button onclick="showSolutionManually()" id="btnViewSolution" class="flex-1 h-10 rounded-xl bg-emerald-50 dark:bg-emerald-900/20 border border-emerald-200 dark:border-emerald-800/50 text-emerald-700 dark:text-emerald-400 hover:bg-emerald-100 font-extrabold text-xs flex items-center justify-center gap-1 active:scale-95 transition-all hidden">
+        <span>💡</span> <span class="truncate">View Solution</span>
+      </button>
+
+      <button onclick="handleMainAction()" id="btn-main-action" class="flex-[1.5] h-10 px-3 rounded-xl bg-slate-900 dark:bg-slate-700 hover:bg-slate-800 text-white font-black text-xs sm:text-sm shadow-sm active:scale-95 transition-all flex items-center justify-center gap-1.5">
+        <span id="btn-action-text" class="truncate">Skip Question</span>
+        <span id="btn-action-icon" class="flex shrink-0 items-center justify-center w-4 h-4">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg>
+        </span>
+      </button>
+    </div>
+
+    <div class="bg-slate-50 dark:bg-slate-950 py-1.5 border-t border-slate-200/50 dark:border-slate-800/50 flex items-center justify-center gap-4 text-[10px] font-extrabold text-slate-500 dark:text-slate-400">
+      <a href="https://t.me/MPSCstudysphere" target="_blank" rel="noopener noreferrer" class="hover:text-brand-blue dark:hover:text-blue-400 transition-colors flex items-center gap-1"><span>✈️</span> Telegram</a>
+      <span class="text-slate-300 dark:text-slate-700">•</span>
+      <button type="button" onclick="handleDonateClick()" class="hover:text-brand-accent transition-colors flex items-center gap-1"><span>❤️</span> Donate</button>
+      <span class="text-slate-300 dark:text-slate-700">•</span>
+      <button type="button" onclick="shareWebsite()" class="hover:text-emerald-500 transition-colors flex items-center gap-1"><span>🔗</span> Share</button>
+    </div>
+  </footer>
+
+  <!-- Toast Notification Bar -->
+  <div id="toastNotification" class="fixed bottom-24 right-4 sm:right-auto sm:left-1/2 sm:-translate-x-1/2 z-50 transform translate-y-10 opacity-0 transition-all duration-300 bg-slate-900 text-white dark:bg-white dark:text-slate-900 px-3.5 py-2 rounded-xl shadow-xl flex items-center gap-2 text-xs font-bold pointer-events-none border border-slate-700 dark:border-slate-300">
+    <span id="toastIcon" class="text-emerald-400 dark:text-emerald-600 text-sm">✓</span>
+    <span id="toastMessage">Success!</span>
+  </div>
+
+  <!-- Report Error Modal (Direct to Telegram with Screenshot Guide) -->
+  <div id="reportModal" role="dialog" aria-modal="true" class="fixed inset-0 z-50 bg-slate-900/80 backdrop-blur-xs hidden items-center justify-center p-3 sm:p-4">
+    <div class="bg-white dark:bg-slate-800 rounded-2xl w-full max-w-sm shadow-2xl border border-slate-200 dark:border-slate-700 overflow-hidden animate-slide-up flex flex-col">
+      <div class="px-4 py-3 bg-rose-50 dark:bg-rose-950/40 border-b border-rose-100 dark:border-rose-900/50 flex items-center justify-between">
+        <div class="flex items-center gap-2 text-rose-600 dark:text-rose-400 font-black text-xs sm:text-sm">
+          <span>🚩</span>
+          <span>प्रश्नातील त्रुटी नोंदवा (Report)</span>
+        </div>
+        <button onclick="closeModal('reportModal')" class="p-1 text-slate-400 hover:text-slate-700 dark:hover:text-white rounded-lg">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+        </button>
+      </div>
+      <div class="p-4 space-y-3 text-xs">
+        <div class="p-2.5 rounded-xl bg-slate-50 dark:bg-slate-900/50 border border-slate-200 dark:border-slate-700 leading-relaxed text-slate-700 dark:text-slate-300">
+          <p class="font-bold mb-1 text-slate-900 dark:text-white">📸 स्क्रीनशॉट पाठवा:</p>
+          कोणत्याही प्रश्नात टायपिंग चूक, संदर्भ किंवा चुकीचा पर्याय आढळल्यास कृपया <strong>स्क्रीनशॉट काढून आम्हाला टेलिग्रामवर पाठवा</strong>. आमची टीम तात्काळ पडताळणी करेल.
+        </div>
+        
+        <div class="flex flex-col gap-2 pt-1">
+          <a href="https://t.me/MPSCstudysphere" target="_blank" rel="noopener noreferrer" class="w-full py-2.5 rounded-xl bg-sky-600 hover:bg-sky-700 text-white font-black text-xs flex items-center justify-center gap-2 shadow-xs active:scale-95 transition-all">
+            <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.894 8.221l-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.446 1.394c-.16.16-.295.295-.605.295l.213-3.053 5.56-5.023c.242-.213-.054-.333-.373-.121l-6.871 4.326-2.962-.924c-.643-.204-.657-.643.136-.953l11.57-4.461c.535-.197 1.006.128.832.946z"/></svg>
+            <span>Telegram वर पाठवा (@MPSCstudysphere)</span>
+          </a>
+          <button onclick="takeReportQuestionSnapshot()" class="w-full py-2 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-700 dark:hover:bg-slate-600 text-slate-800 dark:text-slate-200 font-bold text-xs flex items-center justify-center gap-1.5 active:scale-95 transition-all border border-slate-300 dark:border-slate-600">
+          <span>📸 आधी स्क्रीनशॉट सेव्ह करा</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<!-- १. मोबाईल डोनेशन मोडल (Mobile UPI Intent — Fixed Zero-Scroll) -->
+<div id="mobileDonationModal" class="fixed inset-0 z-50 bg-black/75 backdrop-blur-xs hidden items-center justify-center p-3 no-print">
+  <div class="bg-white dark:bg-[#0d1728] rounded-2xl w-full max-w-sm shadow-2xl border border-slate-200 dark:border-[#1f3358] relative flex flex-col overflow-hidden animate-slide-up">
+    
+    <!-- Header with Sticky Close Button -->
+    <div class="bg-white dark:bg-[#0d1728] px-4 py-2.5 border-b border-slate-100 dark:border-[#1f3358] flex items-center justify-between shrink-0">
+      <div class="flex items-center gap-1.5">
+        <span class="text-amber-500 font-bold text-sm">❤️</span>
+        <span class="text-xs font-black text-slate-900 dark:text-white">StudySphere ला पाठिंबा द्या</span>
+      </div>
+      <button onclick="closeModal('mobileDonationModal')" class="p-1 text-slate-400 hover:text-slate-600 dark:hover:text-white rounded-lg transition-colors" aria-label="Close modal">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+      </button>
+    </div>
+
+    <!-- Content (Compact Zero-Scroll Body) -->
+    <div class="p-3.5 flex flex-col gap-2">
+      <div class="text-center">
+        <p class="text-[11px] text-slate-600 dark:text-slate-300 font-medium leading-tight">
+          विद्यार्थ्यांना मोफत व दर्जेदार टेस्ट्स उपलब्ध ठेवण्यासाठी आपले सहकार्य मोलाचे आहे.
+        </p>
+
+        <div class="mt-1.5 p-2 rounded-lg bg-amber-50 dark:bg-amber-950/40 border border-amber-200/80 dark:border-amber-900/50 text-left">
+          <p class="text-[10px] text-amber-900 dark:text-amber-200 leading-tight font-semibold">
+            💡 <span class="underline">नोंद:</span> ही वेबसाइट विनामूल्य चालवली जात आहे. तुमच्या सहकार्यामुळे ती अखंड व वेगवान राहील.
+          </p>
+        </div>
+      </div>
+
+      <!-- Quick Amount Selection Buttons -->
+      <div class="grid grid-cols-3 gap-1.5 pt-0.5">
+        <button type="button" onclick="selectDonationAmount(50)" class="donation-btn py-1.5 px-2 text-xs font-bold rounded-lg border border-slate-200 dark:border-[#1f3358] bg-slate-50 dark:bg-[#121e35] text-slate-800 dark:text-slate-200 transition-all">
+          ₹ ५०
+        </button>
+        <button type="button" onclick="selectDonationAmount(100)" class="donation-btn py-1.5 px-2 text-xs font-bold rounded-lg border-2 border-amber-500 bg-amber-50 dark:bg-amber-950/40 text-amber-700 dark:text-amber-300 transition-all">
+          ₹ १००
+        </button>
+        <button type="button" onclick="selectDonationAmount(200)" class="donation-btn py-1.5 px-2 text-xs font-bold rounded-lg border border-slate-200 dark:border-[#1f3358] bg-slate-50 dark:bg-[#121e35] text-slate-800 dark:text-slate-200 transition-all">
+          ₹ २००
+        </button>
+      </div>
+
+      <!-- Custom Amount Input -->
+      <div>
+        <label for="customAmountInput" class="block text-[10px] font-semibold text-slate-600 dark:text-slate-300 mb-0.5">किंवा आपली ऐच्छिक रक्कम (किमान ₹१०):</label>
+        <div class="relative">
+          <span class="absolute left-2.5 top-1.5 text-xs font-bold text-slate-400">₹</span>
+          <input type="number" id="customAmountInput" value="100" min="10" step="1" 
+                 oninput="validateCustomAmount()"
+                 placeholder="रक्कम टाका" 
+                 class="w-full pl-6 pr-2.5 py-1 text-xs rounded-lg border border-slate-200 dark:border-[#1f3358] bg-white dark:bg-[#121e35] text-slate-900 dark:text-white focus:outline-none focus:ring-1 focus:ring-amber-500 font-bold">
+        </div>
+        <p id="amountError" class="text-[10px] text-rose-500 mt-0.5 hidden font-medium">कृपया किमान ₹१० रक्कम टाका.</p>
+      </div>
+
+      <!-- UPI Intent Pay Button -->
+      <button onclick="triggerUPIPayment()" id="payNowBtn" 
+              class="w-full py-2 rounded-xl bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white font-bold text-xs shadow-md shadow-amber-500/20 active:scale-[0.98] transition-all flex items-center justify-center gap-1.5 mt-0.5">
+        <span>Pay with UPI (GPay / PhonePe / Paytm)</span>
+        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+      </button>
+
+      <p class="text-[9px] text-center text-slate-400 font-medium">UPI ॲप्सद्वारे थेट व १००% सुरक्षित ट्रान्सफर</p>
+    </div>
+  </div>
+</div>
+
+<!-- २. डेस्कटॉप डोनेशन मोडल (Desktop Live QR Code — Fixed Zero-Scroll) -->
+<div id="desktopDonationModal" class="fixed inset-0 z-50 bg-black/75 backdrop-blur-xs hidden items-center justify-center p-3 no-print">
+  <div class="bg-white dark:bg-[#0d1728] rounded-2xl w-full max-w-sm shadow-2xl border-2 border-slate-300 dark:border-[#1f3358] relative flex flex-col overflow-hidden animate-slide-up">
+    
+    <!-- Sticky Header -->
+    <div class="bg-white dark:bg-[#0d1728] px-4 py-2.5 border-b border-slate-200 dark:border-[#1f3358] flex items-center justify-between shrink-0">
+      <h3 class="text-xs font-bold text-slate-900 dark:text-white flex items-center gap-1.5">
+        <span>❤️</span> <span>StudySphere ला पाठिंबा द्या</span>
+      </h3>
+      <button onclick="closeModal('desktopDonationModal')" class="p-1 text-slate-400 hover:text-slate-600 dark:hover:text-white rounded-lg transition-colors" aria-label="Close modal">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+      </button>
+    </div>
+
+    <!-- Scrollable Body (Trimmed to fit cleanly) -->
+    <div class="p-3.5 flex flex-col gap-2 text-center">
+      <p class="text-[11px] text-slate-600 dark:text-slate-300 leading-tight font-medium">
+        कोणत्याही UPI ॲपवरून खालील QR कोड स्कॅन करून सुरक्षित सहकार्य करा.
+      </p>
+
+      <!-- Quick Amount Selection Buttons -->
+      <div class="grid grid-cols-3 gap-1.5">
+        <button type="button" onclick="selectDesktopAmount(50)" class="desktop-donation-btn py-1 px-1.5 text-xs font-bold rounded-lg border border-slate-200 dark:border-[#1f3358] bg-slate-50 dark:bg-[#121e35] text-slate-800 dark:text-slate-200">
+          ₹ ५०
+        </button>
+        <button type="button" onclick="selectDesktopAmount(100)" class="desktop-donation-btn py-1 px-1.5 text-xs font-bold rounded-lg border-2 border-amber-500 bg-amber-50 dark:bg-amber-950/40 text-amber-700 dark:text-amber-300">
+          ₹ १००
+        </button>
+        <button type="button" onclick="selectDesktopAmount(200)" class="desktop-donation-btn py-1 px-1.5 text-xs font-bold rounded-lg border border-slate-200 dark:border-[#1f3358] bg-slate-50 dark:bg-[#121e35] text-slate-800 dark:text-slate-200">
+          ₹ २००
+        </button>
+      </div>
+
+      <!-- Desktop Custom Amount Input & Dynamic QR Button -->
+      <div class="text-left">
+        <div class="flex items-center gap-1.5">
+          <div class="relative flex-1">
+            <span class="absolute left-2.5 top-1.5 text-xs font-bold text-slate-400">₹</span>
+            <input type="number" id="desktopCustomAmountInput" value="100" min="10" step="1" 
+                   oninput="handleDesktopAmountInput(this.value)"
+                   placeholder="रक्कम टाका" 
+                   class="w-full pl-6 pr-2 py-1 text-xs rounded-lg border border-slate-200 dark:border-[#1f3358] bg-white dark:bg-[#121e35] text-slate-900 dark:text-white focus:outline-none focus:ring-1 focus:ring-amber-500 font-bold">
+          </div>
+          <button type="button" onclick="generateDesktopCustomQr()" 
+                  class="px-2.5 py-1 rounded-lg bg-orange-600 hover:bg-orange-700 text-white font-bold text-xs transition-all shadow-xs shrink-0 active:scale-95">
+            QR बनवा
+          </button>
+        </div>
+        <p id="desktopAmountError" class="text-[10px] text-rose-500 mt-0.5 hidden font-medium">किमान ₹१० किंवा अधिक रक्कम टाका.</p>
+      </div>
+
+      <!-- Live Dynamic QR Code Container (Scaled to 135px) -->
+      <div class="bg-white p-2 rounded-xl border-2 border-dashed border-amber-400 w-36 h-36 mx-auto flex flex-col items-center justify-center shadow-xs">
+        <img id="desktopDynamicQrImg" 
+             src="https://api.qrserver.com/v1/create-qr-code/?size=135x135&data=upi%3A%2F%2Fpay%3Fpa%3Dvikram.joshi9089%40oksbi%26pn%3DStudySphere%26am%3D100%26cu%3DINR%26tn%3DStudySphere%2520MPSC%2520Donation" 
+             onerror="handleQrImageError(this)"
+             alt="StudySphere UPI QR Code" 
+             class="w-32 h-32 object-contain rounded-md block">
+      </div>
+
+      <!-- Scannable Amount Tag -->
+      <div class="text-xs font-bold text-slate-700 dark:text-slate-300">
+        स्कॅन रक्कम: <span id="desktopQrAmountLabel" class="text-orange-600 dark:text-orange-400 font-black text-xs">₹ १००</span>
+      </div>
+
+      <div class="pt-1 border-t border-slate-200 dark:border-[#1f3358]">
+        <button onclick="closeModal('desktopDonationModal')" class="px-4 py-1 rounded-lg bg-slate-100 hover:bg-slate-200 dark:bg-[#121e35] dark:hover:bg-[#172744] text-[11px] font-bold text-slate-700 dark:text-slate-300">
+          बंद करा (Close)
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ३. आभार मोडल (Thank You Confirmation Modal) -->
+<div id="thankYouModal" class="fixed inset-0 z-50 bg-black/75 backdrop-blur-xs hidden items-center justify-center p-3 no-print">
+  <div class="bg-white dark:bg-[#0d1728] rounded-2xl w-full max-w-xs p-5 shadow-2xl border-2 border-emerald-500 text-center relative animate-slide-up">
+    <div class="w-10 h-10 bg-emerald-100 dark:bg-emerald-950 text-emerald-600 rounded-full flex items-center justify-center mx-auto mb-2">
+      <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+    </div>
+    <h3 class="text-sm font-extrabold text-slate-900 dark:text-white">सहकार्य केल्याबद्दल धन्यवाद!</h3>
+    <p class="text-[11px] text-slate-600 dark:text-slate-300 mt-1.5 leading-snug font-medium">
+      तुमचा हा पाठिंबा महाराष्ट्रातील हजारो होतकरू स्पर्धा परीक्षा विद्यार्थ्यांना मोफत टेस्ट्स पोहोचवण्यासाठी आणि वेबसाइट अधिक गतिशील ठेवण्यासाठी मोलाचा ठरेल.
+    </p>
+    <button onclick="closeModal('thankYouModal')" class="mt-3 w-full py-2 rounded-xl bg-orange-600 hover:bg-orange-700 text-white font-bold text-xs shadow-md">
+      सराव सुरू ठेवा (Continue)
+    </button>
+  </div>
+</div>
+
+  <!-- API Key Setup / Onboarding Modal -->
+  <div id="apiKeyModal" role="dialog" aria-modal="true" class="fixed inset-0 z-50 bg-slate-900/80 backdrop-blur-md hidden items-center justify-center p-4">
+    <div class="bg-white dark:bg-slate-800 w-full max-w-md rounded-[2rem] shadow-2xl border border-slate-100 dark:border-slate-700 flex flex-col max-h-[92vh] overflow-hidden animate-slide-up">
+      <div class="px-5 py-3.5 border-b border-slate-100 dark:border-slate-700/50 flex items-center justify-between bg-slate-50 dark:bg-slate-800/50 shrink-0">
+        <div class="flex items-center gap-2.5">
+          <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center text-white text-base shadow-sm">🧠</div>
+          <div>
+            <h3 class="font-extrabold text-sm text-slate-900 dark:text-white" id="apiKeyModalTitle">AI Engine Setup</h3>
+            <span class="px-1.5 py-0.2 rounded text-[8px] font-black uppercase bg-emerald-100 text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-800 inline-block">100% Free Forever</span>
+          </div>
+        </div>
+        <button id="apiKeyModalCloseBtn" onclick="closeApiKeyModal()" class="p-1.5 text-slate-400 hover:text-slate-800 dark:hover:text-white rounded-full hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors">
+          <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+        </button>
+      </div>
+
+      <div class="p-5 overflow-y-auto flex-1 text-sm space-y-3.5">
+        <div class="p-3.5 rounded-xl bg-sky-50 dark:bg-sky-900/10 border border-sky-100 dark:border-sky-800/30 text-sky-900 dark:text-sky-200 text-xs leading-relaxed">
+          <p class="font-bold mb-0.5">🔒 Safe, Client-Side Architecture:</p>
+          Your key securely connects your browser directly to Google Gemini. It is saved only in your local browser cache.
+        </div>
+
+        <div id="demoBoxContainer" class="p-3 rounded-xl bg-amber-50 dark:bg-amber-900/10 border border-amber-200 dark:border-amber-800/30 flex items-center justify-between gap-3">
+          <div>
+            <h4 class="text-xs font-black text-slate-900 dark:text-white">New here? Try Demo First</h4>
+            <p class="text-[10px] text-slate-600 dark:text-slate-400">Experience 2 questions instantly without any key.</p>
+          </div>
+          <button type="button" onclick="enterInteractiveDemo()" class="px-3.5 py-2 rounded-xl bg-amber-500 hover:bg-amber-600 text-amber-950 font-black text-xs shadow-xs active:scale-95 transition-all shrink-0">
+            👁️ Play Demo
+          </button>
+        </div>
+
+        <div class="space-y-1.5 pt-1">
+          <div class="flex justify-between items-center">
+            <label class="block text-[10px] font-black uppercase text-slate-500 tracking-wider">Paste Google Gemini API Key *</label>
+            <span class="text-[9px] bg-slate-100 dark:bg-slate-700 text-slate-500 px-1.5 py-0.5 rounded font-bold" id="activeModelBadge">gemini-flash</span>
+          </div>
+          <div class="relative">
+            <input type="password" id="apiKeyInput" placeholder="AIzaSy..." class="w-full pl-3 pr-10 py-2.5 text-xs rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900/50 text-slate-800 dark:text-slate-100 font-mono focus:outline-none focus:border-brand-blue">
+            <button type="button" onclick="togglePasswordVisibility('apiKeyInput', this)" class="absolute right-3 top-2 text-slate-400 hover:text-slate-600 text-sm">👁️</button>
+          </div>
+          <p id="keyStatusMsg" class="text-[10px] font-bold hidden mt-1"></p>
+        </div>
+
+        <div class="flex items-center gap-2 pt-1">
+          <button id="btnTestKey" onclick="testApiKeyConnection()" class="flex-[2] py-2.5 rounded-xl bg-sky-50 dark:bg-sky-900/20 hover:bg-sky-100 text-sky-600 dark:text-sky-400 border border-sky-200 dark:border-sky-800 font-black text-xs shadow-xs active:scale-95 transition-all">⚡ Check Key</button>
+          <button id="btnSaveKey" onclick="saveApiKey()" class="hidden flex-[2] py-2.5 rounded-xl bg-brand-blue hover:bg-blue-700 text-white font-black text-xs shadow-md active:scale-95 transition-all">✓ Connect & Start</button>
+          <button id="btnDeleteKey" onclick="removeApiKey()" class="hidden px-3.5 py-2.5 rounded-xl bg-rose-50 dark:bg-rose-900/20 hover:bg-rose-100 text-rose-600 border border-rose-200 dark:border-rose-800 font-black text-xs shadow-xs active:scale-95 transition-all">🗑️</button>
+        </div>
+
+        <p class="text-[10px] text-slate-500 text-center mt-1 border-t border-slate-100 dark:border-slate-700/50 pt-2.5">
+          Get your free key in 1 click from Google: <br/>
+          <a href="https://aistudio.google.com/app/apikey" target="_blank" rel="noopener noreferrer" class="text-brand-blue dark:text-blue-400 underline font-extrabold text-[11px] hover:text-blue-600 transition-colors">Google AI Studio ↗</a>
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Multi-Select Dynamic Filter Modal -->
+  <div id="filterModal" role="dialog" aria-modal="true" class="fixed inset-0 z-50 bg-slate-900/70 backdrop-blur-md hidden flex-col justify-end sm:justify-center items-center p-0 sm:p-4 transition-opacity">
+    <div class="bg-white dark:bg-slate-800 w-full sm:max-w-xl sm:rounded-[2rem] rounded-t-[2rem] shadow-2xl border border-slate-100 dark:border-slate-700 flex flex-col overflow-hidden animate-slide-up max-h-[88vh]">
+      <div class="p-4 border-b border-slate-100 dark:border-slate-700 flex items-center justify-between shrink-0 bg-slate-50 dark:bg-slate-800/50">
+        <div>
+          <h3 class="font-black text-slate-900 dark:text-white flex items-center gap-2 text-sm sm:text-base">⚙️ Practice Target Setup</h3>
+          <p class="text-[10px] text-slate-500 dark:text-slate-400">निवडलेल्या परीक्षेनुसार अभ्यासक्रम आपोआप बदलेल</p>
+        </div>
+        <button onclick="closeModal('filterModal')" class="p-1.5 text-slate-400 hover:text-slate-800 dark:hover:text-white rounded-full hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors"><svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg></button>
+      </div>
+
+      <div class="p-4 sm:p-5 overflow-y-auto space-y-3.5 flex-1">
+        <div>
+          <label class="block text-[10px] font-black text-slate-400 mb-1.5 uppercase tracking-wider">1. Exam Target (परीक्षा निवडा)</label>
+          <div class="grid grid-cols-3 gap-2">
+            <button onclick="setModalFilter('exam', 'rajyaseva')" class="flt-btn exam-btn py-2 px-1 text-center rounded-xl border-2 font-bold text-xs transition-colors">Rajyaseva</button>
+            <button onclick="setModalFilter('exam', 'group-b')" class="flt-btn exam-btn py-2 px-1 text-center rounded-xl border-2 font-bold text-xs transition-colors">Group B (Combine)</button>
+            <button onclick="setModalFilter('exam', 'group-c')" class="flt-btn exam-btn py-2 px-1 text-center rounded-xl border-2 font-bold text-xs transition-colors">Group C (Combine)</button>
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-[10px] font-black text-slate-400 mb-1.5 uppercase tracking-wider">2. Stage (परीक्षेचा टप्पा)</label>
+          <div class="grid grid-cols-2 gap-2">
+            <button onclick="setModalFilter('stage', 'Prelims')" class="flt-btn stage-btn py-2 px-2 text-center rounded-xl border-2 font-bold text-xs transition-colors">Prelims (पूर्व परीक्षा)</button>
+            <button onclick="setModalFilter('stage', 'Mains')" class="flt-btn stage-btn py-2 px-2 text-center rounded-xl border-2 font-bold text-xs transition-colors">Mains (मुख्य परीक्षा)</button>
+          </div>
+        </div>
+
+        <div>
+          <div class="flex items-center justify-between mb-1.5">
+            <label class="block text-[10px] font-black text-slate-400 uppercase tracking-wider">3. Subjects (विषय निवडा)</label>
+            <span class="text-[9px] text-brand-blue font-bold">1-Click Group Select Enabled</span>
+          </div>
+          <div class="space-y-2.5" id="filter-subject-groups-container"></div>
+        </div>
+
+        <div>
+          <label class="block text-[10px] font-black text-slate-400 mb-1.5 uppercase tracking-wider">4. Difficulty Level (काठिण्य पातळी)</label>
+          <div class="grid grid-cols-2 gap-2">
+            <button onclick="setModalFilter('diff', 'Medium')" class="flt-btn diff-btn py-2 px-2 rounded-xl border-2 font-bold text-xs transition-colors text-center">Medium (Standard)</button>
+            <button onclick="setModalFilter('diff', 'Hard')" class="flt-btn diff-btn py-2 px-2 rounded-xl border-2 font-bold text-xs transition-colors text-center">Hard (Multi-Statement & Pairs)</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="p-3.5 border-t border-slate-100 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/50 shrink-0">
+        <button onclick="applyFilters()" class="w-full py-2.5 rounded-xl bg-brand-blue hover:bg-blue-700 text-white font-black text-xs sm:text-sm shadow-md active:scale-95 transition-all">
+          Apply & Start Practice (सराव सुरू करा)
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- AI Info Modal -->
+  <div id="infoModal" role="dialog" aria-modal="true" class="fixed inset-0 z-50 bg-slate-900/70 backdrop-blur-sm hidden items-center justify-center p-4">
+    <div class="bg-white dark:bg-slate-800 w-full max-w-sm rounded-[2rem] shadow-2xl border border-slate-100 dark:border-slate-700 flex flex-col overflow-hidden animate-slide-up">
+      <div class="p-4 border-b border-slate-100 dark:border-slate-700 flex items-center justify-between bg-slate-50 dark:bg-slate-800/50 shrink-0">
+        <h3 class="font-black text-slate-900 dark:text-white flex items-center gap-2 text-sm">
+          <span class="w-6 h-6 rounded-full bg-sky-100 text-sky-500 flex items-center justify-center font-serif italic">i</span> AI Practice Disclaimer
+        </h3>
+        <button onclick="closeModal('infoModal')" class="p-1 text-slate-400 hover:text-slate-800 dark:hover:text-white rounded-full hover:bg-slate-200 dark:hover:bg-slate-700">
+          <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+        </button>
+      </div>
+      <div class="p-4 space-y-3 text-xs text-slate-600 dark:text-slate-300 leading-relaxed max-h-[60vh] overflow-y-auto">
+        <div class="p-2.5 rounded-xl bg-sky-50 dark:bg-sky-900/10 border border-sky-100 dark:border-sky-800/30 text-sky-900 dark:text-sky-200">
+          <p class="font-bold mb-0.5 text-sky-700 dark:text-sky-400">🤖 AI-Generated Syllabus Matching:</p>
+          <p>Questions are dynamically generated based on standard MPSC textbooks, previous trends, and reference notes.</p>
+        </div>
+        <ul class="list-disc list-inside space-y-1">
+          <li>For personal revision and rapid MCQ speed-drilling.</li>
+          <li>Always cross-reference with official Maharashtra State Board & MPSC keys for final arbitration.</li>
+          <li>Use the 🚩 Report Error button to alert our syllabus review team on Telegram.</li>
+        </ul>
+      </div>
+      <div class="p-3 border-t border-slate-100 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/50">
+        <button onclick="closeModal('infoModal')" class="w-full py-2 rounded-xl bg-slate-900 dark:bg-white text-white dark:text-slate-900 font-extrabold text-xs shadow-md active:scale-95">Got it</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    /* Global Application State */
+    let questionQueue = [];
+    let currentQuestion = null;
+    let isAnswered = false;
+    let selectedOptionIndex = null;
+    let correctStreak = 0;
+    let isFetchingAI = false;
+    let isWaitingForNext = false;
+    let isDemoActive = false;
+    let isAwaitingGreetingChoice = false;
+    let isOnboardingActive = false;
+
+    // History and Navigation State
+    let sessionHistory = [];
+    let currentHistoryIndex = -1;
+
+    let lang = 'mr'; 
+    const sizes = ['s', 'm', 'l'];
+    let sIdx = 1;
+
+    // Intelligent Multi-Model Fallback Sequence
+    const CANDIDATE_MODELS = [
+      "gemini-3.5-flash-lite"
+    ];
+    let activeGeminiModel = localStorage.getItem('qq_active_model') || CANDIDATE_MODELS[0];
+
+    // Default filters
+    let filters = { exam: 'group-c', stage: 'Prelims', subjects: ['History'], diff: 'Medium' };
+    let modalFilters = JSON.parse(JSON.stringify(filters));
+
+    const syllabusHierarchy = {
+      'rajyaseva': {
+        'Prelims': [
+          {
+            groupId: "gs_pre",
+            groupName: "General Studies (सामान्य अध्ययन)",
+            subjects: ["Current Affairs", "History of India", "History of Maharashtra", "Indian National Movement", "Geography of India", "Geography of Maharashtra", "World Geography", "Indian Polity and Constitution", "Maharashtra Administration", "Indian Economy", "Maharashtra Economy", "General Science", "Environment and Ecology"]
+          },
+          {
+            groupId: "csat_pre",
+            groupName: "CSAT (गणित व बुद्धिमत्ता)",
+            subjects: ["CSAT Logical Reasoning", "CSAT Analytical Ability", "CSAT Decision Making", "CSAT Basic Numeracy", "CSAT Data Interpretation", "CSAT Comprehension"]
+          }
+        ],
+        'Mains': [
+          { groupId: "lang_mr", groupName: "मराठी भाषा ज्ञान", subjects: ["Marathi Grammar", "Marathi Vocabulary", "Marathi Comprehension"] },
+          { groupId: "lang_en", groupName: "English Language", subjects: ["English Grammar", "English Vocabulary", "English Comprehension"] },
+          { groupId: "gs_mains", groupName: "GS Papers 1 to 4", subjects: ["Indian History", "Maharashtra History", "Geography of India", "Geography of Maharashtra", "Indian Constitution", "Governance", "Indian Economy", "Maharashtra Economy", "Agriculture", "Science and Technology", "Ethics and Integrity"] }
+        ]
+      },
+      'group-b': {
+        'Prelims': [
+          { groupId: "gs_pre_b", groupName: "General Studies (संयुक्त पूर्व)", subjects: ["Current Affairs", "History of India", "History of Maharashtra", "Geography of India", "Geography of Maharashtra", "Indian Constitution", "Indian Polity", "Economics", "General Science"] },
+          { groupId: "apt_pre_b", groupName: "Aptitude & Reasoning", subjects: ["Arithmetic", "Logical Reasoning", "Intelligence Test"] }
+        ],
+        'Mains': [
+          { groupId: "lang_mr_b", groupName: "मराठी भाषा (Paper 1)", subjects: ["Marathi Grammar", "Marathi Vocabulary", "Marathi Comprehension"] },
+          { groupId: "lang_en_b", groupName: "English Language (Paper 1)", subjects: ["English Grammar", "English Vocabulary", "English Comprehension"] },
+          { groupId: "gs_laws_b", groupName: "Paper 2 — GS & Laws", subjects: ["General Knowledge & Current Affairs", "Indian Constitution & Polity", "Criminal Law & Police Admin (PSI)", "Taxation & Accountancy (STI)", "Administrative Law (ASO)"] }
+        ]
+      },
+      'group-c': {
+        'Prelims': [
+          { groupId: "gs_pre_c", groupName: "General Studies (शालेय स्तर व GS)", subjects: ["Current Affairs", "History", "Geography", "Polity and Constitution", "Economics", "General Science"] },
+          { groupId: "apt_pre_c", groupName: "Aptitude & Reasoning", subjects: ["Arithmetic", "Logical Reasoning", "Intelligence Test"] }
+        ],
+        'Mains': [
+          { groupId: "lang_mr_c", groupName: "मराठी भाषा (Paper 1)", subjects: ["Marathi Grammar", "Marathi Vocabulary", "Marathi Comprehension"] },
+          { groupId: "lang_en_c", groupName: "English Language (Paper 1)", subjects: ["English Grammar", "English Vocabulary", "English Comprehension"] },
+          { groupId: "gs_special_c", groupName: "Paper 2 — Special GS & Acts", subjects: ["General Knowledge & Current Affairs", "Information Technology & Cyber (IT)", "RTI 2005 & RTS 2015 Acts", "Accountancy & Bookkeeping", "Office Procedure & Drafting"] }
+        ]
+      }
+    };
+
+    window.onload = async () => {
+      initTheme();
+      restoreSavedFilters();
+      restoreStreak();
+      updateAPIKeyUI();
+      updateDesktopQr(101);
+      registerServiceWorker();
+
+      const apiKey = getStoredApiKey();
+
+      if (!apiKey && !isDemoActive) {
+        document.getElementById('emptyState').classList.remove('hidden');
+        document.getElementById('quizContentArea').classList.add('hidden');
+        openOnboardingModal();
+      } else {
+        document.getElementById('emptyState').classList.add('hidden');
+        document.getElementById('quizContentArea').classList.remove('hidden');
+        
+        const savedQueue = sessionStorage.getItem('qq_active_queue');
+        const savedCurrent = sessionStorage.getItem('qq_current_q');
+        const savedHistory = sessionStorage.getItem('qq_session_history');
+
+        if (savedHistory) {
+          try { sessionHistory = JSON.parse(savedHistory); } catch(e) { sessionHistory = []; }
+        }
+
+        if (savedCurrent) {
+          try {
+            currentQuestion = JSON.parse(savedCurrent);
+            questionQueue = savedQueue ? JSON.parse(savedQueue) : [];
+            isAnswered = sessionStorage.getItem('qq_is_answered') === 'true';
+            selectedOptionIndex = sessionStorage.getItem('qq_sel_opt') ? parseInt(sessionStorage.getItem('qq_sel_opt')) : null;
+            renderQuestionUI();
+            checkSavedStatus();
+            updateBufferStatusUI();
+            updateNavigationButtons();
+          } catch(e) {
+            sessionStorage.removeItem('qq_current_q');
+            evaluateSessionAndReturnFlow();
+          }
+        } else {
+          evaluateSessionAndReturnFlow();
+        }
+      }
+    };
+
+    function openOnboardingModal() {
+      isOnboardingActive = true;
+      const modal = document.getElementById('apiKeyModal');
+      const closeBtn = document.getElementById('apiKeyModalCloseBtn');
+      const title = document.getElementById('apiKeyModalTitle');
+      
+      if (closeBtn) closeBtn.classList.add('hidden');
+      if (title) title.textContent = "Welcome to QuickQuiz!";
+      
+      document.getElementById('apiKeyInput').value = '';
+      document.getElementById('keyStatusMsg').classList.add('hidden');
+      updateAPIKeyUI();
+      openModal('apiKeyModal');
+    }
+
+    function openApiKeyModal(isExplicit = false) {
+      const apiKey = getStoredApiKey();
+      const closeBtn = document.getElementById('apiKeyModalCloseBtn');
+      const title = document.getElementById('apiKeyModalTitle');
+      
+      if (!apiKey && !isDemoActive) {
+        if (closeBtn) closeBtn.classList.add('hidden');
+        if (title) title.textContent = "Welcome to QuickQuiz!";
+        isOnboardingActive = true;
+      } else {
+        if (closeBtn) closeBtn.classList.remove('hidden');
+        if (title) title.textContent = "AI Engine Setup";
+        isOnboardingActive = false;
+      }
+
+      document.getElementById('apiKeyInput').value = apiKey;
+      document.getElementById('keyStatusMsg').classList.add('hidden');
+      updateAPIKeyUI();
+      openModal('apiKeyModal');
+    }
+
+    function closeApiKeyModal() {
+      if (isOnboardingActive) return; 
+      closeModal('apiKeyModal');
+    }
+
+    function evaluateSessionAndReturnFlow() {
+      const now = Date.now();
+      const lastActive = parseInt(localStorage.getItem('qq_last_active') || '0', 10);
+      let sessionCount = parseInt(localStorage.getItem('qq_user_sessions') || '1', 10);
+      const isReturnAfterBreak = (lastActive > 0 && (now - lastActive > 30 * 60 * 1000));
+
+      if (isReturnAfterBreak) {
+        sessionCount += 1;
+        localStorage.setItem('qq_user_sessions', sessionCount.toString());
+        showSmartGreetingBanner(sessionCount);
+      } else {
+        fetchAiQuestionsBatch(true);
+      }
+      localStorage.setItem('qq_last_active', now.toString());
+    }
+
+    function showSmartGreetingBanner(sessionNum) {
+      const banner = document.getElementById('smartGreetingBanner');
+      const badge = document.getElementById('sessionTagBadge');
+      const targetText = document.getElementById('greetingTargetText');
+      const streakText = document.getElementById('greetingStreakCount');
+      
+      if (banner && badge && targetText && streakText) {
+        isAwaitingGreetingChoice = true;
+        const eName = filters.exam === 'group-c' ? 'Group C' : (filters.exam === 'group-b' ? 'Group B' : 'Rajya');
+        const sName = filters.subjects.length > 2 ? `${filters.subjects[0]} +${filters.subjects.length - 1}` : filters.subjects.join(', ');
+        badge.textContent = `Session #${sessionNum} today`;
+        targetText.textContent = `${eName} • ${filters.stage} • ${sName}`;
+        streakText.textContent = `${correctStreak} Streak`;
+        banner.classList.remove('hidden');
+      }
+    }
+
+    function hideSmartGreetingBanner() {
+      const banner = document.getElementById('smartGreetingBanner');
+      if (banner) banner.classList.add('hidden');
+    }
+
+    function handleContinueGreetingTarget() {
+      isAwaitingGreetingChoice = false;
+      hideSmartGreetingBanner();
+      showToast("Target confirmed! Loading questions...");
+      fetchAiQuestionsBatch(true);
+    }
+
+    function handleChangeGreetingTarget() {
+      hideSmartGreetingBanner();
+      openFilterModal();
+    }
+
+    function getStoredApiKey() {
+      return (localStorage.getItem('gemini_api_key') || localStorage.getItem('studySphere_gemini_key') || '').trim();
+    }
+
+    function restoreStreak() {
+      correctStreak = parseInt(localStorage.getItem('qq_correct_streak') || '0', 10);
+      document.getElementById('streakCount').textContent = `${correctStreak} Streak`;
+    }
+
+    function saveActiveSessionState() {
+      if (currentQuestion) {
+        sessionStorage.setItem('qq_current_q', JSON.stringify(currentQuestion));
+        sessionStorage.setItem('qq_active_queue', JSON.stringify(questionQueue));
+        sessionStorage.setItem('qq_session_history', JSON.stringify(sessionHistory));
+        sessionStorage.setItem('qq_is_answered', isAnswered ? 'true' : 'false');
+        sessionStorage.setItem('qq_sel_opt', selectedOptionIndex !== null ? selectedOptionIndex.toString() : '');
+      }
+      localStorage.setItem('qq_last_active', Date.now().toString());
+    }
+
+    function restoreSavedFilters() {
+      const savedFilters = localStorage.getItem('qq_saved_filters');
+      if (savedFilters) {
+        try { filters = JSON.parse(savedFilters); } catch(e) {}
+      }
+      updateActiveFilterDisplay();
+    }
+
+    function updateActiveFilterDisplay() {
+      const eName = filters.exam === 'group-c' ? 'Group C' : (filters.exam === 'group-b' ? 'Group B' : 'Rajya');
+      const sName = filters.subjects.length > 2 ? `${filters.subjects[0]} +${filters.subjects.length - 1} more` : (filters.subjects.join(', ') || 'All');
+      document.getElementById('activeFilterText').textContent = `${eName} • ${filters.stage} • ${sName}`;
+    }
+
+    function recordSeenTopic(topic) {
+      if (!topic) return;
+      let seen = [];
+      try { seen = JSON.parse(localStorage.getItem('qq_seen_topics') || '[]'); } catch(e) { seen = []; }
+      if (!seen.includes(topic)) {
+        seen.unshift(topic);
+        if (seen.length > 30) seen = seen.slice(0, 30);
+        localStorage.setItem('qq_seen_topics', JSON.stringify(seen));
+      }
+    }
+
+    function getSeenTopicsBlacklist() {
+      try {
+        const seen = JSON.parse(localStorage.getItem('qq_seen_topics') || '[]');
+        return seen.slice(0, 15).join(', ');
+      } catch(e) { return ''; }
+    }
+
+    let toastTimeout;
+    function showToast(message, isError = false) {
+      const toast = document.getElementById('toastNotification');
+      const msgSpan = document.getElementById('toastMessage');
+      const iconSpan = document.getElementById('toastIcon');
+      if (!toast || !msgSpan) return;
+      
+      msgSpan.textContent = message;
+      if (isError) {
+        toast.className = "fixed bottom-24 right-4 sm:right-auto sm:left-1/2 sm:-translate-x-1/2 z-50 transform translate-y-0 opacity-100 transition-all duration-300 bg-rose-950 text-white px-3.5 py-2 rounded-xl shadow-xl flex items-center gap-2 text-xs font-bold border border-rose-600";
+        iconSpan.textContent = '✕';
+        iconSpan.className = 'text-rose-400 text-sm';
+      } else {
+        toast.className = "fixed bottom-24 right-4 sm:right-auto sm:left-1/2 sm:-translate-x-1/2 z-50 transform translate-y-0 opacity-100 transition-all duration-300 bg-slate-900 text-white dark:bg-white dark:text-slate-900 px-3.5 py-2 rounded-xl shadow-xl flex items-center gap-2 text-xs font-bold border border-slate-700 dark:border-slate-300";
+        iconSpan.textContent = '✓';
+        iconSpan.className = 'text-emerald-400 dark:text-emerald-600 text-sm';
+      }
+
+      clearTimeout(toastTimeout);
+      toastTimeout = setTimeout(() => {
+        toast.classList.remove('translate-y-0', 'opacity-100');
+        toast.classList.add('translate-y-10', 'opacity-0');
+      }, 3000);
+    }
+
+    function openReportModal() {
+      openModal('reportModal');
+    }
+
+    function fireConfetti() {
+      const colors = ['#f95959', '#10b981', '#3b82f6', '#f59e0b', '#8b5cf6'];
+      for(let i=0; i<25; i++) {
+        const conf = document.createElement('div');
+        conf.className = 'confetti animate-confetti-fall';
+        conf.style.left = Math.random() * 100 + 'vw';
+        conf.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+        conf.style.animationDuration = (Math.random() * 2 + 1.8) + 's';
+        conf.style.animationDelay = (Math.random() * 0.4) + 's';
+        document.body.appendChild(conf);
+        setTimeout(() => conf.remove(), 4000);
+      }
+    }
+
+    function initTheme() {
+      if (localStorage.getItem('theme') === 'dark' || (!localStorage.getItem('theme') && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+        document.documentElement.classList.add('dark');
+      } else {
+        document.documentElement.classList.remove('dark');
+      }
+      document.getElementById('themeIcon').textContent = document.documentElement.classList.contains('dark') ? '☀️' : '🌙';
+    }
+    function toggleTheme() {
+      document.documentElement.classList.toggle('dark');
+      localStorage.setItem('theme', document.documentElement.classList.contains('dark') ? 'dark' : 'light');
+      initTheme();
+      showToast(document.documentElement.classList.contains('dark') ? 'Dark Mode' : 'Light Mode');
+    }
+    function toggleFont() {
+      sIdx = (sIdx + 1) % sizes.length;
+      document.body.classList.remove('font-s', 'font-m', 'font-l');
+      document.body.classList.add(`font-${sizes[sIdx]}`);
+      document.getElementById('fontBadge').textContent = sizes[sIdx].toUpperCase();
+    }
+    function toggleLang() { 
+      lang = (lang === 'mr') ? 'en' : 'mr'; 
+      renderQuestionUI(); 
+    }
+    function getLocalText(obj) {
+      if (!obj) return "";
+      if (typeof obj === 'string') return obj.trim();
+      return (obj[lang] || obj['mr'] || obj['en'] || "").trim();
+    }
+
+    function updateAPIKeyUI() {
+      const key = getStoredApiKey();
+      const statusText = document.getElementById('apiKeyStatusText');
+      const btnTest = document.getElementById('btnTestKey');
+      const btnSave = document.getElementById('btnSaveKey');
+      const btnDelete = document.getElementById('btnDeleteKey');
+      const demoBox = document.getElementById('demoBoxContainer');
+      const modelBadge = document.getElementById('activeModelBadge');
+      if (modelBadge) modelBadge.textContent = activeGeminiModel;
+
+      if (isDemoActive) {
+        statusText.textContent = "Demo";
+      } else if (key) {
+        statusText.textContent = "Key Active ✓";
+        if(demoBox) demoBox.classList.add('hidden');
+        if(btnSave) btnSave.classList.add('hidden');
+        if(btnDelete) btnDelete.classList.remove('hidden');
+        if(btnTest) btnTest.classList.remove('hidden');
+      } else {
+        statusText.textContent = "Set Key";
+        if(demoBox) demoBox.classList.remove('hidden');
+        if(btnSave) btnSave.classList.add('hidden'); 
+        if(btnDelete) btnDelete.classList.add('hidden');
+        if(btnTest) btnTest.classList.remove('hidden');
+      }
+    }
+
+    function togglePasswordVisibility(inputId, btn) {
+      const input = document.getElementById(inputId);
+      input.type = input.type === 'password' ? 'text' : 'password';
+      btn.textContent = input.type === 'password' ? '👁️' : '🔒';
+    }
+
+    async function testApiKeyConnection() {
+      const input = document.getElementById('apiKeyInput');
+      const statusEl = document.getElementById('keyStatusMsg');
+      const val = input.value.trim();
+
+      if (!val || val.length < 15) {
+        statusEl.textContent = "कृपया योग्य API Key टाका (Key should start with AIzaSy...).";
+        statusEl.className = "text-[10px] font-bold text-rose-500 block mt-1";
+        statusEl.classList.remove('hidden');
+        return;
+      }
+
+      statusEl.textContent = "Connecting to Gemini AI Engine...";
+      statusEl.className = "text-[10px] font-bold text-sky-500 block mt-1";
+      statusEl.classList.remove('hidden');
+
+      let verified = false;
+      let workingModel = "";
+
+      for (let model of CANDIDATE_MODELS) {
+        try {
+          const testUrl = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${val}`;
+          const res = await fetch(testUrl, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ contents: [{ parts: [{ text: "Hello" }] }] })
+          });
+          if (res.ok) {
+            verified = true;
+            workingModel = model;
+            break;
+          }
+        } catch(e) {}
+      }
+
+      if (verified) {
+        activeGeminiModel = workingModel;
+        localStorage.setItem('qq_active_model', activeGeminiModel);
+        statusEl.textContent = `✓ Connected! Model: ${activeGeminiModel}`;
+        statusEl.className = "text-[10px] font-bold text-emerald-500 block mt-1";
+        document.getElementById('btnSaveKey').classList.remove('hidden');
+        document.getElementById('btnTestKey').classList.add('hidden');
+        const badge = document.getElementById('activeModelBadge');
+        if (badge) badge.textContent = activeGeminiModel;
+      } else {
+        statusEl.textContent = "✕ Connection Failed. Please verify key from Google AI Studio.";
+        statusEl.className = "text-[10px] font-bold text-rose-500 block mt-1";
+      }
+    }
+
+    function saveApiKey() {
+      const val = document.getElementById('apiKeyInput').value.trim();
+      if (!val) return;
+      isDemoActive = false;
+      isOnboardingActive = false;
+      localStorage.setItem('studySphere_gemini_key', val);
+      localStorage.setItem('gemini_api_key', val);
+      updateAPIKeyUI();
+      closeModal('apiKeyModal');
+      document.getElementById('emptyState').classList.add('hidden');
+      document.getElementById('quizContentArea').classList.remove('hidden');
+      showToast('API Key Connected! Target setup.');
+      
+      questionQueue = [];
+      sessionStorage.removeItem('qq_current_q');
+      sessionStorage.removeItem('qq_active_queue');
+      openFilterModal();
+    }
+
+    function removeApiKey() {
+      localStorage.removeItem('studySphere_gemini_key');
+      localStorage.removeItem('gemini_api_key');
+      sessionStorage.removeItem('qq_current_q');
+      sessionStorage.removeItem('qq_active_queue');
+      sessionStorage.removeItem('qq_session_history');
+      sessionHistory = [];
+      currentHistoryIndex = -1;
+      document.getElementById('apiKeyInput').value = '';
+      updateAPIKeyUI();
+      closeModal('apiKeyModal');
+      
+      document.getElementById('emptyState').classList.remove('hidden');
+      document.getElementById('quizContentArea').classList.add('hidden');
+      document.getElementById('solution-container').classList.add('hidden');
+      document.getElementById('btnViewSolution').classList.add('hidden');
+      document.getElementById('question-text').innerHTML = '';
+      document.getElementById('options-container').innerHTML = '';
+      showToast('API Key Removed.', true);
+      openOnboardingModal();
+    }
+
+    function enterInteractiveDemo() {
+      isDemoActive = true;
+      isOnboardingActive = false;
+      updateAPIKeyUI();
+      closeModal('apiKeyModal');
+      document.getElementById('emptyState').classList.add('hidden');
+      document.getElementById('quizContentArea').classList.remove('hidden');
+      
+      questionQueue = [
+        {
+          "id": "DEMO_1", "subject": "Geography", "topic": "महाराष्ट्रातील नद्या व संगम", "difficulty": "Medium", "isPYQ": true, "year": 2022,
+          "questionType": "match_pairs",
+          "question": { 
+            "mr": "महाराष्ट्रातील प्रसिद्ध नदी संगम व त्यांची ठिकाणे यांसंदर्भात योग्य जोड्या जुळवा:",
+            "en": "Match the following river confluences with locations in Maharashtra:"
+          },
+          "matchPairs": {
+            "colA": {
+              "mr": ["अ. प्रकाशे", "ब. मुडावद", "क. माहूली", "ड. तुळापूर"],
+              "en": ["A. Prakashe", "B. Mudavad", "C. Mahuli", "D. Tulapur"]
+            },
+            "colB": {
+              "mr": ["I. तापी-पांझरा", "II. तापी-गोमती", "III. भीमा-इंद्रायणी", "IV. कृष्णा-वेण्णा"],
+              "en": ["I. Tapi-Panjhra", "II. Tapi-Gomati", "III. Bhima-Indrayani", "IV. Krishna-Venna"]
+            }
+          },
+          "options": [ 
+            { "mr": "अ-II, ब-I, क-IV, ड-III", "en": "A-II, B-I, C-IV, D-III" },
+            { "mr": "अ-I, ब-II, क-III, ड-IV", "en": "A-I, B-II, C-III, D-IV" },
+            { "mr": "अ-IV, ब-III, क-II, ड-I", "en": "A-IV, B-III, C-II, D-I" },
+            { "mr": "अ-II, ब-IV, क-I, ड-III", "en": "A-II, B-IV, C-I, D-III" }
+          ],
+          "correctAnswerIndex": 0,
+          "solution": { 
+            "mr": "अचूक जुळणी:\n• प्रकाशे (नंदुरबार) = तापी व गोमती नदी संगम.\n• मुडावद (धुळे) = तापी व पांझरा नदी संगम.\n• माहूली (सातारा) = कृष्णा व वेण्णा संगम.\n• तुळापूर (पुणे) = भीमा व इंद्रायणी संगम.",
+            "en": "Prakashe is Tapi-Gomati; Mudavad is Tapi-Panjhra; Mahuli is Krishna-Venna; Tulapur is Bhima-Indrayani.",
+            "reference": "Maharashtra State Board & PYQ"
+          }
+        },
+        {
+          "id": "DEMO_2", "subject": "History", "topic": "गोपाळ हरी देशमुख (लोकहितवादी)", "difficulty": "Hard", "isPYQ": true, "year": 2021,
+          "questionType": "multi_statement",
+          "question": { 
+            "mr": "गोपाळ हरी देशमुख (लोकहितवादी) यांच्या शतपत्रांच्या संदर्भात खालील विधाने विचारात घ्या:", 
+            "en": "Consider the following statements regarding Gopal Hari Deshmukh's Shatapatre:" 
+          },
+          "statements": [
+            { "label": { "mr": "अ", "en": "A" }, "text": { "mr": "ही शतपत्रे 'प्रभाकर' या साप्ताहिकात प्रसिद्ध झाली होती.", "en": "These Shatapatre were published in the weekly 'Prabhakar'." } },
+            { "label": { "mr": "ब", "en": "B" }, "text": { "mr": "त्यांनी ब्रिटिश प्रशासकीय व वैज्ञानिक पद्धतींचे स्वागत केले.", "en": "He welcomed British administrative and scientific methods." } },
+            { "label": { "mr": "क", "en": "C" }, "text": { "mr": "जातसंस्था व सामाजिक रूढींवर त्यांनी कडाडून प्रहार केला.", "en": "He strongly attacked social evils like casteism." } }
+          ],
+          "concludingPrompt": {
+            "mr": "वरीलपैकी कोणते/ती विधाने बरोबर आहेत?",
+            "en": "Which of the above statements is/are correct?"
+          },
+          "options": [ 
+            { "mr": "सर्व विधाने बरोबर", "en": "All statements are correct" },
+            { "mr": "फक्त अ आणि ब", "en": "Only A and B" },
+            { "mr": "फक्त ब आणि क", "en": "Only B and C" },
+            { "mr": "फक्त अ आणि क", "en": "Only A and C" }
+          ],
+          "correctAnswerIndex": 0,
+          "solution": { 
+            "mr": "लोकहितवादींनी १८४८ ते १८५० या काळात प्रभाकर साप्ताहिकात शतपत्रे लिहिली. यात त्यांनी सामाजिक, धार्मिक आणि राजकीय सुधारणांवर व्यापक विचार मांडले.", 
+            "en": "Lokhitwadi wrote Shatapatre in weekly Prabhakar between 1848 and 1850.",
+            "reference": "11th State Board History (Modern Maharashtra)" 
+          }
+        }
+      ];
+      loadNextQuestion();
+      showToast('Demo Mode Active (2 Practice Questions)');
+    }
+
+    function calculateDynamicDateRange() {
+      const today = new Date();
+      const lastYear = new Date(today.getFullYear() - 1, today.getMonth(), today.getDate());
+      const options = { month: 'long', year: 'numeric' };
+      return `${lastYear.toLocaleDateString('en-US', options)} to ${today.toLocaleDateString('en-US', options)}`;
+    }
+
+    function constructMasterMpscPrompt() {
+      let examContext = "";
+      if(filters.exam === 'rajyaseva') {
+        examContext = "Exam: MPSC Rajyaseva. Analytical depth, constitutional articles, comparative evaluations, multi-statement options, scholarly Devanagari.";
+      } else if (filters.exam === 'group-b') {
+        examContext = "Exam: Combine Group B. Highly factual, specific dates, census data, articles, post-specific laws.";
+      } else {
+        examContext = "Exam: Combine Group C. 8th to 12th standard Maharashtra State Board textbooks and direct MPSC PYQ patterns.";
+      }
+
+      let stageContext = filters.stage === 'Prelims' ? "Stage: Prelims" : "Stage: Mains";
+      let subjectsList = filters.subjects.join(', ');
+      let microSyllabus = "";
+      const dynamicDate = calculateDynamicDateRange();
+      
+      if(subjectsList.includes("Current Affairs")) microSyllabus += `\n- Current Affairs: Strictly ${dynamicDate}. Maharashtra government initiatives and awards.`;
+      if(subjectsList.includes("History")) microSyllabus += `\n- History: Modern Indian History (1857-1947), Maharashtra Social Reformers (Phule, Shahu, Ambedkar, Agarkar, Lokhitwadi).`;
+      if(subjectsList.includes("Geography")) microSyllabus += `\n- Geography: Maharashtra Physical, River confluences (संगम), Census 2011, mountain ranges.`;
+      if(subjectsList.includes("Marathi")) microSyllabus += `\n- Marathi Grammar: Standard Mo. Ra. Walambe rules (संधी, समास, प्रयोग, काळ, म्हणी).`;
+      if(subjectsList.includes("English")) microSyllabus += `\n- English: Tenses, Voice, Reported Speech, Idioms following MPSC PYQ trends.`;
+
+      const seenBlacklist = getSeenTopicsBlacklist();
+      let antiRepeat = seenBlacklist ? `\nDO NOT repeat recent topics: [${seenBlacklist}].` : "";
+      const entropy = Date.now().toString(36) + Math.random().toString(36).substring(2, 6);
+
+      return `You are Chief Examination Setter for MPSC Maharashtra.
+Generate 5 completely authentic, 100% factually accurate MPSC multiple-choice practice questions.
+
+SPECIFICATIONS:
+- ${examContext} | ${stageContext} | Subjects: ${subjectsList} | Difficulty: ${filters.diff} | Seed: ${entropy}
+${antiRepeat}
+${microSyllabus}
+
+CRITICAL RULES FOR QUESTION TYPES:
+1. MULTI-STATEMENT ("questionType": "multi_statement"):
+   - Statements (अ, ब, क, ड) MUST be inside the "statements" array!
+   - NEVER put statements inside options! Options must only be choice combinations like "फक्त अ आणि ब", "सर्व विधाने बरोबर".
+   - "statements": [
+      { "label": { "mr": "अ", "en": "A" }, "text": { "mr": "...", "en": "..." } },
+      { "label": { "mr": "ब", "en": "B" }, "text": { "mr": "...", "en": "..." } }
+   ]
+2. MATCH THE PAIRS ("questionType": "match_pairs"):
+   - Provide clean pairs: "colA" and "colB".
+3. STANDARD ("questionType": "standard"): Direct single question.
+
+Return ONLY a valid JSON array matching this exact schema:
+[
+  {
+    "id": "MPSC_${Date.now()}_1",
+    "subject": "${filters.subjects[0] || 'General Studies'}",
+    "topic": "Specific Topic",
+    "difficulty": "${filters.diff}",
+    "isPYQ": true,
+    "year": 2023,
+    "questionType": "multi_statement",
+    "question": { "mr": "...", "en": "..." },
+    "matchPairs": {
+      "colA": { "mr": ["अ. ...", "ब. ..."], "en": ["A. ...", "B. ..."] },
+      "colB": { "mr": ["I. ...", "II. ..."], "en": ["I. ...", "II. ..."] }
+    },
+    "statements": [
+      { "label": { "mr": "अ", "en": "A" }, "text": { "mr": "...", "en": "..." } }
+    ],
+    "concludingPrompt": { "mr": "वरीलपैकी कोणते/ती विधाने बरोबर आहेत?", "en": "Which of the above statements is/are correct?" },
+    "options": [
+      { "mr": "...", "en": "..." },
+      { "mr": "...", "en": "..." },
+      { "mr": "...", "en": "..." },
+      { "mr": "...", "en": "..." }
+    ],
+    "correctAnswerIndex": 0,
+    "solution": { "mr": "...", "en": "...", "reference": "Standard Book / PYQ" }
+  }
+]`;
+    }
+
+    // Safety Normalizer for Scrambled AI Output
+    function normalizeMultiStatementArtifact(q) {
+      if (!q || !Array.isArray(q.options) || q.options.length < 4) return q;
+
+      const firstOptText = (typeof q.options[0] === 'object' ? (q.options[0].mr || q.options[0].en || '') : q.options[0]).trim();
+      const statementMatch = firstOptText.match(/(?:^[अ|A][\.\)\s])([\s\S]*?)(?=(?:[ब|B][\.\)\s]))/);
+
+      if (statementMatch && (!q.statements || q.statements.length === 0)) {
+        q.questionType = 'multi_statement';
+        const parts = firstOptText.split(/(?=[अबकडABCD][\.\)\s])/g).map(s => s.trim()).filter(Boolean);
+        q.statements = parts.map((part) => {
+          const lblMatch = part.match(/^([अबकडABCD])[\.\)\s](.*)$/);
+          return {
+            label: { mr: lblMatch ? lblMatch[1] : "•", en: lblMatch ? lblMatch[1] : "•" },
+            text: { mr: lblMatch ? lblMatch[2].trim() : part, en: lblMatch ? lblMatch[2].trim() : part }
+          };
+        });
+
+        q.options[0] = { mr: "फक्त अ आणि ब बरोबर", en: "Only A and B are correct" };
+        if (!q.concludingPrompt) {
+          q.concludingPrompt = { mr: "वरीलपैकी कोणती विधाने बरोबर आहेत?", en: "Which of the above statements are correct?" };
+        }
+      }
+      return q;
+    }
+
+    async function fetchAiQuestionsBatch(isInitial = false) {
+      if (isDemoActive) return;
+
+      const apiKey = getStoredApiKey();
+      if (!apiKey) return;
+
+      if (isFetchingAI) return;
+      isFetchingAI = true;
+
+      if (isInitial && questionQueue.length === 0) {
+        setMainButtonLoading(true);
+      }
+
+      const prompt = constructMasterMpscPrompt();
+      const payload = { 
+        contents: [{ parts: [{ text: prompt }] }], 
+        generationConfig: { responseMimeType: "application/json", temperature: 0.35 } 
+      };
+
+      let success = false;
+
+      for (let model of CANDIDATE_MODELS) {
+        const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`;
+        try {
+          const response = await fetch(apiUrl, { 
+            method: 'POST', 
+            headers: { 'Content-Type': 'application/json' }, 
+            body: JSON.stringify(payload) 
+          });
+          
+          if (!response.ok) continue;
+          
+          const result = await response.json();
+          const candidate = result.candidates?.[0];
+          if (candidate && candidate.content?.parts?.[0]?.text) {
+            let rawText = candidate.content.parts[0].text;
+            rawText = rawText.replace(/```json/gi, '').replace(/```/g, '').trim();
+            const parsed = JSON.parse(rawText);
+            if (Array.isArray(parsed) && parsed.length > 0) {
+              const cleaned = parsed.map(normalizeMultiStatementArtifact);
+              questionQueue.push(...cleaned);
+              activeGeminiModel = model;
+              localStorage.setItem('qq_active_model', model);
+              updateBufferStatusUI();
+              saveActiveSessionState();
+              success = true;
+              break;
+            }
+          }
+        } catch (e) {}
+      }
+
+      isFetchingAI = false;
+      
+      if (success) {
+        if (!currentQuestion || isInitial) {
+           loadNextQuestion();
+        } else if (isWaitingForNext) {
+           isWaitingForNext = false;
+           loadNextQuestion();
+        }
+      } else if (questionQueue.length === 0 && !currentQuestion) {
+        setMainButtonLoading(false);
+        showToast("AI Quota or network issue. Reconnecting...", true);
+      }
+    }
+
+    function setMainButtonLoading(isLoading) {
+      const btn = document.getElementById('btn-main-action');
+      const textEl = document.getElementById('btn-action-text');
+      const iconEl = document.getElementById('btn-action-icon');
+      
+      if(isLoading) {
+        btn.disabled = true;
+        btn.classList.remove('bg-slate-900', 'hover:bg-slate-800', 'bg-brand-blue', 'hover:bg-blue-700');
+        btn.classList.add('bg-slate-500', 'cursor-not-allowed', 'opacity-85');
+        textEl.textContent = "प्रश्न तयार होत आहे...";
+        iconEl.innerHTML = `<svg class="animate-spin h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>`;
+      } else {
+        btn.disabled = false;
+        btn.classList.remove('bg-slate-500', 'cursor-not-allowed', 'opacity-85');
+      }
+    }
+
+    function updateBufferStatusUI() {
+      const bufEl = document.getElementById('bufferCountText');
+      if (bufEl) bufEl.textContent = questionQueue.length.toString();
+    }
+
+    function updateNavigationButtons() {
+      const prevBtn = document.getElementById('btn-prev-action');
+      if (!prevBtn) return;
+      if (currentHistoryIndex > 0 || (currentHistoryIndex === -1 && sessionHistory.length > 0)) {
+        prevBtn.disabled = false;
+      } else {
+        prevBtn.disabled = true;
+      }
+    }
+
+    function loadNextQuestion() {
+      if (currentHistoryIndex !== -1) {
+        currentHistoryIndex++;
+        if (currentHistoryIndex < sessionHistory.length) {
+          const histItem = sessionHistory[currentHistoryIndex];
+          currentQuestion = histItem.question;
+          isAnswered = true;
+          selectedOptionIndex = histItem.selectedOptionIndex;
+          renderQuestionUI();
+          checkSavedStatus();
+          updateNavigationButtons();
+          return;
+        } else {
+          currentHistoryIndex = -1;
+          const activeTip = sessionHistory[sessionHistory.length - 1];
+          if (activeTip && !activeTip.isAnswered) {
+            currentQuestion = activeTip.question;
+            isAnswered = false;
+            selectedOptionIndex = null;
+            renderQuestionUI();
+            checkSavedStatus();
+            updateNavigationButtons();
+            return;
+          }
+        }
+      }
+
+      if (questionQueue.length === 0) {
+        if (isDemoActive) {
+          isDemoActive = false;
+          openApiKeyModal(true);
+          showToast("Demo Completed! Add your API key for unlimited practice.");
+        } else {
+          isWaitingForNext = true;
+          setMainButtonLoading(true);
+          if (!isFetchingAI) fetchAiQuestionsBatch(false);
+        }
+        return;
+      }
+      
+      isWaitingForNext = false;
+      setMainButtonLoading(false);
+      currentQuestion = questionQueue.shift();
+      isAnswered = false;
+      selectedOptionIndex = null;
+      updateBufferStatusUI();
+
+      if (currentQuestion && currentQuestion.topic) {
+        recordSeenTopic(currentQuestion.topic);
+      }
+      
+      renderQuestionUI();
+      checkSavedStatus();
+      updateNavigationButtons();
+      saveActiveSessionState();
+
+      if (questionQueue.length <= 2 && !isFetchingAI && !isDemoActive) {
+        fetchAiQuestionsBatch(false);
+      }
+    }
+
+    function handlePrevAction() {
+      if (sessionHistory.length === 0) return;
+
+      if (currentHistoryIndex === -1) {
+        const alreadyInHistory = sessionHistory.some(h => h.question.id === currentQuestion?.id);
+        if (currentQuestion && isAnswered && !alreadyInHistory) {
+          sessionHistory.push({
+            question: JSON.parse(JSON.stringify(currentQuestion)),
+            selectedOptionIndex: selectedOptionIndex,
+            isAnswered: true
+          });
+        }
+        currentHistoryIndex = sessionHistory.length - 2;
+      } else {
+        currentHistoryIndex--;
+      }
+
+      if (currentHistoryIndex >= 0 && currentHistoryIndex < sessionHistory.length) {
+        const histItem = sessionHistory[currentHistoryIndex];
+        currentQuestion = histItem.question;
+        isAnswered = true;
+        selectedOptionIndex = histItem.selectedOptionIndex;
+        renderQuestionUI();
+        checkSavedStatus();
+        updateNavigationButtons();
+        showToast(`पुनरावलोकन: प्रश्न #${currentHistoryIndex + 1} (Review Mode)`);
+      } else {
+        currentHistoryIndex = 0;
+        updateNavigationButtons();
+      }
+    }
+
+    function sanitizeQuestionText(rawText, hasStructuredStatements) {
+      if (!hasStructuredStatements || !rawText) return rawText;
+      const lines = rawText.split('\n');
+      const filtered = [];
+      for (let line of lines) {
+        const trimmed = line.trim();
+        if (/^[अबकडABCD]\s*[\.\-\)]/i.test(trimmed)) continue;
+        if (trimmed.includes('वरीलपैकी कोणते') || trimmed.includes('विधाने बरोबर') || trimmed.includes('विधाने चूक')) continue;
+        filtered.push(trimmed);
+      }
+      return filtered.filter(Boolean).join(' ').trim();
+    }
+
+    function sanitizeStatementText(text) {
+      if (!text) return "";
+      return text.toString().replace(/[\r\n]+/g, ' ').replace(/\s{2,}/g, ' ').trim();
+    }
+
+    function renderQuestionUI() {
+      if (!currentQuestion) return;
+      
+      // Tags Strip
+      const tagsContainer = document.getElementById('question-tags');
+      let tagsHtml = '';
+      if (currentQuestion.isPYQ) {
+        tagsHtml += `<span class="shrink-0 px-1.5 py-0.2 rounded text-[9px] font-black uppercase bg-rose-100 dark:bg-rose-900/40 text-rose-600 dark:text-rose-400 border border-rose-200 dark:border-rose-800">🔥 PYQ ${currentQuestion.year || ''}</span>`;
+      }
+      const isHard = currentQuestion.difficulty?.toLowerCase() === 'hard';
+      const diffColor = isHard ? 'text-rose-600 bg-rose-50 border-rose-200 dark:bg-rose-900/20 dark:border-rose-800' : 'text-amber-600 bg-amber-50 border-amber-200 dark:bg-amber-900/20 dark:border-amber-800';
+      tagsHtml += `<span class="shrink-0 px-1.5 py-0.2 rounded border text-[9px] font-black uppercase ${diffColor}">${currentQuestion.difficulty || 'Medium'}</span>`;
+      tagsHtml += `<span class="shrink-0 px-1.5 py-0.2 rounded bg-indigo-50 dark:bg-indigo-900/30 text-indigo-700 dark:text-indigo-300 border border-indigo-200 dark:border-indigo-800 text-[9px] font-black uppercase">${currentQuestion.subject || 'MPSC'}</span>`;
+      if (currentQuestion.questionType === 'match_pairs') {
+        tagsHtml += `<span class="shrink-0 px-1.5 py-0.2 rounded bg-emerald-50 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800 text-[9px] font-black uppercase">🎯 जोड्या जुळवा</span>`;
+      }
+      tagsContainer.innerHTML = tagsHtml;
+
+      const hasStatements = (currentQuestion.questionType === 'multi_statement' && Array.isArray(currentQuestion.statements));
+
+      // Question Headline
+      const qTextEl = document.getElementById('question-text');
+      let basePromptHtml = '';
+      if (typeof currentQuestion.question === 'object') {
+        let mrQ = currentQuestion.question.mr || '';
+        let enQ = currentQuestion.question.en || '';
+
+        if (hasStatements) {
+          mrQ = sanitizeQuestionText(mrQ, true);
+          enQ = sanitizeQuestionText(enQ, true);
+        }
+
+        basePromptHtml = (lang === 'mr') ? (mrQ || enQ) : (enQ || mrQ);
+      } else {
+        basePromptHtml = hasStatements ? sanitizeQuestionText(currentQuestion.question, true) : currentQuestion.question;
+      }
+
+      // Match the Pairs Table
+      if (currentQuestion.questionType === 'match_pairs' && currentQuestion.matchPairs) {
+        let colA = [];
+        let colB = [];
+
+        if (Array.isArray(currentQuestion.matchPairs.colA)) {
+          colA = currentQuestion.matchPairs.colA;
+          colB = currentQuestion.matchPairs.colB || [];
+        } else if (currentQuestion.matchPairs.colA && typeof currentQuestion.matchPairs.colA === 'object') {
+          colA = currentQuestion.matchPairs.colA[lang] || currentQuestion.matchPairs.colA['mr'] || currentQuestion.matchPairs.colA['en'] || [];
+          colB = currentQuestion.matchPairs.colB?.[lang] || currentQuestion.matchPairs.colB?.['mr'] || currentQuestion.matchPairs.colB?.['en'] || [];
+        }
+
+        const maxRows = Math.max(colA.length, colB.length);
+        let tableRowsHtml = '';
+        for (let r = 0; r < maxRows; r++) {
+          tableRowsHtml += `
+            <tr>
+              <td class="font-bold text-slate-800 dark:text-slate-100 border-r border-slate-200 dark:border-slate-700 w-1/2">${colA[r] || ''}</td>
+              <td class="font-medium text-slate-700 dark:text-slate-200 w-1/2">${colB[r] || ''}</td>
+            </tr>
+          `;
+        }
+
+        basePromptHtml += `
+          <div class="overflow-x-auto my-1">
+            <table class="pairs-table border border-slate-200 dark:border-slate-700 shadow-2xs">
+              <tbody>${tableRowsHtml}</tbody>
+            </table>
+          </div>
+        `;
+      }
+
+      // Multi-Statement Renderer (Zero rogue line-breaks)
+      if (hasStatements) {
+        let stmtHtml = '<div class="space-y-0.5 my-1 p-1.5 px-2 rounded-xl bg-slate-50 dark:bg-slate-900/40 border border-slate-200 dark:border-slate-700">';
+        currentQuestion.statements.forEach(st => {
+          let labelText = typeof st.label === 'object' ? (st.label[lang] || st.label['mr'] || st.label['en'] || '') : (st.label || '');
+          let rawBody = typeof st.text === 'object' ? (st.text[lang] || st.text['mr'] || st.text['en'] || '') : (st.text || '');
+          let cleanBody = sanitizeStatementText(rawBody);
+
+          stmtHtml += `
+            <div class="flex items-start gap-1.5 py-0.5">
+              <span class="w-4 h-4 rounded bg-slate-200 dark:bg-slate-700 text-slate-800 dark:text-slate-200 font-black text-[10px] flex items-center justify-center shrink-0 mt-0.5">${labelText}</span>
+              <p class="text-xs sm:text-[13px] font-semibold text-slate-700 dark:text-slate-200 leading-snug flex-1 m-0 p-0">${cleanBody}</p>
+            </div>
+          `;
+        });
+        stmtHtml += '</div>';
+
+        let concluding = '';
+        if (typeof currentQuestion.concludingPrompt === 'object') {
+          concluding = currentQuestion.concludingPrompt[lang] || currentQuestion.concludingPrompt['mr'] || currentQuestion.concludingPrompt['en'] || '';
+        } else {
+          concluding = currentQuestion.concludingPrompt || (lang === 'en' ? "Which of the above statements is/are correct?" : "वरीलपैकी कोणते/ती विधाने बरोबर आहेत?");
+        }
+
+        stmtHtml += `<p class="font-extrabold text-xs sm:text-[13px] text-slate-900 dark:text-white mt-0.5 mb-1">${concluding}</p>`;
+        basePromptHtml += stmtHtml;
+      }
+
+      qTextEl.innerHTML = basePromptHtml;
+
+      // Options Rendering
+      const optCont = document.getElementById('options-container');
+      optCont.innerHTML = '';
+      const letters = ['A', 'B', 'C', 'D'];
+
+      currentQuestion.options.forEach((opt, idx) => {
+        const btn = document.createElement('button');
+        const letter = letters[idx];
+        const isCorrectOption = (idx === currentQuestion.correctAnswerIndex);
+        const isUserSelection = (idx === selectedOptionIndex);
+
+        let classes = 'opt-btn w-full text-left py-2 px-2.5 sm:p-2.5 rounded-xl flex items-start justify-between gap-2 shadow-2xs focus:outline-none focus:ring-2 focus:ring-brand-blue';
+        let badge = 'bg-slate-100 dark:bg-slate-700 text-slate-500 dark:text-slate-300 border border-slate-200 dark:border-slate-600';
+        let badgeHtml = '';
+
+        if (isAnswered) {
+          btn.disabled = true;
+          if (isCorrectOption) {
+            classes += ' selected-correct z-10 relative shadow-sm';
+            badge = 'bg-emerald-500 border-emerald-500 text-white';
+            badgeHtml = '<span class="text-emerald-600 dark:text-emerald-400 font-extrabold text-xs shrink-0 flex items-center gap-1"><svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg> Correct</span>';
+          } else if (isUserSelection) {
+            classes += ' selected-wrong';
+            badge = 'bg-rose-500 border-rose-500 text-white';
+            badgeHtml = '<span class="text-rose-600 dark:text-rose-400 font-extrabold text-xs shrink-0 flex items-center gap-1"><svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg> Incorrect</span>';
+          } else {
+            classes += ' disabled-state bg-slate-50/50 dark:bg-slate-800/30 text-slate-400';
+            badge = 'bg-slate-100 dark:bg-slate-800 text-slate-400 border border-transparent';
+          }
+        } else {
+          classes += ' default-state hover:bg-slate-50 dark:hover:bg-slate-700 cursor-pointer hover:-translate-y-0.5';
+          btn.onclick = () => handleAnswerValidation(idx);
+        }
+
+        let optTextHtml = typeof opt === 'object' 
+          ? (lang === 'mr' ? (opt.mr || opt.en) : (opt.en || opt.mr)) 
+          : opt;
+
+        btn.className = classes;
+        btn.innerHTML = `<div class="flex items-start gap-2 min-w-0 flex-1"><div class="w-5 h-5 sm:w-6 sm:h-6 rounded-full font-bold text-[11px] sm:text-xs flex items-center justify-center shrink-0 transition-colors mt-0.5 ${badge}">${letter}</div><div class="min-w-0 flex-1 pt-0.5 opt-text font-semibold">${optTextHtml}</div></div><div class="shrink-0 pt-0.5">${badgeHtml}</div>`;
+        optCont.appendChild(btn);
+      });
+
+      // Bottom Bar Controller
+      const solCont = document.getElementById('solution-container');
+      const viewSolBtn = document.getElementById('btnViewSolution');
+      const mainBtn = document.getElementById('btn-main-action');
+      const mainBtnText = document.getElementById('btn-action-text');
+      const iconEl = document.getElementById('btn-action-icon');
+
+      if (isAnswered) {
+        document.getElementById('solution-text').textContent = getLocalText(currentQuestion.solution);
+        const refBadge = document.getElementById('referenceBadge');
+        if (currentQuestion.solution?.reference) {
+          refBadge.textContent = currentQuestion.solution.reference;
+          refBadge.classList.remove('hidden');
+        } else {
+          refBadge.classList.add('hidden');
+        }
+        
+        solCont.classList.remove('hidden'); 
+        viewSolBtn.classList.add('hidden');
+        
+        mainBtn.disabled = false;
+        mainBtnText.textContent = "Next Question";
+        iconEl.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>`;
+        mainBtn.className = "flex-[1.5] h-10 px-3 rounded-xl font-black text-xs sm:text-sm shadow-xs active:scale-95 transition-all flex items-center justify-center gap-1.5 bg-brand-blue hover:bg-blue-700 text-white cursor-pointer";
+      } else {
+        solCont.classList.add('hidden');
+        viewSolBtn.classList.remove('hidden');
+        
+        mainBtn.disabled = false;
+        mainBtnText.textContent = "Skip Question";
+        iconEl.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg>`;
+        mainBtn.className = "flex-[1.5] h-10 px-3 rounded-xl font-black text-xs sm:text-sm shadow-xs active:scale-95 transition-all flex items-center justify-center gap-1.5 bg-slate-900 dark:bg-slate-700 hover:bg-slate-800 text-white cursor-pointer";
+      }
+
+      updateNavigationButtons();
+    }
+
+    function handleAnswerValidation(selectedIndex) {
+      if (isAnswered) return;
+      isAnswered = true;
+      selectedOptionIndex = selectedIndex;
+
+      const isCorrect = (selectedIndex === currentQuestion.correctAnswerIndex);
+
+      if (isCorrect) {
+        correctStreak++;
+        localStorage.setItem('qq_correct_streak', correctStreak.toString());
+        document.getElementById('streakCount').textContent = `${correctStreak} Streak`;
+        
+        if (correctStreak > 0 && correctStreak % 5 === 0) {
+          fireConfetti();
+          showToast(`🔥 सलग ${correctStreak} बरोबर उत्तरे! (${correctStreak} Streak!)`);
+        } else {
+          showToast("✓ बरोबर उत्तर! (Correct)");
+        }
+      } else {
+        correctStreak = 0;
+        localStorage.setItem('qq_correct_streak', '0');
+        document.getElementById('streakCount').textContent = `0 Streak`;
+        showToast("✕ चुकीचे उत्तर! सविस्तर स्पष्टीकरण वाचा.", true);
+      }
+
+      const alreadyInHist = sessionHistory.some(h => h.question.id === currentQuestion.id);
+      if (!alreadyInHist) {
+        sessionHistory.push({
+          question: JSON.parse(JSON.stringify(currentQuestion)),
+          selectedOptionIndex: selectedOptionIndex,
+          isAnswered: true
+        });
+      }
+
+      renderQuestionUI();
+      saveActiveSessionState();
+      setTimeout(() => {
+        const solBox = document.getElementById('solution-container');
+        if (solBox) solBox.scrollIntoView({ behavior: 'smooth', block: 'end' });
+      }, 150);
+    }
+
+    function showSolutionManually() {
+      if (!currentQuestion || isAnswered) return;
+      isAnswered = true;
+      selectedOptionIndex = -1;
+      correctStreak = 0;
+      localStorage.setItem('qq_correct_streak', '0');
+      document.getElementById('streakCount').textContent = `0 Streak`;
+
+      const alreadyInHist = sessionHistory.some(h => h.question.id === currentQuestion.id);
+      if (!alreadyInHist) {
+        sessionHistory.push({
+          question: JSON.parse(JSON.stringify(currentQuestion)),
+          selectedOptionIndex: -1,
+          isAnswered: true
+        });
+      }
+      
+      renderQuestionUI();
+      saveActiveSessionState();
+      setTimeout(() => {
+        const solBox = document.getElementById('solution-container');
+        if (solBox) solBox.scrollIntoView({ behavior: 'smooth', block: 'end' });
+      }, 150);
+    }
+
+    function handleMainAction() {
+      if (!isAnswered && currentQuestion) {
+        const alreadyInHist = sessionHistory.some(h => h.question.id === currentQuestion.id);
+        if (!alreadyInHist) {
+          sessionHistory.push({
+            question: JSON.parse(JSON.stringify(currentQuestion)),
+            selectedOptionIndex: -1,
+            isAnswered: false
+          });
+        }
+      }
+      loadNextQuestion();
+      const scrollArea = document.getElementById('quizScrollArea');
+      if (scrollArea) scrollArea.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function setModalFilter(type, val) {
+      if(type === 'exam' || type === 'stage') {
+        modalFilters[type] = val;
+        const groups = syllabusHierarchy[modalFilters.exam]?.[modalFilters.stage] || [];
+        if (groups.length > 0 && groups[0].subjects.length > 0) {
+          modalFilters.subjects = [groups[0].subjects[0]];
+        }
+      } else if (type === 'diff') {
+        modalFilters.diff = val;
+      } else if (type === 'subject') {
+        if (modalFilters.subjects.includes(val)) {
+          if (modalFilters.subjects.length > 1) {
+            modalFilters.subjects = modalFilters.subjects.filter(s => s !== val);
+          } else {
+            showToast("किमान एक विषय निवडणे आवश्यक आहे.");
+          }
+        } else {
+          modalFilters.subjects.push(val);
+        }
+      }
+      updateFilterModalUI();
+    }
+
+    function toggleGroupSubjects(groupId) {
+      const groups = syllabusHierarchy[modalFilters.exam]?.[modalFilters.stage] || [];
+      const targetGroup = groups.find(g => g.groupId === groupId);
+      if (!targetGroup) return;
+
+      const groupSubjects = targetGroup.subjects;
+      const allSelected = groupSubjects.every(s => modalFilters.subjects.includes(s));
+
+      if (allSelected) {
+        const remaining = modalFilters.subjects.filter(s => !groupSubjects.includes(s));
+        if (remaining.length > 0) {
+          modalFilters.subjects = remaining;
+        } else {
+          modalFilters.subjects = [groupSubjects[0]];
+          showToast("किमान एक विषय निवडलेला असणे आवश्यक आहे.");
+        }
+      } else {
+        groupSubjects.forEach(s => {
+          if (!modalFilters.subjects.includes(s)) modalFilters.subjects.push(s);
+        });
+      }
+      updateFilterModalUI();
+    }
+    
+    function updateFilterModalUI() {
+      const container = document.getElementById('filter-subject-groups-container');
+      container.innerHTML = '';
+
+      const groups = syllabusHierarchy[modalFilters.exam]?.[modalFilters.stage] || [];
+
+      groups.forEach((grp) => {
+        const isLangGroup = grp.groupName.includes("मराठी") || grp.groupName.includes("English");
+        const groupBorderColor = isLangGroup ? "border-amber-300 dark:border-amber-800 bg-amber-50/40 dark:bg-amber-950/20" : "border-slate-200 dark:border-slate-700/80 bg-slate-50/60 dark:bg-slate-900/30";
+
+        const allGroupSelected = grp.subjects.every(s => modalFilters.subjects.includes(s));
+        const toggleBtnLabel = allGroupSelected ? "सर्व काढा" : "+ सर्व निवडा";
+
+        let chipsHtml = '';
+        grp.subjects.forEach(sub => {
+          const isSelected = modalFilters.subjects.includes(sub);
+          const activeClass = isSelected 
+            ? 'border-brand-blue bg-blue-600 text-white shadow-2xs font-black' 
+            : 'border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 hover:border-slate-300';
+          chipsHtml += `<button onclick="setModalFilter('subject', '${sub}')" class="px-2 py-1 rounded-xl border text-[11px] font-bold transition-all text-left truncate max-w-full ${activeClass}">${sub}</button>`;
+        });
+
+        container.innerHTML += `
+          <div class="p-2.5 rounded-2xl border ${groupBorderColor} space-y-1.5">
+            <div class="flex items-center justify-between">
+              <span class="text-[10px] font-black uppercase tracking-wider text-slate-800 dark:text-slate-100 flex items-center gap-1.5">
+                ${isLangGroup ? '🗣️' : '📚'} ${grp.groupName}
+              </span>
+              <button type="button" onclick="toggleGroupSubjects('${grp.groupId}')" class="text-[10px] font-black text-brand-blue dark:text-blue-400 hover:underline px-1.5 py-0.5 rounded bg-blue-50 dark:bg-blue-950/60 border border-blue-200 dark:border-blue-900/50">
+                ${toggleBtnLabel}
+              </button>
+            </div>
+            <div class="flex flex-wrap gap-1">
+              ${chipsHtml}
+            </div>
+          </div>
+        `;
+      });
+
+      document.querySelectorAll('.exam-btn').forEach(btn => {
+        const key = btn.textContent.includes('Rajyaseva') ? 'rajyaseva' : (btn.textContent.includes('Group B') ? 'group-b' : 'group-c');
+        btn.className = modalFilters.exam === key 
+          ? 'flt-btn exam-btn py-2 px-1 text-center rounded-xl border-2 border-brand-blue bg-blue-50 dark:bg-blue-900/20 text-brand-blue dark:text-blue-400 font-extrabold text-xs'
+          : 'flt-btn exam-btn py-2 px-1 text-center rounded-xl border-2 border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 font-bold text-xs hover:border-slate-300';
+      });
+
+      document.querySelectorAll('.stage-btn').forEach(btn => {
+        const key = btn.textContent.includes('Prelims') ? 'Prelims' : 'Mains';
+        btn.className = modalFilters.stage === key 
+          ? 'flt-btn stage-btn py-2 px-2 text-center rounded-xl border-2 border-brand-blue bg-blue-50 dark:bg-blue-900/20 text-brand-blue dark:text-blue-400 font-extrabold text-xs'
+          : 'flt-btn stage-btn py-2 px-2 text-center rounded-xl border-2 border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 font-bold text-xs hover:border-slate-300';
+      });
+
+      document.querySelectorAll('.diff-btn').forEach(btn => {
+        const key = btn.textContent.includes('Medium') ? 'Medium' : 'Hard';
+        btn.className = modalFilters.diff === key 
+          ? 'flt-btn diff-btn py-2 px-2 rounded-xl border-2 border-brand-blue bg-blue-50 dark:bg-blue-900/20 text-brand-blue dark:text-blue-400 font-extrabold text-xs text-center'
+          : 'flt-btn diff-btn py-2 px-2 rounded-xl border-2 border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 font-bold text-xs hover:border-slate-300 text-center';
+      });
+    }
+
+    function applyFilters() {
+      isAwaitingGreetingChoice = false;
+      isDemoActive = false; 
+      filters = JSON.parse(JSON.stringify(modalFilters));
+      localStorage.setItem('qq_saved_filters', JSON.stringify(filters));
+      updateActiveFilterDisplay();
+      closeModal('filterModal');
+      
+      questionQueue = []; 
+      sessionHistory = [];
+      currentHistoryIndex = -1;
+      sessionStorage.removeItem('qq_current_q');
+      sessionStorage.removeItem('qq_active_queue');
+      sessionStorage.removeItem('qq_session_history');
+      fetchAiQuestionsBatch(true);
+    }
+
+    function openFilterModal() { 
+      modalFilters = JSON.parse(JSON.stringify(filters)); 
+      updateFilterModalUI(); 
+      openModal('filterModal'); 
+    }
+
+    function toggleSave() {
+      if (!currentQuestion) return;
+      let vault = JSON.parse(localStorage.getItem('studySphereVault') || '{}');
+      if (vault[currentQuestion.id]) delete vault[currentQuestion.id]; else vault[currentQuestion.id] = currentQuestion;
+      localStorage.setItem('studySphereVault', JSON.stringify(vault)); 
+      checkSavedStatus(); 
+      showToast(vault[currentQuestion.id] ? 'Saved to Vault!' : 'Removed from Vault');
+    }
+
+    function checkSavedStatus() {
+      if (!currentQuestion) return;
+      let vault = JSON.parse(localStorage.getItem('studySphereVault') || '{}');
+      const btn = document.getElementById('btn-save');
+      if (vault[currentQuestion.id]) {
+        document.getElementById('saveIcon').textContent = '⭐'; 
+        document.getElementById('saveText').textContent = 'Saved';
+        btn.className = 'h-6 w-16 box-border justify-center rounded-lg border-2 border-amber-500 bg-amber-50 dark:bg-amber-900/20 text-[10px] font-extrabold text-amber-700 dark:text-amber-400 flex items-center gap-1 transition-colors shrink-0';
+      } else {
+        document.getElementById('saveIcon').textContent = '☆'; 
+        document.getElementById('saveText').textContent = 'Save';
+        btn.className = 'h-6 w-16 box-border justify-center rounded-lg border-2 border-slate-200 dark:border-slate-600 bg-slate-50 dark:bg-slate-700/50 text-[10px] font-extrabold text-slate-600 dark:text-slate-300 flex items-center gap-1 transition-colors hover:border-amber-400 shrink-0';
+      }
+    }
+
+    function takeFullScreenSnapshot() {
+      html2canvas(document.body, { scale: 2, useCORS: true }).then(canvas => {
+        const link = document.createElement('a'); 
+        link.download = `QuickQuiz_${Date.now()}.png`;
+        link.href = canvas.toDataURL('image/png'); 
+        link.click(); 
+        showToast('Snapshot saved!');
+      });
+    }
+
+    function takeReportQuestionSnapshot() {
+  // 1. Instantly hide the report modal so neither the box nor the dark overlay is rendered
+  closeModal('reportModal');
+
+  // 2. Allow a brief 120ms tick for the browser DOM to clear the modal layer
+  setTimeout(() => {
+    // 3. Target specifically the white/slate question card container inside main
+    const targetElement = document.querySelector('#quizScrollArea > div > div') || document.getElementById('quizScrollArea') || document.body;
+
+    html2canvas(targetElement, { 
+      scale: 2, 
+      useCORS: true,
+      backgroundColor: document.documentElement.classList.contains('dark') ? '#1e293b' : '#ffffff'
+    }).then(canvas => {
+      const link = document.createElement('a'); 
+      const qId = (currentQuestion && currentQuestion.id) ? currentQuestion.id : Date.now();
+      link.download = `MPSC_Question_${qId}.png`;
+      link.href = canvas.toDataURL('image/png'); 
+      link.click(); 
+      showToast('प्रश्नाचा स्वच्छ स्क्रीनशॉट सेव्ह झाला! आता टेलिग्रामवर पाठवा.');
+    }).catch(err => {
+      console.error('Snapshot failed:', err);
+      showToast('स्क्रीनशॉट घेताना त्रुटी आली.', true);
+    });
+  }, 120);
+}
+
+    function shareWebsite() {
+      const shareData = { title: 'QuickQuiz By StudySphere', text: 'Practice MPSC with AI-powered tests!\n👉 Web: ' + window.location.href, url: window.location.href };
+      if (navigator.share) navigator.share(shareData).catch(() => { navigator.clipboard.writeText(window.location.href); showToast('Link copied!'); });
+      else { navigator.clipboard.writeText(window.location.href); showToast('Link copied!'); }
+    }
+
+    function openModal(id) { const m = document.getElementById(id); if(m){ m.classList.remove('hidden'); m.classList.add('flex'); } }
+    function closeModal(id) { 
+      const m = document.getElementById(id); 
+      if(m){ 
+        m.classList.remove('flex'); 
+        m.classList.add('hidden'); 
+      }
+      if (id === 'filterModal' && isAwaitingGreetingChoice && !currentQuestion) {
+        const sessionCount = parseInt(localStorage.getItem('qq_user_sessions') || '1', 10);
+        showSmartGreetingBanner(sessionCount);
+      }
+    }
+    function openInfoModal() { openModal('infoModal'); }
+
+    const DONATION_SECRET_UPI_VPA = "vikram.joshi9089@oksbi";
+    let donationSelectedAmount = 101;
+    let donationPaymentTriggered = false;
+
+    function isMobileDevice() { 
+      return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || window.innerWidth < 768; 
+    }
+    
+    // ३. मोबाईलवरील रक्कम निवड (Pill Buttons)
+  function selectDonationAmount(amount) {
+    donationSelectedAmount = amount;
+    var input = document.getElementById('customAmountInput');
+    if (input) input.value = amount;
+    validateCustomAmount();
+
+    document.querySelectorAll('.donation-btn').forEach(function(btn) {
+      if (btn.textContent.indexOf(amount.toString()) !== -1) {
+        btn.className = 'donation-btn py-1.5 px-2 text-xs font-bold rounded-lg border-2 border-amber-500 bg-amber-50 dark:bg-amber-950/40 text-amber-700 dark:text-amber-300 transition-all';
+      } else {
+        btn.className = 'donation-btn py-1.5 px-2 text-xs font-bold rounded-lg border border-slate-200 dark:border-[#1f3358] bg-slate-50 dark:bg-[#121e35] text-slate-800 dark:text-slate-200 transition-all';
+      }
+    });
+  }
+
+  // ६. डेस्कटॉप रक्कम निवड (Pill Buttons)
+  function selectDesktopAmount(amount) {
+    donationSelectedAmount = amount;
+    var customInput = document.getElementById('desktopCustomAmountInput');
+    if (customInput) customInput.value = amount;
+    var errorMsg = document.getElementById('desktopAmountError');
+    if (errorMsg) errorMsg.classList.add('hidden');
+
+    updateDesktopQr(amount);
+
+    document.querySelectorAll('.desktop-donation-btn').forEach(function(btn) {
+      if (btn.textContent.indexOf(amount.toString()) !== -1) {
+        btn.className = 'desktop-donation-btn py-1 px-1.5 text-xs font-bold rounded-lg border-2 border-amber-500 bg-amber-50 dark:bg-amber-950/40 text-amber-700 dark:text-amber-300';
+      } else {
+        btn.className = 'desktop-donation-btn py-1 px-1.5 text-xs font-bold rounded-lg border border-slate-200 dark:border-[#1f3358] bg-slate-50 dark:bg-[#121e35] text-slate-800 dark:text-slate-200';
+      }
+    });
+  }
+
+  // ८. डेस्कटॉपवर 'QR बनवा' बटण दाबल्यावर नवीन QR बनवणे
+  function generateDesktopCustomQr() {
+    var input = document.getElementById('desktopCustomAmountInput');
+    var errorMsg = document.getElementById('desktopAmountError');
+    if (!input) return;
+    var val = parseFloat(input.value);
+
+    if (isNaN(val) || val < 10) {
+      if (errorMsg) errorMsg.classList.remove('hidden');
+      return;
+    }
+    if (errorMsg) errorMsg.classList.add('hidden');
+    donationSelectedAmount = Math.round(val);
+    updateDesktopQr(donationSelectedAmount);
+
+    document.querySelectorAll('.desktop-donation-btn').forEach(function(btn) {
+      if (btn.textContent.indexOf(donationSelectedAmount.toString()) !== -1) {
+        btn.className = 'desktop-donation-btn py-1 px-1.5 text-xs font-bold rounded-lg border-2 border-amber-500 bg-amber-50 dark:bg-amber-950/40 text-amber-700 dark:text-amber-300';
+      } else {
+        btn.className = 'desktop-donation-btn py-1 px-1.5 text-xs font-bold rounded-lg border border-slate-200 dark:border-[#1f3358] bg-slate-50 dark:bg-[#121e35] text-slate-800 dark:text-slate-200';
+      }
+    });
+  }
+
+  // ९. QR कोड प्रतिमा अद्ययावत करणे (UPI ID बॅकएंडमध्ये सुरक्षित ठेवून + Dual API Fallback)
+  function updateDesktopQr(amount) {
+    var qrImg = document.getElementById('desktopDynamicQrImg');
+    var amountLabel = document.getElementById('desktopQrAmountLabel');
+    if (amountLabel) amountLabel.textContent = "₹ " + amount;
+
+    var upiUri = "upi://pay?pa=" + DONATION_SECRET_UPI_VPA + "&pn=StudySphere&am=" + amount + "&cu=INR&tn=StudySphere%20MPSC%20Donation";
+    var primaryUrl = "https://api.qrserver.com/v1/create-qr-code/?size=135x135&data=" + encodeURIComponent(upiUri);
+
+    if (qrImg) {
+      qrImg.setAttribute('data-upi-uri', upiUri);
+      qrImg.src = primaryUrl;
+    }
+  }
+
+    function registerServiceWorker() {
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('sw.js').catch(err => {
+          console.warn('SW registration failed:', err);
+        });
+      }
+    }
+
+    document.addEventListener('keydown', e => { 
+      if (e.key === 'Escape') {
+        if (!isOnboardingActive) closeModal('apiKeyModal');
+        ['infoModal','filterModal','mobileDonationModal','desktopDonationModal','reportModal'].forEach(id => closeModal(id)); 
+      }
+    });
+  </script>
+</body>
+</html>
