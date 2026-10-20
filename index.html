@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-  <title>QuickQuiz By StudySphere | Premium MPSC Practice</title>
+  <title>QuickQuiz By StudySphere | MPSC सराव परीक्षा केंद्र</title>
   
   <!-- PWA & Circular Favicon Linkage -->
   <link rel="manifest" href="manifest.json">
@@ -17,7 +17,7 @@
   
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
-  <!-- html2canvas for Snapshots -->
+  <!-- html2canvas for High-Precision Snapshots -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 
   <script>
@@ -25,12 +25,13 @@
       darkMode: 'class',
       theme: {
         extend: {
+          screens: { 'xs': '380px' },
           fontFamily: { 
             sans: ['"Plus Jakarta Sans"', '"Mukta"', '"Noto Sans Devanagari"', 'sans-serif'] 
           },
           colors: {
             brand: {
-              accent: '#f95959',
+              accent: '#ea580c',
               blue: '#2563eb',
             }
           },
@@ -38,13 +39,15 @@
             'slide-up': 'slideUp 0.22s cubic-bezier(0.16, 1, 0.3, 1) forwards',
             'slide-down': 'slideDown 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards',
             'fade-in': 'fadeIn 0.2s ease-out forwards',
-            'confetti-fall': 'confettiFall 3s ease-out forwards'
+            'confetti-fall': 'confettiFall 3s ease-out forwards',
+            'pulse-subtle': 'pulseSubtle 2s infinite ease-in-out'
           },
           keyframes: {
-            slideUp: { '0%': { transform: 'translateY(10px)', opacity: '0' }, '100%': { transform: 'translateY(0)', opacity: '1' } },
-            slideDown: { '0%': { transform: 'translateY(-10px)', opacity: '0' }, '100%': { transform: 'translateY(0)', opacity: '1' } },
+            slideUp: { '0%': { transform: 'translateY(12px)', opacity: '0' }, '100%': { transform: 'translateY(0)', opacity: '1' } },
+            slideDown: { '0%': { transform: 'translateY(-12px)', opacity: '0' }, '100%': { transform: 'translateY(0)', opacity: '1' } },
             fadeIn: { '0%': { opacity: '0' }, '100%': { opacity: '1' } },
-            confettiFall: { '0%': { transform: 'translateY(-100%) rotate(0deg)', opacity: '1' }, '100%': { transform: 'translateY(100vh) rotate(360deg)', opacity: '0' } }
+            confettiFall: { '0%': { transform: 'translateY(-100%) rotate(0deg)', opacity: '1' }, '100%': { transform: 'translateY(100vh) rotate(360deg)', opacity: '0' } },
+            pulseSubtle: { '0%, 100%': { opacity: '1' }, '50%': { opacity: '0.6' } }
           }
         }
       }
@@ -65,7 +68,7 @@
     
     .tiranga-stripe { 
       background: linear-gradient(90deg, #ea580c 0%, #ea580c 33.33%, #ffffff 33.33%, #ffffff 66.66%, #15803d 66.66%, #15803d 100%); 
-      height: 4px; 
+      height: 3.5px; 
       width: 100%; 
     }
     .premium-pattern { 
@@ -101,20 +104,21 @@
     .opt-subtext { font-size: var(--opt-sub); line-height: 1.3; }
 
     button:focus-visible, a:focus-visible, input:focus-visible { outline: 2px solid #3b82f6; outline-offset: 2px; }
-    .glass { background: rgba(255, 255, 255, 0.94); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
-    .dark .glass { background: rgba(15, 23, 42, 0.94); }
+    .glass { background: rgba(255, 255, 255, 0.96); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
+    .dark .glass { background: rgba(15, 23, 42, 0.96); }
     
-    .opt-btn { transition: background-color 0.15s, border-color 0.15s, opacity 0.15s; box-sizing: border-box; border: 2px solid transparent; }
+    .opt-btn { transition: background-color 0.15s, border-color 0.15s, opacity 0.15s, transform 0.1s; box-sizing: border-box; border: 2px solid transparent; }
+    .opt-btn:active:not(:disabled) { transform: scale(0.99); }
     .opt-btn.default-state { border-color: #e2e8f0; background-color: #ffffff; }
     .dark .opt-btn.default-state { border-color: #334155; background-color: #1e293b; }
     
-    .opt-btn.selected-correct { background-color: #ecfdf5; border-color: #10b981; }
-    .dark .opt-btn.selected-correct { background-color: rgba(16, 185, 129, 0.15); border-color: #10b981; }
+    .opt-btn.selected-correct { background-color: #ecfdf5 !important; border-color: #10b981 !important; }
+    .dark .opt-btn.selected-correct { background-color: rgba(16, 185, 129, 0.2) !important; border-color: #10b981 !important; }
     
-    .opt-btn.selected-wrong { background-color: #fff1f2; border-color: #f43f5e; }
-    .dark .opt-btn.selected-wrong { background-color: rgba(244, 63, 94, 0.15); border-color: #f43f5e; }
+    .opt-btn.selected-wrong { background-color: #fff1f2 !important; border-color: #f43f5e !important; }
+    .dark .opt-btn.selected-wrong { background-color: rgba(244, 63, 94, 0.2) !important; border-color: #f43f5e !important; }
     
-    .opt-btn.disabled-state { opacity: 0.65; cursor: not-allowed; border-color: transparent; }
+    .opt-btn.disabled-state { opacity: 0.65; cursor: not-allowed; }
     .confetti { position: fixed; top: -10px; z-index: 100; pointer-events: none; width: 10px; height: 10px; }
 
     .pairs-table {
@@ -126,7 +130,7 @@
       margin: 0;
     }
     .pairs-table td {
-      padding: 0.25rem 0.5rem;
+      padding: 0.35rem 0.6rem;
       font-size: var(--opt-size);
       border-bottom: 1px solid #e2e8f0;
       background: #ffffff;
@@ -137,9 +141,7 @@
       border-color: #334155;
       color: #e2e8f0;
     }
-    .pairs-table tr:last-child td {
-      border-bottom: none;
-    }
+    .pairs-table tr:last-child td { border-bottom: none; }
 
     @keyframes heartBlinkBorder {
       0%, 100% { transform: scale(1); opacity: 1; }
@@ -150,88 +152,99 @@
       display: inline-flex;
       transform-origin: center;
     }
+
+    .btn-tactile { transition: transform 0.1s ease, filter 0.15s ease, opacity 0.15s ease; }
+    .btn-tactile:active:not(:disabled) { transform: scale(0.96); }
   </style>
 </head>
 <body class="premium-pattern text-slate-800 dark:text-slate-200 font-sans flex flex-col font-m transition-colors duration-300">
 
+  <!-- तिरंगा बॉर्डर -->
   <div class="tiranga-stripe shrink-0 fixed top-0 z-50"></div>
 
-  <!-- Header Area -->
-  <header class="glass border-b border-slate-200/60 dark:border-slate-800/60 shadow-xs shrink-0 z-40 pt-1">
-    <!-- Micro Status Bar -->
-    <div class="max-w-5xl mx-auto px-3 sm:px-4 py-1 flex justify-between items-center text-[11px] font-bold">
+  <!-- Header Area (Mobile-Optimized Zero Overlap) -->
+  <header class="glass border-b border-slate-200/80 dark:border-slate-800/80 shadow-xs shrink-0 z-40 pt-1">
+    
+    <!-- Micro Status Bar: Brand & API Key & Streak -->
+    <div class="max-w-4xl mx-auto px-2.5 sm:px-4 py-1 flex justify-between items-center text-[11px] font-bold">
       <div class="flex items-center gap-1.5 min-w-0">
         <img src="icon.svg" alt="Logo" class="w-4 h-4 rounded-full shrink-0">
-        <span class="text-sm font-black tracking-tight text-slate-900 dark:text-white uppercase truncate">QuickQuiz</span>
-        <span class="text-[9px] font-extrabold uppercase px-1.5 py-0.5 rounded-md bg-amber-100 dark:bg-amber-900/40 text-amber-800 dark:text-amber-300 border border-amber-200 dark:border-amber-700/50 tracking-wider shrink-0">
-          By StudySphere
+        <span class="text-xs sm:text-sm font-black tracking-tight text-slate-900 dark:text-white uppercase truncate">QuickQuiz</span>
+        <span class="text-[8px] sm:text-[9px] font-extrabold uppercase px-1.5 py-0.2 rounded bg-amber-100 dark:bg-amber-950 text-amber-900 dark:text-amber-300 border border-amber-300 dark:border-amber-800 tracking-wider shrink-0">
+          StudySphere
         </span>
       </div>
 
-      <div class="flex items-center gap-1.5 sm:gap-2 shrink-0">
-        <button onclick="openApiKeyModal()" aria-label="API Key Settings" class="text-slate-500 hover:text-brand-accent transition-colors flex items-center gap-1 cursor-pointer bg-slate-100 dark:bg-slate-800 px-2 py-0.5 rounded-md text-[10px] sm:text-[11px]">
-          <span>🔑</span> <span id="apiKeyStatusText">API Key</span>
+      <div class="flex items-center gap-1 sm:gap-1.5 shrink-0">
+        <button onclick="openApiKeyModal()" id="btnApiKeyTrigger" aria-label="API Key Settings" class="text-slate-600 dark:text-slate-300 hover:text-brand-accent transition-colors flex items-center gap-1 cursor-pointer bg-slate-100 dark:bg-slate-800 px-2 py-0.5 rounded-md text-[10px] sm:text-[11px] border border-slate-200 dark:border-slate-700 btn-tactile">
+          <span>🔑</span> <span id="apiKeyStatusText">Set Key</span>
         </button>
-        <div class="flex items-center gap-1 text-orange-500 font-extrabold bg-orange-50 dark:bg-orange-900/20 px-2 py-0.5 rounded-md text-[10px] sm:text-[11px]" title="Consecutive Correct Streak">
-          <span>🔥</span> <span id="streakCount">0 Streak</span>
+        <div class="flex items-center gap-1 text-orange-600 font-extrabold bg-orange-50 dark:bg-orange-950/40 px-2 py-0.5 rounded-md text-[10px] sm:text-[11px] border border-orange-200 dark:border-orange-800/50" title="सलग बरोबर उत्तरे (Streak)">
+          <span>🔥</span> <span id="streakCount">0</span>
         </div>
-        <div id="bufferStatus" class="flex items-center gap-1 text-emerald-600 dark:text-emerald-400 text-[10px] sm:text-[11px] bg-emerald-50 dark:bg-emerald-900/20 px-2 py-0.5 rounded-md font-bold" title="Questions ready in queue">
+        <div id="bufferStatus" class="flex items-center gap-1 text-emerald-600 dark:text-emerald-400 text-[10px] sm:text-[11px] bg-emerald-50 dark:bg-emerald-950/40 px-1.5 py-0.5 rounded-md font-bold border border-emerald-200 dark:border-emerald-800/50" title="रांगेतील तयार प्रश्न">
           <span class="inline-block w-1.5 h-1.5 rounded-full bg-emerald-500 animate-ping"></span>
           <span id="bufferCountText">0</span>
         </div>
       </div>
     </div>
 
-    <!-- Main Navigation Bar with Target & Dash side by side -->
-    <div class="max-w-5xl mx-auto px-3 sm:px-4 py-1 flex flex-wrap sm:flex-nowrap items-center justify-between gap-1.5">
-      <div class="w-full sm:flex-1 sm:max-w-[400px] flex items-center gap-1.5">
-        <button onclick="openFilterModal()" aria-label="Open Exam Filter" class="flex-1 flex items-center justify-between gap-2 px-2.5 py-1.5 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 active:scale-[0.98] transition-all shadow-xs hover:border-brand-accent group">
-          <div class="min-w-0 flex flex-col items-start w-full">
-            <span class="text-[9px] text-slate-400 uppercase font-black tracking-wider leading-none mb-0.5 group-hover:text-brand-accent transition-colors">Study Target</span>
-            <span id="activeFilterText" class="text-xs font-extrabold text-slate-800 dark:text-slate-200 truncate w-full text-left">Group C • Prelims • History</span>
+    <!-- Main Navigation Bar: Target, Dashboard, Finish & Mobile Action Tools -->
+    <div class="max-w-4xl mx-auto px-2.5 sm:px-4 pb-1.5 pt-0.5 flex flex-col gap-1.5">
+      <div class="flex items-center gap-1.5 justify-between">
+        <!-- Target Selector Button (Fluid width with text truncate to avoid push) -->
+        <button onclick="openFilterModal()" id="btnTargetFilter" aria-label="Open Exam Target" class="flex-1 min-w-0 flex items-center justify-between gap-1.5 px-2.5 py-1.5 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-2xs hover:border-brand-accent group btn-tactile">
+          <div class="min-w-0 flex flex-col items-start text-left">
+            <span class="text-[8px] text-slate-400 uppercase font-black tracking-wider leading-none mb-0.5 group-hover:text-brand-accent">Target (परीक्षा विषय)</span>
+            <span id="activeFilterText" class="text-xs font-black text-slate-800 dark:text-slate-100 truncate w-full">Group C • Prelims • History</span>
           </div>
-          <div class="w-6 h-6 rounded-lg bg-slate-50 dark:bg-slate-700 flex items-center justify-center group-hover:bg-rose-50 dark:group-hover:bg-rose-900/30 transition-colors shrink-0">
-            <svg class="w-3.5 h-3.5 text-slate-400 group-hover:text-brand-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M10.5 6h9.75M10.5 6a1.5 1.5 0 11-3 0m3 0a1.5 1.5 0 10-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-9.75 0h9.75"/></svg>
-          </div>
+          <span class="w-5 h-5 rounded-lg bg-slate-100 dark:bg-slate-700 flex items-center justify-center text-slate-500 text-xs shrink-0">⚙️</span>
         </button>
 
-        <a href="dashboard.html" title="Open Dashboard & Vault" class="h-9 px-2.5 rounded-xl bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 font-extrabold text-[11px] flex items-center gap-1 active:scale-95 transition-all border border-slate-200 dark:border-slate-700 shadow-xs shrink-0">
-          <span>📖</span> <span class="hidden xs:inline">Dash</span>
+        <!-- Dashboard Button with Icon & Text -->
+        <a href="dashboard.html" title="डॅशबोर्ड व सेव्ह केलेले प्रश्न" class="h-9 px-2.5 rounded-xl bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 font-black text-xs flex items-center gap-1.5 border border-slate-200 dark:border-slate-700 shadow-2xs shrink-0 btn-tactile">
+          <span class="text-sm">📖</span> <span>Dashboard</span>
         </a>
 
-        <button onclick="confirmFinishQuiz()" class="h-8 px-2.5 rounded-xl bg-rose-500 hover:bg-rose-600 text-white font-extrabold text-[11px] flex items-center gap-1 active:scale-95 shadow-xs transition-all">
+        <!-- Finish Test Button (Strictly within view, never pushed off-screen) -->
+        <button onclick="confirmFinishQuiz()" id="btnFinishQuiz" title="सराव पूर्ण करून निकाल पहा" class="h-9 px-2.5 sm:px-3 rounded-xl bg-rose-600 hover:bg-rose-700 text-white font-black text-xs flex items-center gap-1 shadow-2xs border border-rose-500 shrink-0 btn-tactile">
         <span>Finish</span>
         </button>
       </div>
 
-      <!-- Toolbar: Snap, Lang, Font, Theme -->
-      <div class="flex items-center gap-1 sm:gap-1.5 shrink-0 w-full sm:w-auto justify-between sm:justify-end">
-        <button onclick="takeFullScreenSnapshot()" aria-label="Take Snapshot" title="Take Screenshot" class="h-8 px-2.5 rounded-xl bg-white dark:bg-slate-800 hover:bg-slate-50 border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 text-[11px] font-black flex items-center gap-1 active:scale-95 transition-all shadow-xs">
-          <span class="text-xs">📸</span> <span>Snap</span>
-        </button>
-        <button onclick="toggleLang()" id="langBtn" aria-label="Toggle Language" class="h-8 px-2.5 rounded-xl bg-white dark:bg-slate-800 hover:bg-slate-50 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 text-[11px] font-black active:scale-95 transition-all shadow-xs">
-          मराठी <span class="text-slate-300 dark:text-slate-600 mx-0.5">|</span> EN
-        </button>
-        <button onclick="toggleFont()" aria-label="Toggle Font Size" class="h-8 px-2 rounded-xl bg-white dark:bg-slate-800 hover:bg-slate-50 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 text-[11px] font-black flex items-center gap-1 active:scale-95 transition-all shadow-xs">
-          <span class="tracking-tighter">A<span class="text-[9px]">A</span></span>
-          <span id="fontBadge" class="text-[8px] bg-brand-accent text-white px-1.5 py-0.5 rounded font-bold">M</span>
-        </button>
-        <button onclick="toggleTheme()" aria-label="Toggle Theme" class="h-8 w-8 rounded-xl bg-white dark:bg-slate-800 hover:bg-slate-50 border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 flex items-center justify-center active:scale-95 transition-all shadow-xs">
-          <span id="themeIcon" class="text-xs">🌓</span>
-        </button>
+      <!-- Compact Utility Toolbar: Snap, Language, Font, Theme -->
+      <div class="flex items-center justify-between gap-1 pt-0.5 border-t border-slate-100 dark:border-slate-800/60">
+        <div class="flex items-center gap-1">
+          <button onclick="takeFullScreenSnapshot()" id="btnSnapHeader" title="प्रश्नाचा स्वच्छ स्क्रीनशॉट घ्या" class="h-7 px-2 rounded-lg bg-white dark:bg-slate-800 hover:bg-slate-50 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 text-[10px] font-black flex items-center gap-1 shadow-2xs btn-tactile">
+            <span>📸</span> <span>Snap</span>
+          </button>
+          <button onclick="toggleLang()" id="langBtn" aria-label="भाषा बदला" class="h-7 px-2 rounded-lg bg-white dark:bg-slate-800 hover:bg-slate-50 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 text-[10px] font-black shadow-2xs btn-tactile">
+            मराठी <span class="text-slate-300 dark:text-slate-600 mx-0.5">|</span> EN
+          </button>
+        </div>
+
+        <div class="flex items-center gap-1">
+          <button onclick="toggleFont()" aria-label="फॉन्ट आकार बदला" class="h-7 px-2 rounded-lg bg-white dark:bg-slate-800 hover:bg-slate-50 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 text-[10px] font-black flex items-center gap-1 shadow-2xs btn-tactile">
+            <span>A<span class="text-[8px]">A</span></span>
+            <span id="fontBadge" class="text-[8px] bg-brand-accent text-white px-1 py-0.2 rounded font-bold">M</span>
+          </button>
+          <button onclick="toggleTheme()" aria-label="थीम बदला" class="h-7 w-7 rounded-lg bg-white dark:bg-slate-800 hover:bg-slate-50 border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 flex items-center justify-center shadow-2xs btn-tactile">
+            <span id="themeIcon" class="text-xs">🌓</span>
+          </button>
+        </div>
       </div>
     </div>
 
     <!-- Smart Session Greeting Banner -->
     <div id="smartGreetingBanner" class="hidden border-t-2 border-amber-400 bg-gradient-to-r from-amber-50 via-orange-50 to-amber-50 dark:from-amber-950/60 dark:via-orange-950/40 dark:to-amber-950/60 p-2 text-xs animate-slide-down">
-      <div class="max-w-5xl mx-auto flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+      <div class="max-w-4xl mx-auto flex flex-col sm:flex-row sm:items-center justify-between gap-2">
         <div class="flex items-start gap-2 min-w-0">
           <span class="text-base shrink-0">👋</span>
           <div class="min-w-0">
             <div class="flex items-center gap-1.5 flex-wrap">
               <span class="font-black text-amber-950 dark:text-amber-100 text-xs">Welcome Back!</span>
               <span id="sessionTagBadge" class="px-1.5 py-0.2 rounded text-[8px] font-black uppercase bg-amber-200 dark:bg-amber-900/60 text-amber-900 dark:text-amber-300 border border-amber-300 dark:border-amber-700">
-                Session #1 today
+                सत्र सुरू
               </span>
             </div>
             <p class="text-[11px] text-amber-900 dark:text-amber-200 leading-snug">
@@ -242,48 +255,69 @@
         </div>
 
         <div class="flex items-center gap-2 shrink-0 self-end sm:self-auto w-full sm:w-auto">
-          <button onclick="handleContinueGreetingTarget()" class="flex-1 sm:flex-initial px-3 py-1 rounded-xl bg-amber-500 hover:bg-amber-600 text-slate-950 font-black text-xs shadow-xs active:scale-95 transition-all">
+          <button onclick="handleContinueGreetingTarget()" class="flex-1 sm:flex-initial px-3 py-1 rounded-xl bg-amber-500 hover:bg-amber-600 text-slate-950 font-black text-xs shadow-xs btn-tactile">
             ▶️ Continue
           </button>
-          <button onclick="handleChangeGreetingTarget()" class="flex-1 sm:flex-initial px-3 py-1 rounded-xl bg-white dark:bg-slate-800 hover:bg-slate-50 text-slate-800 dark:text-slate-200 border border-slate-300 dark:border-slate-600 font-bold text-xs shadow-xs active:scale-95 transition-all">
-            ⚙️ Change Target
+          <button onclick="handleChangeGreetingTarget()" class="flex-1 sm:flex-initial px-3 py-1 rounded-xl bg-white dark:bg-slate-800 hover:bg-slate-50 text-slate-800 dark:text-slate-200 border border-slate-300 dark:border-slate-600 font-bold text-xs shadow-xs btn-tactile">
+            ⚙️ बदला
           </button>
         </div>
       </div>
     </div>
   </header>
 
+  <!-- Main Quiz Area -->
   <main class="flex-1 overflow-y-auto relative w-full scroll-smooth flex flex-col" id="quizScrollArea">
-    <div class="max-w-3xl mx-auto px-2 sm:px-4 pt-1 pb-20 w-full flex-1 flex flex-col">
-      <div class="bg-white dark:bg-slate-800 rounded-2xl shadow-xs border border-slate-100 dark:border-slate-700/60 pt-2 pb-2.5 px-2.5 sm:p-3 relative flex-1 flex flex-col transition-all">
+    <div class="max-w-3xl mx-auto px-2 sm:px-4 pt-1 pb-24 w-full flex-1 flex flex-col">
+      <div class="bg-white dark:bg-slate-800 rounded-2xl shadow-xs border border-slate-200/80 dark:border-slate-700/60 pt-2 pb-2.5 px-2.5 sm:p-3.5 relative flex-1 flex flex-col transition-all">
         
-        <!-- Header Tag Strip (Fixed dimensions to prevent layout shifts) -->
-        <div class="flex items-center justify-between gap-1 mb-1 pb-1 border-b border-slate-100 dark:border-slate-700/50 shrink-0">
+        <!-- Header Tag Strip -->
+        <div class="flex items-center justify-between gap-1 mb-1.5 pb-1 border-b border-slate-100 dark:border-slate-700/50 shrink-0">
           <div id="question-tags" class="flex flex-wrap items-center gap-1 flex-1 min-w-0"></div>
           
           <div class="flex items-center gap-1 shrink-0">
-            <button id="btn-save" onclick="toggleSave()" aria-label="Save Question" class="h-6 w-16 box-border justify-center rounded-lg border-2 border-slate-200 dark:border-slate-600 bg-slate-50 dark:bg-slate-700/50 text-[10px] font-extrabold text-slate-600 dark:text-slate-300 flex items-center gap-1 shadow-xs active:scale-95 transition-all hover:border-amber-400 group">
+            <button id="btn-save" onclick="toggleSave()" aria-label="Save Question" class="h-6 w-16 box-border justify-center rounded-lg border-2 border-slate-200 dark:border-slate-600 bg-slate-50 dark:bg-slate-700/50 text-[10px] font-extrabold text-slate-600 dark:text-slate-300 flex items-center gap-1 shadow-2xs btn-tactile hover:border-amber-400 group">
               <span id="saveIcon">☆</span> <span id="saveText">Save</span>
             </button>
-            <button onclick="openReportModal()" aria-label="Report Error" title="Report Error" class="h-6 px-1.5 rounded-lg border-2 border-slate-200 dark:border-slate-600 bg-rose-50 dark:bg-rose-900/20 text-[10px] font-extrabold text-rose-500 flex items-center gap-1 shadow-xs active:scale-95 transition-all hover:bg-rose-100">
+            <button id="btn-report" onclick="openReportModal()" aria-label="Report Error" title="त्रुटी नोंदवा" class="h-6 px-1.5 rounded-lg border-2 border-slate-200 dark:border-slate-600 bg-rose-50 dark:bg-rose-900/20 text-[10px] font-extrabold text-rose-500 flex items-center gap-1 shadow-2xs btn-tactile hover:bg-rose-100">
               🚩
             </button>
-            <button onclick="openInfoModal()" aria-label="Info" class="h-6 w-6 rounded-lg border-2 border-slate-200 dark:border-slate-600 bg-slate-50 dark:bg-slate-700/50 text-[11px] font-serif italic font-bold text-slate-400 hover:text-sky-500 shadow-xs active:scale-95 transition-all">
+            <button id="btn-info" onclick="openInfoModal()" aria-label="अभ्यास माहिती" class="h-6 w-6 rounded-lg border-2 border-slate-200 dark:border-slate-600 bg-slate-50 dark:bg-slate-700/50 text-[11px] font-serif italic font-bold text-slate-400 hover:text-sky-500 shadow-2xs btn-tactile">
               i
             </button>
+          </div>
+        </div>
+
+        <!-- Live Current Affairs Loader Box (Displayed during Gemini fetching) -->
+        <div id="currentAffairsLoaderBox" class="hidden flex-1 flex flex-col justify-center items-center py-6 px-3 text-center animate-fade-in">
+          <div class="w-10 h-10 rounded-2xl bg-amber-100 dark:bg-amber-950/60 text-amber-600 dark:text-amber-400 flex items-center justify-center text-xl mb-2.5 border border-amber-300 dark:border-amber-800 animate-pulse-subtle">
+            📰
+          </div>
+          <span class="text-[9px] font-black uppercase tracking-wider text-amber-600 dark:text-amber-400 bg-amber-50 dark:bg-amber-950/40 px-2 py-0.5 rounded-md border border-amber-200 dark:border-amber-800 mb-1.5">
+            MPSC विशेष चालू घडामोडी माहिती
+          </span>
+          <h4 class="text-xs sm:text-sm font-extrabold text-slate-900 dark:text-white max-w-md mx-auto leading-relaxed" id="loaderFactHeadline">
+            नवीन प्रश्न तयार होत आहे, तोपर्यंत ही महत्त्वाची घडामोडी वाचा...
+          </h4>
+          <p class="text-[11px] text-slate-500 dark:text-slate-400 mt-1 max-w-sm mx-auto" id="loaderFactBody">
+            महाराष्ट्र शासन व राष्ट्रीय घडामोडींवरील ताजी माहिती.
+          </p>
+          <div class="mt-4 flex items-center gap-2 text-xs font-bold text-slate-400">
+            <svg class="animate-spin h-3.5 w-3.5 text-brand-blue" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
+            <span>नवीन प्रश्न तयार होत आहे...</span>
           </div>
         </div>
 
         <!-- Empty State Card -->
         <div id="emptyState" class="hidden text-center py-6 px-3 rounded-2xl border-2 border-dashed border-slate-200 dark:border-slate-700 bg-slate-50/50 dark:bg-slate-800/50 flex-1 flex flex-col justify-center items-center">
           <div class="w-11 h-11 bg-white dark:bg-slate-800 rounded-2xl shadow-xs flex items-center justify-center mx-auto mb-2 border border-slate-100 dark:border-slate-700 text-lg">🔑</div>
-          <h3 class="text-sm font-extrabold text-slate-900 dark:text-white mb-0.5">Connect AI Engine</h3>
+          <h3 class="text-sm font-extrabold text-slate-900 dark:text-white mb-0.5">AI Engine कनेक्ट करा</h3>
           <p class="text-xs text-slate-500 dark:text-slate-400 mb-2.5 max-w-sm mx-auto leading-relaxed">
-            Please setup your free Google Gemini API Key to unlock authentic MPSC practice questions.
+            अमर्यादित MPSC सराव चाचण्या सुरू करण्यासाठी तुमची मोफत Google Gemini API Key जोडा.
           </p>
           <div class="flex items-center gap-2">
-            <button onclick="openApiKeyModal(true)" class="px-3.5 py-1.5 rounded-xl bg-brand-blue text-white font-extrabold text-xs shadow-md active:scale-95 hover:bg-blue-700">Setup API Key</button>
-            <button onclick="enterInteractiveDemo()" class="px-3 py-1.5 rounded-xl bg-amber-500 text-slate-950 font-black text-xs shadow-xs active:scale-95">Play Demo</button>
+            <button onclick="openApiKeyModal(true)" class="px-3.5 py-1.5 rounded-xl bg-brand-blue text-white font-extrabold text-xs shadow-md btn-tactile hover:bg-blue-700">API Key जोडा</button>
+            <button onclick="enterInteractiveDemo()" class="px-3 py-1.5 rounded-xl bg-amber-500 text-slate-950 font-black text-xs shadow-xs btn-tactile">डेमो पहा</button>
           </div>
         </div>
 
@@ -293,11 +327,11 @@
           <div id="options-container" class="space-y-1 mb-1.5"></div>
 
           <!-- Solution Breakdown Box -->
-          <div id="solution-container" class="hidden bg-slate-50 dark:bg-slate-800/80 border border-emerald-500/30 rounded-xl p-2.5 sm:p-3 animate-slide-up relative overflow-hidden mt-1.5">
+          <div id="solution-container" class="hidden bg-slate-50 dark:bg-slate-800/80 border border-emerald-500/30 rounded-xl p-2.5 sm:p-3 animate-slide-up relative overflow-hidden mt-2">
             <div class="absolute top-0 left-0 w-1.5 h-full bg-emerald-500"></div>
             <div class="flex items-center justify-between mb-1 pb-1 border-b border-slate-200 dark:border-slate-700/60">
               <h3 class="text-emerald-700 dark:text-emerald-400 font-black text-xs sm:text-sm flex items-center gap-1.5">
-                <span class="text-base">💡</span> Detailed Analysis
+                <span class="text-base">💡</span> सविस्तर विश्लेषण (Solution)
               </h3>
               <span id="referenceBadge" class="text-[9px] sm:text-[10px] font-extrabold px-2 py-0.5 rounded bg-emerald-100 dark:bg-emerald-900/30 text-emerald-800 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800/50 truncate max-w-[150px]"></span>
             </div>
@@ -312,16 +346,16 @@
   <!-- Sticky Footer: Prev, View Solution, Next/Skip -->
   <footer class="fixed bottom-0 left-0 right-0 z-40 bg-white dark:bg-slate-900 border-t border-slate-200 dark:border-slate-800 flex flex-col shadow-[0_-4px_10px_-1px_rgba(0,0,0,0.08)]">
     <div class="w-full px-3 py-2 flex items-center justify-center gap-1.5 max-w-3xl mx-auto">
-      <button onclick="handlePrevAction()" id="btn-prev-action" title="Previous Question" class="h-10 px-3 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 font-black text-xs flex items-center justify-center gap-1 active:scale-95 transition-all border border-slate-200 dark:border-slate-700 disabled:opacity-40 disabled:cursor-not-allowed">
+      <button onclick="handlePrevAction()" id="btn-prev-action" title="मागील प्रश्न" class="h-10 px-3 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 font-black text-xs flex items-center justify-center gap-1 btn-tactile border border-slate-200 dark:border-slate-700 disabled:opacity-40 disabled:cursor-not-allowed">
         <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg>
         <span>मागे</span>
       </button>
       
-      <button onclick="showSolutionManually()" id="btnViewSolution" class="flex-1 h-10 rounded-xl bg-emerald-50 dark:bg-emerald-900/20 border border-emerald-200 dark:border-emerald-800/50 text-emerald-700 dark:text-emerald-400 hover:bg-emerald-100 font-extrabold text-xs flex items-center justify-center gap-1 active:scale-95 transition-all hidden">
-        <span>💡</span> <span class="truncate">View Solution</span>
+      <button onclick="showSolutionManually()" id="btnViewSolution" class="flex-1 h-10 rounded-xl bg-emerald-50 dark:bg-emerald-900/20 border border-emerald-200 dark:border-emerald-800/50 text-emerald-700 dark:text-emerald-400 hover:bg-emerald-100 font-extrabold text-xs flex items-center justify-center gap-1 btn-tactile hidden">
+        <span>💡</span> <span class="truncate">स्पष्टीकरण पहा</span>
       </button>
 
-      <button onclick="handleMainAction()" id="btn-main-action" class="flex-[1.5] h-10 px-3 rounded-xl bg-slate-900 dark:bg-slate-700 hover:bg-slate-800 text-white font-black text-xs sm:text-sm shadow-sm active:scale-95 transition-all flex items-center justify-center gap-1.5">
+      <button onclick="handleMainAction()" id="btn-main-action" class="flex-[1.5] h-10 px-3 rounded-xl bg-slate-900 dark:bg-slate-700 hover:bg-slate-800 text-white font-black text-xs sm:text-sm shadow-sm btn-tactile flex items-center justify-center gap-1.5">
         <span id="btn-action-text" class="truncate">Skip Question</span>
         <span id="btn-action-icon" class="flex shrink-0 items-center justify-center w-4 h-4">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg>
@@ -329,22 +363,80 @@
       </button>
     </div>
 
+    <!-- Micro Community Ribbon -->
     <div class="bg-slate-50 dark:bg-slate-950 py-1.5 border-t border-slate-200/50 dark:border-slate-800/50 flex items-center justify-center gap-4 text-[10px] font-extrabold text-slate-500 dark:text-slate-400">
       <a href="https://t.me/MPSCstudysphere" target="_blank" rel="noopener noreferrer" class="hover:text-brand-blue dark:hover:text-blue-400 transition-colors flex items-center gap-1"><span>✈️</span> Telegram</a>
       <span class="text-slate-300 dark:text-slate-700">•</span>
-      <button type="button" onclick="handleDonateClick()" class="hover:text-brand-accent transition-colors flex items-center gap-1"><span>❤️</span> Donate</button>
+      <button type="button" onclick="handleDonateClick()" class="hover:text-brand-accent transition-colors flex items-center gap-1">
+        <span class="blink-heart-border">❤️</span> Donate
+      </button>
       <span class="text-slate-300 dark:text-slate-700">•</span>
       <button type="button" onclick="shareWebsite()" class="hover:text-emerald-500 transition-colors flex items-center gap-1"><span>🔗</span> Share</button>
     </div>
   </footer>
 
-  <!-- Toast Notification Bar -->
+  <!-- Toast Notification Bar (Silent / Utility Only) -->
   <div id="toastNotification" class="fixed bottom-24 right-4 sm:right-auto sm:left-1/2 sm:-translate-x-1/2 z-50 transform translate-y-10 opacity-0 transition-all duration-300 bg-slate-900 text-white dark:bg-white dark:text-slate-900 px-3.5 py-2 rounded-xl shadow-xl flex items-center gap-2 text-xs font-bold pointer-events-none border border-slate-700 dark:border-slate-300">
     <span id="toastIcon" class="text-emerald-400 dark:text-emerald-600 text-sm">✓</span>
     <span id="toastMessage">Success!</span>
   </div>
 
-  <!-- Report Error Modal (Direct to Telegram with Screenshot Guide) -->
+  <!-- ========================================================================= -->
+  <!-- मोडल्स (MODALS SYSTEM)                                                    -->
+  <!-- ========================================================================= -->
+
+  <!-- १. सुधारित निकाल मोडल (Enhanced Performance Result Modal) -->
+  <div id="resultModal" role="dialog" aria-modal="true" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-xs hidden items-center justify-center p-3">
+    <div class="bg-white dark:bg-slate-800 rounded-3xl w-full max-w-sm p-4 sm:p-5 text-center shadow-2xl border border-slate-200 dark:border-slate-700 animate-slide-up flex flex-col">
+      
+      <div class="w-12 h-12 mx-auto mb-1.5 rounded-2xl bg-amber-100 dark:bg-amber-950/60 text-amber-600 dark:text-amber-400 flex items-center justify-center text-2xl shadow-inner border border-amber-300 dark:border-amber-800">
+        🏆
+      </div>
+
+      <h3 class="text-sm sm:text-base font-black text-slate-900 dark:text-white">चाचणी निकाल (Performance Summary)</h3>
+      <p class="text-[10px] sm:text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">MPSC १/४ (-०.२५) निगेटिव्ह पद्धतीनुसार अंतिम गुण</p>
+
+      <!-- Scorecard Display -->
+      <div class="my-3 p-3 rounded-2xl bg-gradient-to-r from-orange-50 via-amber-50 to-orange-50 dark:from-slate-900/60 dark:via-amber-950/30 dark:to-slate-900/60 border border-orange-200 dark:border-amber-800/40">
+        <span class="text-[9px] font-black uppercase tracking-wider text-slate-500">अंतिम गुण (Net Score)</span>
+        <div class="text-3xl font-black text-orange-600 dark:text-orange-400 leading-tight" id="resFinalScore">0.00</div>
+        <div class="flex items-center justify-center gap-3 mt-1 text-[11px] font-bold text-slate-600 dark:text-slate-300">
+          <span>अचूकता: <strong id="resAccuracy" class="text-emerald-600 dark:text-emerald-400">0%</strong></span>
+          <span>•</span>
+          <span>गती: <strong id="resSpeed" class="text-indigo-600 dark:text-indigo-400">0 से./प्रश्न</strong></span>
+        </div>
+      </div>
+
+      <!-- 3-Column Breakdown -->
+      <div class="grid grid-cols-3 gap-1.5 text-center text-xs mb-3.5">
+        <div class="p-2 rounded-xl bg-emerald-50 dark:bg-emerald-950/30 border border-emerald-200 dark:border-emerald-800">
+          <span class="text-emerald-700 dark:text-emerald-400 font-black text-sm block" id="resCorrect">0</span>
+          <span class="text-[9px] font-bold text-slate-500">बरोबर (+१.०)</span>
+        </div>
+        <div class="p-2 rounded-xl bg-rose-50 dark:bg-rose-950/30 border border-rose-200 dark:border-rose-800">
+          <span class="text-rose-600 dark:text-rose-400 font-black text-sm block" id="resWrong">0</span>
+          <span class="text-[9px] font-bold text-slate-500">चूक (-०.२५)</span>
+        </div>
+        <div class="p-2 rounded-xl bg-slate-100 dark:bg-slate-700/50 border border-slate-200 dark:border-slate-600">
+          <span class="text-slate-700 dark:text-slate-200 font-black text-sm block" id="resSkipped">0</span>
+          <span class="text-[9px] font-bold text-slate-400">सोडले</span>
+        </div>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="space-y-1.5">
+        <button onclick="startNewQuizBatch()" class="w-full py-2.5 rounded-xl bg-brand-blue hover:bg-blue-700 text-white font-black text-xs shadow-md btn-tactile">
+          🔄 नवीन सराव सुरू करा (Restart)
+        </button>
+        <button onclick="closeModal('resultModal')" class="w-full py-2 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-700 text-slate-800 dark:text-slate-200 font-bold text-xs border border-slate-200 dark:border-slate-600 btn-tactile">
+          पुनरावलोकन चालू ठेवा (Review Mode)
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- २. Report Error Modal (Direct to Telegram with Clean Snapshot Trigger) -->
   <div id="reportModal" role="dialog" aria-modal="true" class="fixed inset-0 z-50 bg-slate-900/80 backdrop-blur-xs hidden items-center justify-center p-3 sm:p-4">
     <div class="bg-white dark:bg-slate-800 rounded-2xl w-full max-w-sm shadow-2xl border border-slate-200 dark:border-slate-700 overflow-hidden animate-slide-up flex flex-col">
       <div class="px-4 py-3 bg-rose-50 dark:bg-rose-950/40 border-b border-rose-100 dark:border-rose-900/50 flex items-center justify-between">
@@ -352,7 +444,7 @@
           <span>🚩</span>
           <span>प्रश्नातील त्रुटी नोंदवा (Report)</span>
         </div>
-        <button onclick="closeModal('reportModal')" class="p-1 text-slate-400 hover:text-slate-700 dark:hover:text-white rounded-lg">
+        <button onclick="closeModal('reportModal')" class="p-1 text-slate-400 hover:text-slate-700 dark:hover:text-white rounded-lg btn-tactile">
           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
         </button>
       </div>
@@ -363,128 +455,106 @@
         </div>
         
         <div class="flex flex-col gap-2 pt-1">
-          <a href="https://t.me/MPSCstudysphere" target="_blank" rel="noopener noreferrer" class="w-full py-2.5 rounded-xl bg-sky-600 hover:bg-sky-700 text-white font-black text-xs flex items-center justify-center gap-2 shadow-xs active:scale-95 transition-all">
+          <a href="https://t.me/MPSCstudysphere" target="_blank" rel="noopener noreferrer" class="w-full py-2.5 rounded-xl bg-sky-600 hover:bg-sky-700 text-white font-black text-xs flex items-center justify-center gap-2 shadow-xs btn-tactile">
             <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.894 8.221l-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.446 1.394c-.16.16-.295.295-.605.295l.213-3.053 5.56-5.023c.242-.213-.054-.333-.373-.121l-6.871 4.326-2.962-.924c-.643-.204-.657-.643.136-.953l11.57-4.461c.535-.197 1.006.128.832.946z"/></svg>
             <span>Telegram वर पाठवा (@MPSCstudysphere)</span>
           </a>
-          <button onclick="takeReportQuestionSnapshot()" class="w-full py-2 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-700 dark:hover:bg-slate-600 text-slate-800 dark:text-slate-200 font-bold text-xs flex items-center justify-center gap-1.5 active:scale-95 transition-all border border-slate-300 dark:border-slate-600">
-          <span>📸 आधी स्क्रीनशॉट सेव्ह करा</span>
+          <button onclick="takeReportQuestionSnapshot()" class="w-full py-2 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-700 dark:hover:bg-slate-600 text-slate-800 dark:text-slate-200 font-bold text-xs flex items-center justify-center gap-1.5 border border-slate-300 dark:border-slate-600 btn-tactile">
+            <span>📸 आधी प्रश्नाचा स्वच्छ स्क्रीनशॉट सेव्ह करा</span>
           </button>
         </div>
       </div>
     </div>
   </div>
 
-<!-- Unified Responsive Donation Modal -->
-<div id="unifiedDonationModal" role="dialog" aria-modal="true" class="fixed inset-0 z-50 bg-black/75 backdrop-blur-xs hidden items-center justify-center p-3 sm:p-4">
-  <div class="bg-white dark:bg-slate-800 rounded-2xl w-full max-w-sm shadow-2xl border border-slate-200 dark:border-slate-700 relative flex flex-col overflow-hidden animate-slide-up">
-    
-    <!-- Modal Header -->
-    <div class="px-4 py-3 border-b border-slate-100 dark:border-slate-700 flex items-center justify-between shrink-0">
-      <div class="flex items-center gap-2">
-        <span class="text-amber-500 font-bold text-sm">❤️</span>
-        <span class="text-xs font-black text-slate-900 dark:text-white">StudySphere ला पाठिंबा द्या</span>
-      </div>
-      <button onclick="closeModal('unifiedDonationModal')" class="p-1 text-slate-400 hover:text-slate-600 dark:hover:text-white rounded-lg">
-        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
-      </button>
-    </div>
-
-    <!-- Modal Body -->
-    <div class="p-4 text-center space-y-3">
-      <p class="text-[11px] text-slate-600 dark:text-slate-300 font-medium leading-tight">
-        विद्यार्थ्यांना मोफत व दर्जेदार टेस्ट्स अखंड उपलब्ध ठेवण्यासाठी आपले योगदान मोलाचे आहे.
-      </p>
-
-      <!-- Amount Selector Buttons -->
-      <div class="grid grid-cols-4 gap-1.5">
-        <button type="button" onclick="setDonationVal(50)" class="don-chip py-1.5 px-2 text-xs font-bold rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-700/50">₹५०</button>
-        <button type="button" onclick="setDonationVal(100)" class="don-chip active py-1.5 px-2 text-xs font-bold rounded-lg border-2 border-amber-500 bg-amber-50 dark:bg-amber-950/40 text-amber-700 dark:text-amber-300">₹१००</button>
-        <button type="button" onclick="setDonationVal(200)" class="don-chip py-1.5 px-2 text-xs font-bold rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-700/50">₹२००</button>
-        <button type="button" onclick="setDonationVal(500)" class="don-chip py-1.5 px-2 text-xs font-bold rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-700/50">₹५००</button>
-        <button type="button" onclick="setDonationVal(1000)" class="don-chip py-1.5 px-2 text-xs font-bold rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-700/50">₹१०००</button>
-      </div>
-
-      <!-- Desktop View: Live QR Code -->
-      <div id="desktopQrBox" class="bg-white p-2 rounded-xl border border-dashed border-amber-400 w-36 h-36 mx-auto flex items-center justify-center shadow-xs">
-        <img id="liveQrImage" src="" alt="UPI QR" class="w-32 h-32 object-contain block">
-      </div>
-
-      <div class="text-xs font-bold text-slate-700 dark:text-slate-300">
-        स्कॅन / देणगी रक्कम: <span id="displayDonationAmount" class="text-orange-600 dark:text-orange-400 font-black text-sm">₹ १०१</span>
-      </div>
-
-      <!-- Mobile Button: UPI Intent -->
-      <button id="mobileUpiBtn" onclick="executeUpiTransfer()" class="w-full py-2.5 rounded-xl bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white font-black text-xs shadow-md active:scale-95 transition-all flex items-center justify-center gap-1.5">
-        <span>Pay with UPI (GPay / PhonePe / Paytm)</span>
-      </button>
-
-      <p class="text-[9px] text-slate-400 font-medium">
-        सुरक्षित UPI पेमेंट • १००% सुरक्षित ट्रान्सफर
-      </p>
-    </div>
-  </div>
-</div>
-
-  <!-- API Key Setup / Onboarding Modal -->
+  <!-- ३. १००% मराठी AI Engine Setup Modal -->
   <div id="apiKeyModal" role="dialog" aria-modal="true" class="fixed inset-0 z-50 bg-slate-900/80 backdrop-blur-md hidden items-center justify-center p-4">
     <div class="bg-white dark:bg-slate-800 w-full max-w-md rounded-[2rem] shadow-2xl border border-slate-100 dark:border-slate-700 flex flex-col max-h-[92vh] overflow-hidden animate-slide-up">
       <div class="px-5 py-3.5 border-b border-slate-100 dark:border-slate-700/50 flex items-center justify-between bg-slate-50 dark:bg-slate-800/50 shrink-0">
         <div class="flex items-center gap-2.5">
           <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center text-white text-base shadow-sm">🧠</div>
           <div>
-            <h3 class="font-extrabold text-sm text-slate-900 dark:text-white" id="apiKeyModalTitle">AI Engine Setup</h3>
-            <span class="px-1.5 py-0.2 rounded text-[8px] font-black uppercase bg-emerald-100 text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-800 inline-block">100% Free Forever</span>
+            <h3 class="font-extrabold text-sm text-slate-900 dark:text-white" id="apiKeyModalTitle">AI इंजिन सेटअप (मोफत)</h3>
+            <span class="px-1.5 py-0.2 rounded text-[8px] font-black uppercase bg-emerald-100 text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-800 inline-block">१००% मोफत व सुरक्षित</span>
           </div>
         </div>
-        <button id="apiKeyModalCloseBtn" onclick="closeApiKeyModal()" class="p-1.5 text-slate-400 hover:text-slate-800 dark:hover:text-white rounded-full hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors">
+        <button id="apiKeyModalCloseBtn" onclick="closeApiKeyModal()" class="p-1.5 text-slate-400 hover:text-slate-800 dark:hover:text-white rounded-full hover:bg-slate-200 dark:hover:bg-slate-700 btn-tactile">
           <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
         </button>
       </div>
 
       <div class="p-5 overflow-y-auto flex-1 text-sm space-y-3.5">
-        <div class="p-3.5 rounded-xl bg-sky-50 dark:bg-sky-900/10 border border-sky-100 dark:border-sky-800/30 text-sky-900 dark:text-sky-200 text-xs leading-relaxed">
-          <p class="font-bold mb-0.5">🔒 Safe, Client-Side Architecture:</p>
-          Your key securely connects your browser directly to Google Gemini. It is saved only in your local browser cache.
+        <div class="p-3.5 rounded-xl bg-sky-50 dark:bg-sky-950/40 border border-sky-100 dark:border-sky-800/50 text-sky-900 dark:text-sky-200 text-xs leading-relaxed">
+          <p class="font-bold mb-1">🔒 संपूर्ण सुरक्षित आणि क्लायंट-साइड प्रणाली:</p>
+          तुमची की फक्त तुमच्या स्वतःच्या ब्राऊझरमध्ये स्थानिक स्वरूपात सेव्ह राहते. ती कोणत्याही बाह्य सर्व्हरवर पाठवली जात नाही.
         </div>
 
-        <div id="demoBoxContainer" class="p-3 rounded-xl bg-amber-50 dark:bg-amber-900/10 border border-amber-200 dark:border-amber-800/30 flex items-center justify-between gap-3">
+        <div id="demoBoxContainer" class="p-3 rounded-xl bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-800/50 flex items-center justify-between gap-3">
           <div>
-            <h4 class="text-xs font-black text-slate-900 dark:text-white">New here? Try Demo First</h4>
-            <p class="text-[10px] text-slate-600 dark:text-slate-400">Experience 2 questions instantly without any key.</p>
+            <h4 class="text-xs font-black text-slate-900 dark:text-white">पहिलीच वेळ आहे का?</h4>
+            <p class="text-[10px] text-slate-600 dark:text-slate-400">कोणतीही की न टाकता २ डेमो प्रश्न लगेच सोडवून पहा.</p>
           </div>
-          <button type="button" onclick="enterInteractiveDemo()" class="px-3.5 py-2 rounded-xl bg-amber-500 hover:bg-amber-600 text-amber-950 font-black text-xs shadow-xs active:scale-95 transition-all shrink-0">
-            👁️ Play Demo
+          <button type="button" onclick="enterInteractiveDemo()" class="px-3 py-1.5 rounded-xl bg-amber-500 hover:bg-amber-600 text-amber-950 font-black text-xs shadow-xs btn-tactile shrink-0">
+            👁️ डेमो खेळा
           </button>
         </div>
 
         <div class="space-y-1.5 pt-1">
           <div class="flex justify-between items-center">
-            <label class="block text-[10px] font-black uppercase text-slate-500 tracking-wider">Paste Google Gemini API Key *</label>
+            <label class="block text-[10px] font-black uppercase text-slate-500 tracking-wider">Google Gemini API Key टाका *</label>
             <span class="text-[9px] bg-slate-100 dark:bg-slate-700 text-slate-500 px-1.5 py-0.5 rounded font-bold" id="activeModelBadge">gemini-flash</span>
           </div>
           <div class="relative">
             <input type="password" id="apiKeyInput" placeholder="AIzaSy..." class="w-full pl-3 pr-10 py-2.5 text-xs rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900/50 text-slate-800 dark:text-slate-100 font-mono focus:outline-none focus:border-brand-blue">
-            <button type="button" onclick="togglePasswordVisibility('apiKeyInput', this)" class="absolute right-3 top-2 text-slate-400 hover:text-slate-600 text-sm">👁️</button>
+            <button type="button" onclick="togglePasswordVisibility('apiKeyInput', this)" class="absolute right-3 top-2.5 text-slate-400 hover:text-slate-600 text-sm">👁️</button>
           </div>
           <p id="keyStatusMsg" class="text-[10px] font-bold hidden mt-1"></p>
         </div>
 
         <div class="flex items-center gap-2 pt-1">
-          <button id="btnTestKey" onclick="testApiKeyConnection()" class="flex-[2] py-2.5 rounded-xl bg-sky-50 dark:bg-sky-900/20 hover:bg-sky-100 text-sky-600 dark:text-sky-400 border border-sky-200 dark:border-sky-800 font-black text-xs shadow-xs active:scale-95 transition-all">⚡ Check Key</button>
-          <button id="btnSaveKey" onclick="saveApiKey()" class="hidden flex-[2] py-2.5 rounded-xl bg-brand-blue hover:bg-blue-700 text-white font-black text-xs shadow-md active:scale-95 transition-all">✓ Connect & Start</button>
-          <button id="btnDeleteKey" onclick="removeApiKey()" class="hidden px-3.5 py-2.5 rounded-xl bg-rose-50 dark:bg-rose-900/20 hover:bg-rose-100 text-rose-600 border border-rose-200 dark:border-rose-800 font-black text-xs shadow-xs active:scale-95 transition-all">🗑️</button>
+          <button id="btnTestKey" onclick="testApiKeyConnection()" class="flex-[2] py-2.5 rounded-xl bg-sky-50 dark:bg-sky-900/20 hover:bg-sky-100 text-sky-600 dark:text-sky-400 border border-sky-200 dark:border-sky-800 font-black text-xs shadow-xs btn-tactile">⚡ की तपासा (Verify)</button>
+          <button id="btnSaveKey" onclick="saveApiKey()" class="hidden flex-[2] py-2.5 rounded-xl bg-brand-blue hover:bg-blue-700 text-white font-black text-xs shadow-md btn-tactile">✓ सेव्ह करून सराव सुरू करा</button>
+          <button id="btnDeleteKey" onclick="removeApiKey()" class="hidden px-3.5 py-2.5 rounded-xl bg-rose-50 dark:bg-rose-900/20 hover:bg-rose-100 text-rose-600 border border-rose-200 dark:border-rose-800 font-black text-xs shadow-xs btn-tactile">🗑️</button>
         </div>
 
         <p class="text-[10px] text-slate-500 text-center mt-1 border-t border-slate-100 dark:border-slate-700/50 pt-2.5">
-          Get your free key in 1 click from Google: <br/>
-          <a href="https://aistudio.google.com/app/apikey" target="_blank" rel="noopener noreferrer" class="text-brand-blue dark:text-blue-400 underline font-extrabold text-[11px] hover:text-blue-600 transition-colors">Google AI Studio ↗</a>
+          Google वरून तुमची मोफत की १ मिनिटात मिळवा: <br/>
+          <a href="https://aistudio.google.com/app/apikey" target="_blank" rel="noopener noreferrer" class="text-brand-blue dark:text-blue-400 underline font-extrabold text-[11px] hover:text-blue-600">Google AI Studio (Get Free Key) ↗</a>
         </p>
       </div>
     </div>
   </div>
 
-  <!-- Multi-Select Dynamic Filter Modal -->
+  <!-- ४. सुधारित "i" अभ्यास माहिती मोडल (Upgraded AI Info Modal) -->
+  <div id="infoModal" role="dialog" aria-modal="true" class="fixed inset-0 z-50 bg-slate-900/75 backdrop-blur-xs hidden items-center justify-center p-4">
+    <div class="bg-white dark:bg-slate-800 w-full max-w-sm rounded-[2rem] shadow-2xl border border-slate-200 dark:border-slate-700 flex flex-col overflow-hidden animate-slide-up">
+      <div class="p-4 border-b border-slate-100 dark:border-slate-700 flex items-center justify-between bg-slate-50 dark:bg-slate-800/50 shrink-0">
+        <h3 class="font-black text-slate-900 dark:text-white flex items-center gap-2 text-sm">
+          <span class="w-6 h-6 rounded-full bg-sky-100 text-sky-600 flex items-center justify-center font-serif italic text-xs">i</span> 
+          MPSC सराव प्रणाली वैशिष्ट्ये
+        </h3>
+        <button onclick="closeModal('infoModal')" class="p-1 text-slate-400 hover:text-slate-800 dark:hover:text-white rounded-lg btn-tactile">
+          <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+        </button>
+      </div>
+      <div class="p-4 space-y-3 text-xs text-slate-600 dark:text-slate-300 leading-relaxed max-h-[60vh] overflow-y-auto">
+        <div class="p-2.5 rounded-xl bg-sky-50 dark:bg-sky-950/40 border border-sky-100 dark:border-sky-800/50 text-sky-900 dark:text-sky-200">
+          <p class="font-bold mb-0.5 text-sky-700 dark:text-sky-400">🎯 अभ्यासक्रम व संदर्भ सुसंगतता:</p>
+          <p>सर्व प्रश्न महाराष्ट्र राज्य पाठ्यपुस्तक मंडळ (इ. ८ वी ते १२ वी), मो. रा. वाळंबे मराठी व्याकरण, आणि MPSC सुधारित परीक्षा पद्धतीवर आधारलेले आहेत.</p>
+        </div>
+        <ul class="list-disc list-inside space-y-1.5 text-[11px]">
+          <li><strong>१/४ निगेटिव्ह मार्किंग:</strong> प्रत्यक्ष परीक्षा हॉलसारखा काटेकोर निकाल.</li>
+          <li><strong>बहुविधान व जोड्या जुळवा:</strong> आयोगाच्या काठिण्य पातळीशी १००% जुळणारे प्रश्नप्रकार.</li>
+          <li><strong>त्रुटी निवारण:</strong> प्रत्येक प्रश्नावर '🚩' दाबून थेट टेलिग्रामवर तक्रार नोंदवता येते.</li>
+        </ul>
+      </div>
+      <div class="p-3 border-t border-slate-100 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/50">
+        <button onclick="closeModal('infoModal')" class="w-full py-2 rounded-xl bg-slate-900 dark:bg-white text-white dark:text-slate-900 font-extrabold text-xs shadow-md btn-tactile">समजले, धन्यवाद!</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ५. परीक्षेचे फिल्टर मोडल (Target Setup Modal) -->
   <div id="filterModal" role="dialog" aria-modal="true" class="fixed inset-0 z-50 bg-slate-900/70 backdrop-blur-md hidden flex-col justify-end sm:justify-center items-center p-0 sm:p-4 transition-opacity">
     <div class="bg-white dark:bg-slate-800 w-full sm:max-w-xl sm:rounded-[2rem] rounded-t-[2rem] shadow-2xl border border-slate-100 dark:border-slate-700 flex flex-col overflow-hidden animate-slide-up max-h-[88vh]">
       <div class="p-4 border-b border-slate-100 dark:border-slate-700 flex items-center justify-between shrink-0 bg-slate-50 dark:bg-slate-800/50">
@@ -492,7 +562,7 @@
           <h3 class="font-black text-slate-900 dark:text-white flex items-center gap-2 text-sm sm:text-base">⚙️ Practice Target Setup</h3>
           <p class="text-[10px] text-slate-500 dark:text-slate-400">निवडलेल्या परीक्षेनुसार अभ्यासक्रम आपोआप बदलेल</p>
         </div>
-        <button onclick="closeModal('filterModal')" class="p-1.5 text-slate-400 hover:text-slate-800 dark:hover:text-white rounded-full hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors"><svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg></button>
+        <button onclick="closeModal('filterModal')" class="p-1.5 text-slate-400 hover:text-slate-800 dark:hover:text-white rounded-full btn-tactile"><svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg></button>
       </div>
 
       <div class="p-4 sm:p-5 overflow-y-auto space-y-3.5 flex-1">
@@ -531,91 +601,135 @@
       </div>
 
       <div class="p-3.5 border-t border-slate-100 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/50 shrink-0">
-        <button onclick="applyFilters()" class="w-full py-2.5 rounded-xl bg-brand-blue hover:bg-blue-700 text-white font-black text-xs sm:text-sm shadow-md active:scale-95 transition-all">
+        <button onclick="applyFilters()" class="w-full py-2.5 rounded-xl bg-brand-blue hover:bg-blue-700 text-white font-black text-xs sm:text-sm shadow-md btn-tactile">
           Apply & Start Practice (सराव सुरू करा)
         </button>
       </div>
     </div>
   </div>
 
-  <!-- AI Info Modal -->
-  <div id="infoModal" role="dialog" aria-modal="true" class="fixed inset-0 z-50 bg-slate-900/70 backdrop-blur-sm hidden items-center justify-center p-4">
-    <div class="bg-white dark:bg-slate-800 w-full max-w-sm rounded-[2rem] shadow-2xl border border-slate-100 dark:border-slate-700 flex flex-col overflow-hidden animate-slide-up">
-      <div class="p-4 border-b border-slate-100 dark:border-slate-700 flex items-center justify-between bg-slate-50 dark:bg-slate-800/50 shrink-0">
-        <h3 class="font-black text-slate-900 dark:text-white flex items-center gap-2 text-sm">
-          <span class="w-6 h-6 rounded-full bg-sky-100 text-sky-500 flex items-center justify-center font-serif italic">i</span> AI Practice Disclaimer
-        </h3>
-        <button onclick="closeModal('infoModal')" class="p-1 text-slate-400 hover:text-slate-800 dark:hover:text-white rounded-full hover:bg-slate-200 dark:hover:bg-slate-700">
-          <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+  <!-- ६. मोबाईल डोनेशन मोडल (Fixed-Size Zero Scroll) -->
+  <div id="mobileDonationModal" role="dialog" aria-modal="true" class="fixed inset-0 z-50 bg-black/75 backdrop-blur-xs hidden items-center justify-center p-3 no-print">
+    <div class="bg-white dark:bg-[#0d1728] rounded-2xl w-full max-w-sm shadow-2xl border border-slate-200 dark:border-[#1f3358] relative flex flex-col overflow-hidden animate-slide-up">
+      <div class="bg-white dark:bg-[#0d1728] px-4 py-2.5 border-b border-slate-100 dark:border-[#1f3358] flex items-center justify-between shrink-0">
+        <div class="flex items-center gap-1.5">
+          <span class="text-amber-500 font-bold text-sm">❤️</span>
+          <span class="text-xs font-black text-slate-900 dark:text-white">StudySphere ला पाठिंबा द्या</span>
+        </div>
+        <button onclick="closeModal('mobileDonationModal')" class="p-1 text-slate-400 hover:text-slate-600 dark:hover:text-white rounded-lg btn-tactile">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
         </button>
       </div>
-      <div class="p-4 space-y-3 text-xs text-slate-600 dark:text-slate-300 leading-relaxed max-h-[60vh] overflow-y-auto">
-        <div class="p-2.5 rounded-xl bg-sky-50 dark:bg-sky-900/10 border border-sky-100 dark:border-sky-800/30 text-sky-900 dark:text-sky-200">
-          <p class="font-bold mb-0.5 text-sky-700 dark:text-sky-400">🤖 AI-Generated Syllabus Matching:</p>
-          <p>Questions are dynamically generated based on standard MPSC textbooks, previous trends, and reference notes.</p>
+
+      <div class="p-3.5 flex flex-col gap-2">
+        <p class="text-[11px] text-slate-600 dark:text-slate-300 font-medium text-center leading-tight">
+          विद्यार्थ्यांना मोफत व दर्जेदार टेस्ट्स अखंड उपलब्ध ठेवण्यासाठी आपले सहकार्य मोलाचे आहे.
+        </p>
+
+        <div class="p-2 rounded-lg bg-amber-50 dark:bg-amber-950/40 border border-amber-200/80 dark:border-amber-900/50 text-left">
+          <p class="text-[10px] text-amber-900 dark:text-amber-200 leading-tight font-semibold">
+            💡 <span class="underline">नोंद:</span> ही वेबसाइट विनामूल्य चालवली जात आहे. तुमच्या सहकार्यामुळे ती अखंड व वेगवान राहील.
+          </p>
         </div>
-        <ul class="list-disc list-inside space-y-1">
-          <li>For personal revision and rapid MCQ speed-drilling.</li>
-          <li>Always cross-reference with official Maharashtra State Board & MPSC keys for final arbitration.</li>
-          <li>Use the 🚩 Report Error button to alert our syllabus review team on Telegram.</li>
-        </ul>
-      </div>
-      <div class="p-3 border-t border-slate-100 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/50">
-        <button onclick="closeModal('infoModal')" class="w-full py-2 rounded-xl bg-slate-900 dark:bg-white text-white dark:text-slate-900 font-extrabold text-xs shadow-md active:scale-95">Got it</button>
+
+        <div class="grid grid-cols-3 gap-1.5 pt-0.5">
+          <button type="button" onclick="selectDonationAmount(50)" class="donation-btn py-1.5 px-2 text-xs font-bold rounded-lg border border-slate-200 dark:border-[#1f3358] bg-slate-50 dark:bg-[#121e35] text-slate-800 dark:text-slate-200 btn-tactile">₹ ५०</button>
+          <button type="button" onclick="selectDonationAmount(100)" class="donation-btn py-1.5 px-2 text-xs font-bold rounded-lg border-2 border-amber-500 bg-amber-50 dark:bg-amber-950/40 text-amber-700 dark:text-amber-300 btn-tactile">₹ १००</button>
+          <button type="button" onclick="selectDonationAmount(200)" class="donation-btn py-1.5 px-2 text-xs font-bold rounded-lg border border-slate-200 dark:border-[#1f3358] bg-slate-50 dark:bg-[#121e35] text-slate-800 dark:text-slate-200 btn-tactile">₹ २००</button>
+        </div>
+
+        <div>
+          <label for="customAmountInput" class="block text-[10px] font-semibold text-slate-600 dark:text-slate-300 mb-0.5">किंवा आपली ऐच्छिक रक्कम (किमान ₹१०):</label>
+          <div class="relative">
+            <span class="absolute left-2.5 top-1.5 text-xs font-bold text-slate-400">₹</span>
+            <input type="number" id="customAmountInput" value="100" min="10" step="1" oninput="validateCustomAmount()" placeholder="रक्कम टाका" class="w-full pl-6 pr-2.5 py-1 text-xs rounded-lg border border-slate-200 dark:border-[#1f3358] bg-white dark:bg-[#121e35] text-slate-900 dark:text-white focus:outline-none focus:ring-1 focus:ring-amber-500 font-bold">
+          </div>
+          <p id="amountError" class="text-[10px] text-rose-500 mt-0.5 hidden font-medium">कृपया किमान ₹१० रक्कम टाका.</p>
+        </div>
+
+        <button onclick="triggerUPIPayment()" id="payNowBtn" class="w-full py-2 rounded-xl bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white font-bold text-xs shadow-md shadow-amber-500/20 active:scale-[0.98] transition-all flex items-center justify-center gap-1.5 mt-0.5 btn-tactile">
+          <span>Pay with UPI (GPay / PhonePe / Paytm)</span>
+        </button>
+
+        <p class="text-[9px] text-center text-slate-400 font-medium">UPI ॲप्सद्वारे थेट व १००% सुरक्षित ट्रान्सफर</p>
       </div>
     </div>
   </div>
 
-  <div id="resultModal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden items-center justify-center p-3">
-  <div class="bg-white dark:bg-slate-800 rounded-3xl w-full max-w-sm p-5 text-center shadow-2xl border border-slate-200 dark:border-slate-700 animate-slide-up">
-    
-    <div class="w-14 h-14 mx-auto mb-2 rounded-2xl bg-amber-100 dark:bg-amber-900/30 text-amber-600 flex items-center justify-center text-2xl shadow-inner">
-      🏆
-    </div>
+  <!-- ७. डेस्कटॉप डोनेशन मोडल (Fixed-Size Live QR Code) -->
+  <div id="desktopDonationModal" role="dialog" aria-modal="true" class="fixed inset-0 z-50 bg-black/75 backdrop-blur-xs hidden items-center justify-center p-3 no-print">
+    <div class="bg-white dark:bg-[#0d1728] rounded-2xl w-full max-w-sm shadow-2xl border-2 border-slate-300 dark:border-[#1f3358] relative flex flex-col overflow-hidden animate-slide-up">
+      <div class="bg-white dark:bg-[#0d1728] px-4 py-2.5 border-b border-slate-200 dark:border-[#1f3358] flex items-center justify-between shrink-0">
+        <h3 class="text-xs font-bold text-slate-900 dark:text-white flex items-center gap-1.5">
+          <span>❤️</span> <span>StudySphere ला पाठिंबा द्या</span>
+        </h3>
+        <button onclick="closeModal('desktopDonationModal')" class="p-1 text-slate-400 hover:text-slate-600 dark:hover:text-white rounded-lg btn-tactile">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+        </button>
+      </div>
 
-    <h3 class="text-base font-black text-slate-900 dark:text-white">चाचणी निकाल (Performance Summary)</h3>
-    <p class="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">MPSC 1/4 निगेटिव्ह मार्किंगनुसार गुण</p>
+      <div class="p-3.5 flex flex-col gap-2 text-center">
+        <p class="text-[11px] text-slate-600 dark:text-slate-300 leading-tight font-medium">
+          कोणत्याही UPI ॲपवरून खालील QR कोड स्कॅन करून सुरक्षित सहकार्य करा.
+        </p>
 
-    <!-- Score Pill -->
-    <div class="my-3.5 p-3 rounded-2xl bg-gradient-to-r from-orange-50 to-amber-50 dark:from-slate-900/60 dark:to-amber-950/20 border border-orange-200 dark:border-amber-800/40">
-      <span class="text-[10px] font-black uppercase tracking-wider text-slate-500">अंतिम गुण (Final Score)</span>
-      <div class="text-3xl font-black text-orange-600 dark:text-orange-400" id="resFinalScore">0.00</div>
-      <div class="text-xs font-bold text-slate-600 dark:text-slate-300 mt-0.5">
-        अचूकता (Accuracy): <span id="resAccuracy" class="text-emerald-600">0%</span>
+        <div class="grid grid-cols-3 gap-1.5">
+          <button type="button" onclick="selectDesktopAmount(50)" class="desktop-donation-btn py-1 px-1.5 text-xs font-bold rounded-lg border border-slate-200 dark:border-[#1f3358] bg-slate-50 dark:bg-[#121e35] text-slate-800 dark:text-slate-200 btn-tactile">₹ ५०</button>
+          <button type="button" onclick="selectDesktopAmount(100)" class="desktop-donation-btn py-1 px-1.5 text-xs font-bold rounded-lg border-2 border-amber-500 bg-amber-50 dark:bg-amber-950/40 text-amber-700 dark:text-amber-300 btn-tactile">₹ १००</button>
+          <button type="button" onclick="selectDesktopAmount(200)" class="desktop-donation-btn py-1 px-1.5 text-xs font-bold rounded-lg border border-slate-200 dark:border-[#1f3358] bg-slate-50 dark:bg-[#121e35] text-slate-800 dark:text-slate-200 btn-tactile">₹ २००</button>
+        </div>
+
+        <div class="text-left">
+          <div class="flex items-center gap-1.5">
+            <div class="relative flex-1">
+              <span class="absolute left-2.5 top-1.5 text-xs font-bold text-slate-400">₹</span>
+              <input type="number" id="desktopCustomAmountInput" value="100" min="10" step="1" oninput="handleDesktopAmountInput(this.value)" placeholder="रक्कम टाका" class="w-full pl-6 pr-2 py-1 text-xs rounded-lg border border-slate-200 dark:border-[#1f3358] bg-white dark:bg-[#121e35] text-slate-900 dark:text-white focus:outline-none focus:ring-1 focus:ring-amber-500 font-bold">
+            </div>
+            <button type="button" onclick="generateDesktopCustomQr()" class="px-2.5 py-1 rounded-lg bg-orange-600 hover:bg-orange-700 text-white font-bold text-xs shadow-xs shrink-0 btn-tactile">QR बनवा</button>
+          </div>
+          <p id="desktopAmountError" class="text-[10px] text-rose-500 mt-0.5 hidden font-medium">किमान ₹१० किंवा अधिक रक्कम टाका.</p>
+        </div>
+
+        <div class="bg-white p-2 rounded-xl border-2 border-dashed border-amber-400 w-36 h-36 mx-auto flex flex-col items-center justify-center shadow-xs">
+          <img id="desktopDynamicQrImg" src="" onerror="handleQrImageError(this)" alt="StudySphere UPI QR Code" class="w-32 h-32 object-contain rounded-md block">
+        </div>
+
+        <div class="text-xs font-bold text-slate-700 dark:text-slate-300">
+          स्कॅन रक्कम: <span id="desktopQrAmountLabel" class="text-orange-600 dark:text-orange-400 font-black text-xs">₹ १००</span>
+        </div>
+
+        <div class="pt-1 border-t border-slate-200 dark:border-[#1f3358]">
+          <button onclick="closeModal('desktopDonationModal')" class="px-4 py-1 rounded-lg bg-slate-100 hover:bg-slate-200 dark:bg-[#121e35] dark:hover:bg-[#172744] text-[11px] font-bold text-slate-700 dark:text-slate-300 btn-tactile">
+            बंद करा (Close)
+          </button>
+        </div>
       </div>
     </div>
+  </div>
 
-    <!-- 3-Column Breakdown -->
-    <div class="grid grid-cols-3 gap-2 text-center text-xs mb-4">
-      <div class="p-2 rounded-xl bg-emerald-50 dark:bg-emerald-950/30 border border-emerald-200 dark:border-emerald-800">
-        <span class="text-emerald-700 dark:text-emerald-400 font-black text-sm block" id="resCorrect">0</span>
-        <span class="text-[9px] font-bold text-slate-500">बरोबर (+1.0)</span>
+  <!-- ८. आभार मोडल (Thank You Confirmation Modal) -->
+  <div id="thankYouModal" class="fixed inset-0 z-50 bg-black/75 backdrop-blur-xs hidden items-center justify-center p-3 no-print">
+    <div class="bg-white dark:bg-[#0d1728] rounded-2xl w-full max-w-xs p-5 shadow-2xl border-2 border-emerald-500 text-center relative animate-slide-up">
+      <div class="w-10 h-10 bg-emerald-100 dark:bg-emerald-950 text-emerald-600 rounded-full flex items-center justify-center mx-auto mb-2">
+        <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
       </div>
-      <div class="p-2 rounded-xl bg-rose-50 dark:bg-rose-950/30 border border-rose-200 dark:border-rose-800">
-        <span class="text-rose-600 dark:text-rose-400 font-black text-sm block" id="resWrong">0</span>
-        <span class="text-[9px] font-bold text-slate-500">चूक (-0.25)</span>
-      </div>
-      <div class="p-2 rounded-xl bg-slate-100 dark:bg-slate-700/50 border border-slate-200 dark:border-slate-600">
-        <span class="text-slate-700 dark:text-slate-200 font-black text-sm block" id="resSkipped">0</span>
-        <span class="text-[9px] font-bold text-slate-400">सोडवले नाही</span>
-      </div>
-    </div>
-
-    <!-- Action Buttons -->
-    <div class="space-y-2">
-      <button onclick="startNewQuizBatch()" class="w-full py-2.5 rounded-xl bg-brand-blue hover:bg-blue-700 text-white font-black text-xs shadow-md active:scale-95 transition-all">
-        🔄 नवीन सराव सुरू करा (Restart)
+      <h3 class="text-sm font-extrabold text-slate-900 dark:text-white">सहकार्य केल्याबद्दल धन्यवाद!</h3>
+      <p class="text-[11px] text-slate-600 dark:text-slate-300 mt-1.5 leading-snug font-medium">
+        तुमचा हा पाठिंबा महाराष्ट्रातील हजारो होतकरू स्पर्धा परीक्षा विद्यार्थ्यांना मोफत टेस्ट्स पोहोचवण्यासाठी आणि वेबसाइट अधिक गतिशील ठेवण्यासाठी मोलाचा ठरेल.
+      </p>
+      <button onclick="closeModal('thankYouModal')" class="mt-3 w-full py-2 rounded-xl bg-orange-600 hover:bg-orange-700 text-white font-bold text-xs shadow-md btn-tactile">
+        सराव सुरू ठेवा (Continue)
       </button>
-      <a href="dashboard.html" class="block w-full py-2 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-700 text-slate-800 dark:text-slate-200 font-bold text-xs transition-all border border-slate-200 dark:border-slate-600">
-        📖 डॅशबोर्ड व सेव्ह केलेले प्रश्न पहा
-      </a>
     </div>
-
   </div>
-</div>
 
+  <!-- ========================================================================= -->
+  <!-- JAVASCRIPT ENGINE & ARCHITECTURE                                          -->
+  <!-- ========================================================================= -->
   <script>
-    /* Global Application State */
+    /* -------------------------------------------------------------------------
+       1. Global State Management
+       ------------------------------------------------------------------------- */
     let questionQueue = [];
     let currentQuestion = null;
     let isAnswered = false;
@@ -627,17 +741,18 @@
     let isAwaitingGreetingChoice = false;
     let isOnboardingActive = false;
 
-    // History and Navigation State
+    // Navigation and Session Analytics History
     let sessionHistory = [];
     let currentHistoryIndex = -1;
+    let sessionStartTime = Date.now();
 
     let lang = 'mr'; 
     const sizes = ['s', 'm', 'l'];
     let sIdx = 1;
 
-    // Intelligent Multi-Model Fallback Sequence
+    // Adaptive Low-Latency Model Fallbacks
     const CANDIDATE_MODELS = [
-      "gemini-3.5-flash-lite"
+      "gemini-3.5-flash-lite",
     ];
     let activeGeminiModel = localStorage.getItem('qq_active_model') || CANDIDATE_MODELS[0];
 
@@ -645,6 +760,35 @@
     let filters = { exam: 'group-c', stage: 'Prelims', subjects: ['History'], diff: 'Medium' };
     let modalFilters = JSON.parse(JSON.stringify(filters));
 
+    // Dynamic Current Affairs Flash Knowledge Base (Rotated during AI Loading)
+    const CURRENT_AFFAIRS_FLASH = [
+      {
+        headline: "महाराष्ट्र शासनाची 'मुख्यमंत्री वयोश्री योजना'",
+        body: "६५ वर्षे व त्यावरील ज्येष्ठ नागरिकांसाठी उपकरणे खरेदीसाठी ₹३,००० थेट बँक खात्यात वर्ग."
+      },
+      {
+        headline: "ज्ञानपीठ पुरस्कार विजेते",
+        body: "५८ वा ज्ञानपीठ पुरस्कार: प्रसिद्ध गीतकार गुलजार (उर्दू) आणि जगद्गुरू रामभद्राचार्य (संस्कृत)."
+      },
+      {
+        headline: "महाराष्ट्र आर्थिक पाहणी अहवाल: GDP वृद्धी दर",
+        body: "महाराष्ट्राचा सेवा क्षेत्राचा वाटा सर्वाधिक असून कृषी आणि उद्योग क्षेत्रातील भांडवली गुंतवणूक अग्रस्थानी."
+      },
+      {
+        headline: "भारताचे नवीन मुख्य निवडणूक आयुक्त (CEC)",
+        body: "निवडणूक आयोग (नियुक्ती व सेवाशर्ती) कायदा २०२३ नुसार निवड समितीच्या शिफारशीने नियुक्ती."
+      },
+      {
+        headline: "नीती आयोग 'शाश्वत विकास उद्दिष्टे' (SDG) निर्देशांक",
+        body: "महाराष्ट्र सामाजिक व पायाभूत सुविधा निर्देशांकात 'Front Runner' श्रेणीमध्ये समाविष्ट."
+      },
+      {
+        headline: "पद्म पुरस्कार २०२५ - महाराष्ट्र मानकरी",
+        body: "कला, समाजसेवा, साहित्य व शिक्षण क्षेत्रातील राज्यातील नामवंत व्यक्तींचा गौरव."
+      }
+    ];
+
+    // Syllabus Hierarchy Tree
     const syllabusHierarchy = {
       'rajyaseva': {
         'Prelims': [
@@ -689,6 +833,9 @@
       }
     };
 
+    /* -------------------------------------------------------------------------
+       2. Window Initialization Lifecycle
+       ------------------------------------------------------------------------- */
     window.onload = async () => {
       initTheme();
       restoreSavedFilters();
@@ -735,6 +882,9 @@
       }
     };
 
+    /* -------------------------------------------------------------------------
+       3. Onboarding & Modal Controllers
+       ------------------------------------------------------------------------- */
     function openOnboardingModal() {
       isOnboardingActive = true;
       const modal = document.getElementById('apiKeyModal');
@@ -742,7 +892,7 @@
       const title = document.getElementById('apiKeyModalTitle');
       
       if (closeBtn) closeBtn.classList.add('hidden');
-      if (title) title.textContent = "Welcome to QuickQuiz!";
+      if (title) title.textContent = "QuickQuiz मध्ये स्वागत आहे!";
       
       document.getElementById('apiKeyInput').value = '';
       document.getElementById('keyStatusMsg').classList.add('hidden');
@@ -757,11 +907,11 @@
       
       if (!apiKey && !isDemoActive) {
         if (closeBtn) closeBtn.classList.add('hidden');
-        if (title) title.textContent = "Welcome to QuickQuiz!";
+        if (title) title.textContent = "QuickQuiz मध्ये स्वागत आहे!";
         isOnboardingActive = true;
       } else {
         if (closeBtn) closeBtn.classList.remove('hidden');
-        if (title) title.textContent = "AI Engine Setup";
+        if (title) title.textContent = "AI इंजिन सेटअप (मोफत)";
         isOnboardingActive = false;
       }
 
@@ -776,6 +926,32 @@
       closeModal('apiKeyModal');
     }
 
+    function openModal(id) { 
+      const m = document.getElementById(id); 
+      if(m){ 
+        m.classList.remove('hidden'); 
+        m.classList.add('flex'); 
+      } 
+    }
+    
+    function closeModal(id) { 
+      const m = document.getElementById(id); 
+      if(m){ 
+        m.classList.remove('flex'); 
+        m.classList.add('hidden'); 
+      }
+      if (id === 'filterModal' && isAwaitingGreetingChoice && !currentQuestion) {
+        const sessionCount = parseInt(localStorage.getItem('qq_user_sessions') || '1', 10);
+        showSmartGreetingBanner(sessionCount);
+      }
+    }
+
+    function openReportModal() { openModal('reportModal'); }
+    function openInfoModal() { openModal('infoModal'); }
+
+    /* -------------------------------------------------------------------------
+       4. Session Persistence & Evaluation Flow
+       ------------------------------------------------------------------------- */
     function evaluateSessionAndReturnFlow() {
       const now = Date.now();
       const lastActive = parseInt(localStorage.getItem('qq_last_active') || '0', 10);
@@ -802,7 +978,7 @@
         isAwaitingGreetingChoice = true;
         const eName = filters.exam === 'group-c' ? 'Group C' : (filters.exam === 'group-b' ? 'Group B' : 'Rajya');
         const sName = filters.subjects.length > 2 ? `${filters.subjects[0]} +${filters.subjects.length - 1}` : filters.subjects.join(', ');
-        badge.textContent = `Session #${sessionNum} today`;
+        badge.textContent = `सत्र #${sessionNum}`;
         targetText.textContent = `${eName} • ${filters.stage} • ${sName}`;
         streakText.textContent = `${correctStreak} Streak`;
         banner.classList.remove('hidden');
@@ -817,7 +993,6 @@
     function handleContinueGreetingTarget() {
       isAwaitingGreetingChoice = false;
       hideSmartGreetingBanner();
-      showToast("Target confirmed! Loading questions...");
       fetchAiQuestionsBatch(true);
     }
 
@@ -832,7 +1007,7 @@
 
     function restoreStreak() {
       correctStreak = parseInt(localStorage.getItem('qq_correct_streak') || '0', 10);
-      document.getElementById('streakCount').textContent = `${correctStreak} Streak`;
+      document.getElementById('streakCount').textContent = `${correctStreak}`;
     }
 
     function saveActiveSessionState() {
@@ -856,7 +1031,7 @@
 
     function updateActiveFilterDisplay() {
       const eName = filters.exam === 'group-c' ? 'Group C' : (filters.exam === 'group-b' ? 'Group B' : 'Rajya');
-      const sName = filters.subjects.length > 2 ? `${filters.subjects[0]} +${filters.subjects.length - 1} more` : (filters.subjects.join(', ') || 'All');
+      const sName = filters.subjects.length > 2 ? `${filters.subjects[0]} +${filters.subjects.length - 1}` : (filters.subjects.join(', ') || 'All');
       document.getElementById('activeFilterText').textContent = `${eName} • ${filters.stage} • ${sName}`;
     }
 
@@ -900,15 +1075,11 @@
       toastTimeout = setTimeout(() => {
         toast.classList.remove('translate-y-0', 'opacity-100');
         toast.classList.add('translate-y-10', 'opacity-0');
-      }, 3000);
-    }
-
-    function openReportModal() {
-      openModal('reportModal');
+      }, 2500);
     }
 
     function fireConfetti() {
-      const colors = ['#f95959', '#10b981', '#3b82f6', '#f59e0b', '#8b5cf6'];
+      const colors = ['#ea580c', '#10b981', '#3b82f6', '#f59e0b', '#8b5cf6'];
       for(let i=0; i<25; i++) {
         const conf = document.createElement('div');
         conf.className = 'confetti animate-confetti-fall';
@@ -921,6 +1092,9 @@
       }
     }
 
+    /* -------------------------------------------------------------------------
+       5. Theme & Font Size Controls
+       ------------------------------------------------------------------------- */
     function initTheme() {
       if (localStorage.getItem('theme') === 'dark' || (!localStorage.getItem('theme') && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
         document.documentElement.classList.add('dark');
@@ -933,7 +1107,6 @@
       document.documentElement.classList.toggle('dark');
       localStorage.setItem('theme', document.documentElement.classList.contains('dark') ? 'dark' : 'light');
       initTheme();
-      showToast(document.documentElement.classList.contains('dark') ? 'Dark Mode' : 'Light Mode');
     }
     function toggleFont() {
       sIdx = (sIdx + 1) % sizes.length;
@@ -951,6 +1124,9 @@
       return (obj[lang] || obj['mr'] || obj['en'] || "").trim();
     }
 
+    /* -------------------------------------------------------------------------
+       6. API Key Verification & Adaptive Model Engine
+       ------------------------------------------------------------------------- */
     function updateAPIKeyUI() {
       const key = getStoredApiKey();
       const statusText = document.getElementById('apiKeyStatusText');
@@ -962,9 +1138,9 @@
       if (modelBadge) modelBadge.textContent = activeGeminiModel;
 
       if (isDemoActive) {
-        statusText.textContent = "Demo";
+        statusText.textContent = "डेमो मोड";
       } else if (key) {
-        statusText.textContent = "Key Active ✓";
+        statusText.textContent = "की जोडली ✓";
         if(demoBox) demoBox.classList.add('hidden');
         if(btnSave) btnSave.classList.add('hidden');
         if(btnDelete) btnDelete.classList.remove('hidden');
@@ -990,13 +1166,13 @@
       const val = input.value.trim();
 
       if (!val || val.length < 15) {
-        statusEl.textContent = "कृपया योग्य API Key टाका (Key should start with AIzaSy...).";
+        statusEl.textContent = "कृपया योग्य API Key टाका (AIzaSy ने सुरू होणारी).";
         statusEl.className = "text-[10px] font-bold text-rose-500 block mt-1";
         statusEl.classList.remove('hidden');
         return;
       }
 
-      statusEl.textContent = "Connecting to Gemini AI Engine...";
+      statusEl.textContent = "Gemini AI शी संपर्क जोडला जात आहे...";
       statusEl.className = "text-[10px] font-bold text-sky-500 block mt-1";
       statusEl.classList.remove('hidden');
 
@@ -1022,14 +1198,14 @@
       if (verified) {
         activeGeminiModel = workingModel;
         localStorage.setItem('qq_active_model', activeGeminiModel);
-        statusEl.textContent = `✓ Connected! Model: ${activeGeminiModel}`;
+        statusEl.textContent = `✓ कनेक्शन यशस्वी! (मॉडेल: ${activeGeminiModel})`;
         statusEl.className = "text-[10px] font-bold text-emerald-500 block mt-1";
         document.getElementById('btnSaveKey').classList.remove('hidden');
         document.getElementById('btnTestKey').classList.add('hidden');
         const badge = document.getElementById('activeModelBadge');
         if (badge) badge.textContent = activeGeminiModel;
       } else {
-        statusEl.textContent = "✕ Connection Failed. Please verify key from Google AI Studio.";
+        statusEl.textContent = "✕ कनेक्शन अयशस्वी. कृपया Google AI Studio वरून योग्य की तपासा.";
         statusEl.className = "text-[10px] font-bold text-rose-500 block mt-1";
       }
     }
@@ -1045,7 +1221,7 @@
       closeModal('apiKeyModal');
       document.getElementById('emptyState').classList.add('hidden');
       document.getElementById('quizContentArea').classList.remove('hidden');
-      showToast('API Key Connected! Target setup.');
+      showToast('API Key जोडली गेली! सराव सुरू करत आहोत.');
       
       questionQueue = [];
       sessionStorage.removeItem('qq_current_q');
@@ -1071,7 +1247,7 @@
       document.getElementById('btnViewSolution').classList.add('hidden');
       document.getElementById('question-text').innerHTML = '';
       document.getElementById('options-container').innerHTML = '';
-      showToast('API Key Removed.', true);
+      showToast('API Key काढली गेली.', true);
       openOnboardingModal();
     }
 
@@ -1145,9 +1321,12 @@
         }
       ];
       loadNextQuestion();
-      showToast('Demo Mode Active (2 Practice Questions)');
+      showToast('डेमो मोड सक्रिय (२ सराव प्रश्न)');
     }
 
+    /* -------------------------------------------------------------------------
+       7. AI Question Generator with Current Affairs Loading Shield
+       ------------------------------------------------------------------------- */
     function calculateDynamicDateRange() {
       const today = new Date();
       const lastYear = new Date(today.getFullYear() - 1, today.getMonth(), today.getDate());
@@ -1231,7 +1410,6 @@ Return ONLY a valid JSON array matching this exact schema:
 ]`;
     }
 
-    // Safety Normalizer for Scrambled AI Output
     function normalizeMultiStatementArtifact(q) {
       if (!q || !Array.isArray(q.options) || q.options.length < 4) return q;
 
@@ -1257,6 +1435,33 @@ Return ONLY a valid JSON array matching this exact schema:
       return q;
     }
 
+    function showCurrentAffairsLoadingState() {
+      const loaderBox = document.getElementById('currentAffairsLoaderBox');
+      const headlineEl = document.getElementById('loaderFactHeadline');
+      const bodyEl = document.getElementById('loaderFactBody');
+      const quizArea = document.getElementById('quizContentArea');
+
+      const randomFact = CURRENT_AFFAIRS_FLASH[Math.floor(Math.random() * CURRENT_AFFAIRS_FLASH.length)];
+      if (headlineEl && bodyEl) {
+        headlineEl.textContent = randomFact.headline;
+        bodyEl.textContent = randomFact.body;
+      }
+
+      if (loaderBox && quizArea) {
+        quizArea.classList.add('hidden');
+        loaderBox.classList.remove('hidden');
+      }
+    }
+
+    function hideCurrentAffairsLoadingState() {
+      const loaderBox = document.getElementById('currentAffairsLoaderBox');
+      const quizArea = document.getElementById('quizContentArea');
+      if (loaderBox && quizArea) {
+        loaderBox.classList.add('hidden');
+        quizArea.classList.remove('hidden');
+      }
+    }
+
     async function fetchAiQuestionsBatch(isInitial = false) {
       if (isDemoActive) return;
 
@@ -1265,6 +1470,10 @@ Return ONLY a valid JSON array matching this exact schema:
 
       if (isFetchingAI) return;
       isFetchingAI = true;
+
+      // Disable related buttons during fetching to prevent race conditions
+      setGlobalButtonsInteraction(false);
+      showCurrentAffairsLoadingState();
 
       if (isInitial && questionQueue.length === 0) {
         setMainButtonLoading(true);
@@ -1310,6 +1519,8 @@ Return ONLY a valid JSON array matching this exact schema:
       }
 
       isFetchingAI = false;
+      hideCurrentAffairsLoadingState();
+      setGlobalButtonsInteraction(true);
       
       if (success) {
         if (!currentQuestion || isInitial) {
@@ -1320,7 +1531,29 @@ Return ONLY a valid JSON array matching this exact schema:
         }
       } else if (questionQueue.length === 0 && !currentQuestion) {
         setMainButtonLoading(false);
-        showToast("AI Quota or network issue. Reconnecting...", true);
+        showToast("AI Quota किंवा नेटवर्क समस्या. पुन्हा प्रयत्न करत आहोत...", true);
+      }
+    }
+
+    function setGlobalButtonsInteraction(enabled) {
+      const prevBtn = document.getElementById('btn-prev-action');
+      const saveBtn = document.getElementById('btn-save');
+      const reportBtn = document.getElementById('btn-report');
+      const infoBtn = document.getElementById('btn-info');
+      const finishBtn = document.getElementById('btnFinishQuiz');
+
+      if (!enabled) {
+        if (prevBtn) prevBtn.disabled = true;
+        if (saveBtn) saveBtn.disabled = true;
+        if (reportBtn) reportBtn.disabled = true;
+        if (infoBtn) infoBtn.disabled = true;
+        if (finishBtn) finishBtn.disabled = true;
+      } else {
+        if (saveBtn) saveBtn.disabled = false;
+        if (reportBtn) reportBtn.disabled = false;
+        if (infoBtn) infoBtn.disabled = false;
+        if (finishBtn) finishBtn.disabled = false;
+        updateNavigationButtons();
       }
     }
 
@@ -1356,6 +1589,9 @@ Return ONLY a valid JSON array matching this exact schema:
       }
     }
 
+    /* -------------------------------------------------------------------------
+       8. Core Question Renderer & Direct Solution Scroll
+       ------------------------------------------------------------------------- */
     function loadNextQuestion() {
       if (currentHistoryIndex !== -1) {
         currentHistoryIndex++;
@@ -1387,7 +1623,7 @@ Return ONLY a valid JSON array matching this exact schema:
         if (isDemoActive) {
           isDemoActive = false;
           openApiKeyModal(true);
-          showToast("Demo Completed! Add your API key for unlimited practice.");
+          showToast("डेमो पूर्ण झाला! अमर्यादित सरावासाठी की जोडा.");
         } else {
           isWaitingForNext = true;
           setMainButtonLoading(true);
@@ -1442,7 +1678,6 @@ Return ONLY a valid JSON array matching this exact schema:
         renderQuestionUI();
         checkSavedStatus();
         updateNavigationButtons();
-        showToast(`पुनरावलोकन: प्रश्न #${currentHistoryIndex + 1} (Review Mode)`);
       } else {
         currentHistoryIndex = 0;
         updateNavigationButtons();
@@ -1470,7 +1705,7 @@ Return ONLY a valid JSON array matching this exact schema:
     function renderQuestionUI() {
       if (!currentQuestion) return;
       
-      // Tags Strip
+      // Tags Ribbon
       const tagsContainer = document.getElementById('question-tags');
       let tagsHtml = '';
       if (currentQuestion.isPYQ) {
@@ -1537,7 +1772,7 @@ Return ONLY a valid JSON array matching this exact schema:
         `;
       }
 
-      // Multi-Statement Renderer (Zero rogue line-breaks)
+      // Multi-Statement Renderer (Zero line-break gap bug)
       if (hasStatements) {
         let stmtHtml = '<div class="space-y-0.5 my-1 p-1.5 px-2 rounded-xl bg-slate-50 dark:bg-slate-900/40 border border-slate-200 dark:border-slate-700">';
         currentQuestion.statements.forEach(st => {
@@ -1587,11 +1822,11 @@ Return ONLY a valid JSON array matching this exact schema:
           if (isCorrectOption) {
             classes += ' selected-correct z-10 relative shadow-sm';
             badge = 'bg-emerald-500 border-emerald-500 text-white';
-            badgeHtml = '<span class="text-emerald-600 dark:text-emerald-400 font-extrabold text-xs shrink-0 flex items-center gap-1"><svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg> Correct</span>';
+            badgeHtml = '<span class="text-emerald-600 dark:text-emerald-400 font-extrabold text-xs shrink-0 flex items-center gap-1"><svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg> बरोबर</span>';
           } else if (isUserSelection) {
             classes += ' selected-wrong';
             badge = 'bg-rose-500 border-rose-500 text-white';
-            badgeHtml = '<span class="text-rose-600 dark:text-rose-400 font-extrabold text-xs shrink-0 flex items-center gap-1"><svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg> Incorrect</span>';
+            badgeHtml = '<span class="text-rose-600 dark:text-rose-400 font-extrabold text-xs shrink-0 flex items-center gap-1"><svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg> चूक</span>';
           } else {
             classes += ' disabled-state bg-slate-50/50 dark:bg-slate-800/30 text-slate-400';
             badge = 'bg-slate-100 dark:bg-slate-800 text-slate-400 border border-transparent';
@@ -1631,7 +1866,7 @@ Return ONLY a valid JSON array matching this exact schema:
         viewSolBtn.classList.add('hidden');
         
         mainBtn.disabled = false;
-        mainBtnText.textContent = "Next Question";
+        mainBtnText.textContent = "पुढील प्रश्न (Next)";
         iconEl.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>`;
         mainBtn.className = "flex-[1.5] h-10 px-3 rounded-xl font-black text-xs sm:text-sm shadow-xs active:scale-95 transition-all flex items-center justify-center gap-1.5 bg-brand-blue hover:bg-blue-700 text-white cursor-pointer";
       } else {
@@ -1647,6 +1882,9 @@ Return ONLY a valid JSON array matching this exact schema:
       updateNavigationButtons();
     }
 
+    /* -------------------------------------------------------------------------
+       9. Option Selection & Smooth Solution Auto-Scroll (No Popups)
+       ------------------------------------------------------------------------- */
     function handleAnswerValidation(selectedIndex) {
       if (isAnswered) return;
       isAnswered = true;
@@ -1657,19 +1895,12 @@ Return ONLY a valid JSON array matching this exact schema:
       if (isCorrect) {
         correctStreak++;
         localStorage.setItem('qq_correct_streak', correctStreak.toString());
-        document.getElementById('streakCount').textContent = `${correctStreak} Streak`;
-        
-        if (correctStreak > 0 && correctStreak % 5 === 0) {
-          fireConfetti();
-          showToast(`🔥 सलग ${correctStreak} बरोबर उत्तरे! (${correctStreak} Streak!)`);
-        } else {
-          showToast("✓ बरोबर उत्तर! (Correct)");
-        }
+        document.getElementById('streakCount').textContent = `${correctStreak}`;
+        if (correctStreak > 0 && correctStreak % 5 === 0) fireConfetti();
       } else {
         correctStreak = 0;
         localStorage.setItem('qq_correct_streak', '0');
-        document.getElementById('streakCount').textContent = `0 Streak`;
-        showToast("✕ चुकीचे उत्तर! सविस्तर स्पष्टीकरण वाचा.", true);
+        document.getElementById('streakCount').textContent = `0`;
       }
 
       const alreadyInHist = sessionHistory.some(h => h.question.id === currentQuestion.id);
@@ -1683,10 +1914,12 @@ Return ONLY a valid JSON array matching this exact schema:
 
       renderQuestionUI();
       saveActiveSessionState();
+
+      // Smooth scroll straight into the solution analysis container without notifications
       setTimeout(() => {
         const solBox = document.getElementById('solution-container');
-        if (solBox) solBox.scrollIntoView({ behavior: 'smooth', block: 'end' });
-      }, 150);
+        if (solBox) solBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }, 100);
     }
 
     function showSolutionManually() {
@@ -1695,7 +1928,7 @@ Return ONLY a valid JSON array matching this exact schema:
       selectedOptionIndex = -1;
       correctStreak = 0;
       localStorage.setItem('qq_correct_streak', '0');
-      document.getElementById('streakCount').textContent = `0 Streak`;
+      document.getElementById('streakCount').textContent = `0`;
 
       const alreadyInHist = sessionHistory.some(h => h.question.id === currentQuestion.id);
       if (!alreadyInHist) {
@@ -1710,8 +1943,8 @@ Return ONLY a valid JSON array matching this exact schema:
       saveActiveSessionState();
       setTimeout(() => {
         const solBox = document.getElementById('solution-container');
-        if (solBox) solBox.scrollIntoView({ behavior: 'smooth', block: 'end' });
-      }, 150);
+        if (solBox) solBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }, 100);
     }
 
     function handleMainAction() {
@@ -1730,6 +1963,122 @@ Return ONLY a valid JSON array matching this exact schema:
       if (scrollArea) scrollArea.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
+    /* -------------------------------------------------------------------------
+       10. Result Scorecard Engine (MPSC 1/4 Negative Marking)
+       ------------------------------------------------------------------------- */
+    function confirmFinishQuiz() {
+      const totalAttempted = sessionHistory.length + (isAnswered ? 1 : 0);
+      if (totalAttempted === 0) {
+        showToast("कृपया आधी किमान १ प्रश्न सोडवा!");
+        return;
+      }
+      calculateAndShowResult();
+    }
+
+    function calculateAndShowResult() {
+      let correct = 0;
+      let wrong = 0;
+      let skipped = 0;
+
+      sessionHistory.forEach(item => {
+        if (item.selectedOptionIndex === null || item.selectedOptionIndex === -1) {
+          skipped++;
+        } else if (item.selectedOptionIndex === item.question.correctAnswerIndex) {
+          correct++;
+        } else {
+          wrong++;
+        }
+      });
+
+      if (currentQuestion && isAnswered) {
+        const alreadyLogged = sessionHistory.some(h => h.question.id === currentQuestion.id);
+        if (!alreadyLogged) {
+          if (selectedOptionIndex === currentQuestion.correctAnswerIndex) {
+            correct++;
+          } else if (selectedOptionIndex !== null && selectedOptionIndex !== -1) {
+            wrong++;
+          }
+        }
+      }
+
+      const marksPerCorrect = 1.0;
+      const negativeMarking = 0.25;
+      const rawScore = (correct * marksPerCorrect) - (wrong * negativeMarking);
+      const finalScore = Math.max(0, rawScore).toFixed(2);
+      const totalAnswered = correct + wrong;
+      const accuracy = totalAnswered > 0 ? Math.round((correct / totalAnswered) * 100) : 0;
+
+      // Speed in seconds per question
+      const elapsedSeconds = Math.max(1, Math.floor((Date.now() - sessionStartTime) / 1000));
+      const speed = Math.round(elapsedSeconds / Math.max(1, totalAnswered + skipped));
+
+      document.getElementById('resFinalScore').textContent = finalScore;
+      document.getElementById('resAccuracy').textContent = `${accuracy}%`;
+      document.getElementById('resSpeed').textContent = `${speed} से./प्रश्न`;
+      document.getElementById('resCorrect').textContent = correct;
+      document.getElementById('resWrong').textContent = wrong;
+      document.getElementById('resSkipped').textContent = skipped;
+
+      openModal('resultModal');
+    }
+
+    function startNewQuizBatch() {
+      closeModal('resultModal');
+      sessionHistory = [];
+      currentHistoryIndex = -1;
+      sessionStartTime = Date.now();
+      sessionStorage.removeItem('qq_current_q');
+      sessionStorage.removeItem('qq_active_queue');
+      sessionStorage.removeItem('qq_session_history');
+      questionQueue = [];
+      correctStreak = 0;
+      localStorage.setItem('qq_correct_streak', '0');
+      document.getElementById('streakCount').textContent = '0';
+      fetchAiQuestionsBatch(true);
+    }
+
+    /* -------------------------------------------------------------------------
+       11. High-Precision Snapshots (Free of Popups & Backdrops)
+       ------------------------------------------------------------------------- */
+    function takeReportQuestionSnapshot() {
+      closeModal('reportModal');
+      setTimeout(() => {
+        const targetElement = document.querySelector('#quizScrollArea > div > div') || document.body;
+        html2canvas(targetElement, { 
+          scale: 2, 
+          useCORS: true,
+          backgroundColor: document.documentElement.classList.contains('dark') ? '#1e293b' : '#ffffff'
+        }).then(canvas => {
+          const link = document.createElement('a'); 
+          const qId = (currentQuestion && currentQuestion.id) ? currentQuestion.id : Date.now();
+          link.download = `MPSC_Question_${qId}.png`;
+          link.href = canvas.toDataURL('image/png'); 
+          link.click(); 
+          showToast('प्रश्नाचा स्वच्छ स्क्रीनशॉट सेव्ह झाला! आता टेलिग्रामवर पाठवा.');
+        }).catch(err => {
+          showToast('स्क्रीनशॉट घेताना त्रुटी आली.', true);
+        });
+      }, 120);
+    }
+
+    function takeFullScreenSnapshot() {
+      const targetElement = document.querySelector('#quizScrollArea > div > div') || document.body;
+      html2canvas(targetElement, { 
+        scale: 2, 
+        useCORS: true,
+        backgroundColor: document.documentElement.classList.contains('dark') ? '#1e293b' : '#ffffff'
+      }).then(canvas => {
+        const link = document.createElement('a'); 
+        link.download = `QuickQuiz_${Date.now()}.png`;
+        link.href = canvas.toDataURL('image/png'); 
+        link.click(); 
+        showToast('प्रश्नाचा स्क्रीनशॉट जतन झाला!');
+      });
+    }
+
+    /* -------------------------------------------------------------------------
+       12. Filter Modal Setup
+       ------------------------------------------------------------------------- */
     function setModalFilter(type, val) {
       if(type === 'exam' || type === 'stage') {
         modalFilters[type] = val;
@@ -1849,6 +2198,7 @@ Return ONLY a valid JSON array matching this exact schema:
       questionQueue = []; 
       sessionHistory = [];
       currentHistoryIndex = -1;
+      sessionStartTime = Date.now();
       sessionStorage.removeItem('qq_current_q');
       sessionStorage.removeItem('qq_active_queue');
       sessionStorage.removeItem('qq_session_history');
@@ -1861,13 +2211,16 @@ Return ONLY a valid JSON array matching this exact schema:
       openModal('filterModal'); 
     }
 
+    /* -------------------------------------------------------------------------
+       13. Vault Storage
+       ------------------------------------------------------------------------- */
     function toggleSave() {
       if (!currentQuestion) return;
       let vault = JSON.parse(localStorage.getItem('studySphereVault') || '{}');
       if (vault[currentQuestion.id]) delete vault[currentQuestion.id]; else vault[currentQuestion.id] = currentQuestion;
       localStorage.setItem('studySphereVault', JSON.stringify(vault)); 
       checkSavedStatus(); 
-      showToast(vault[currentQuestion.id] ? 'Saved to Vault!' : 'Removed from Vault');
+      showToast(vault[currentQuestion.id] ? 'व्हॉल्टमध्ये सेव्ह केले!' : 'व्हॉल्टमधून काढले');
     }
 
     function checkSavedStatus() {
@@ -1885,125 +2238,149 @@ Return ONLY a valid JSON array matching this exact schema:
       }
     }
 
-    function takeFullScreenSnapshot() {
-      html2canvas(document.body, { scale: 2, useCORS: true }).then(canvas => {
-        const link = document.createElement('a'); 
-        link.download = `QuickQuiz_${Date.now()}.png`;
-        link.href = canvas.toDataURL('image/png'); 
-        link.click(); 
-        showToast('Snapshot saved!');
+    /* -------------------------------------------------------------------------
+       14. Dual Donation Module (Mobile UPI Intent + Desktop Live QR)
+       ------------------------------------------------------------------------- */
+    var DONATION_SECRET_UPI_VPA = "vikram.joshi9089@oksbi";
+    var donationSelectedAmount = 100;
+    var donationPaymentTriggered = false;
+
+    function isMobileDevice() { 
+      return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || window.innerWidth < 768; 
+    }
+    
+    function handleDonateClick() {
+      if (isMobileDevice()) { 
+        selectDonationAmount(donationSelectedAmount || 100); 
+        openModal('mobileDonationModal'); 
+      } else { 
+        selectDesktopAmount(donationSelectedAmount || 100); 
+        openModal('desktopDonationModal'); 
+      }
+    }
+
+    function selectDonationAmount(amount) {
+      donationSelectedAmount = amount; 
+      const input = document.getElementById('customAmountInput');
+      if (input) input.value = amount; 
+      validateCustomAmount();
+      document.querySelectorAll('.donation-btn').forEach(btn => {
+        btn.className = btn.textContent.includes(amount.toString()) 
+          ? 'donation-btn py-1.5 px-2 text-xs font-bold rounded-lg border-2 border-amber-500 bg-amber-50 dark:bg-amber-950/40 text-amber-700 dark:text-amber-300 transition-all btn-tactile' 
+          : 'donation-btn py-1.5 px-2 text-xs font-bold rounded-lg border border-slate-200 dark:border-[#1f3358] bg-slate-50 dark:bg-[#121e35] text-slate-800 dark:text-slate-200 transition-all btn-tactile';
       });
     }
 
-    function takeReportQuestionSnapshot() {
-  // 1. Instantly hide the report modal so neither the box nor the dark overlay is rendered
-  closeModal('reportModal');
+    function validateCustomAmount() {
+      const input = document.getElementById('customAmountInput');
+      const err = document.getElementById('amountError');
+      const payBtn = document.getElementById('payNowBtn');
+      if (!input) return false;
 
-  // 2. Allow a brief 120ms tick for the browser DOM to clear the modal layer
-  setTimeout(() => {
-    // 3. Target specifically the white/slate question card container inside main
-    const targetElement = document.querySelector('#quizScrollArea > div > div') || document.getElementById('quizScrollArea') || document.body;
+      const rawVal = input.value.trim();
+      if (rawVal === '') {
+        if (err) err.classList.add('hidden');
+        if (payBtn) payBtn.disabled = true;
+        return false;
+      }
 
-    html2canvas(targetElement, { 
-      scale: 2, 
-      useCORS: true,
-      backgroundColor: document.documentElement.classList.contains('dark') ? '#1e293b' : '#ffffff'
-    }).then(canvas => {
-      const link = document.createElement('a'); 
-      const qId = (currentQuestion && currentQuestion.id) ? currentQuestion.id : Date.now();
-      link.download = `MPSC_Question_${qId}.png`;
-      link.href = canvas.toDataURL('image/png'); 
-      link.click(); 
-      showToast('प्रश्नाचा स्वच्छ स्क्रीनशॉट सेव्ह झाला! आता टेलिग्रामवर पाठवा.');
-    }).catch(err => {
-      console.error('Snapshot failed:', err);
-      showToast('स्क्रीनशॉट घेताना त्रुटी आली.', true);
+      const val = parseFloat(rawVal);
+      if (isNaN(val) || val < 10 || val > 50000) { 
+        if (err) err.classList.remove('hidden'); 
+        if (payBtn) payBtn.disabled = true; 
+        return false; 
+      }
+      
+      if (err) err.classList.add('hidden'); 
+      if (payBtn) payBtn.disabled = false; 
+      donationSelectedAmount = Math.round(val); 
+      return true;
+    }
+
+    function triggerUPIPayment() {
+      if (!validateCustomAmount()) return;
+      donationPaymentTriggered = true;
+      closeModal('mobileDonationModal');
+      const note = encodeURIComponent("StudySphere MPSC Donation");
+      window.location.href = `upi://pay?pa=${DONATION_SECRET_UPI_VPA}&pn=StudySphere&am=${donationSelectedAmount}&cu=INR&tn=${note}`;
+    }
+
+    function selectDesktopAmount(amount) {
+      donationSelectedAmount = amount; 
+      const customInput = document.getElementById('desktopCustomAmountInput');
+      if (customInput) customInput.value = amount;
+      const err = document.getElementById('desktopAmountError');
+      if (err) err.classList.add('hidden');
+      updateDesktopQr(amount);
+
+      document.querySelectorAll('.desktop-donation-btn').forEach(btn => {
+        btn.className = btn.textContent.includes(amount.toString()) 
+          ? 'desktop-donation-btn py-1 px-1.5 text-xs font-bold rounded-lg border-2 border-amber-500 bg-amber-50 dark:bg-amber-950/40 text-amber-700 dark:text-amber-300 btn-tactile' 
+          : 'desktop-donation-btn py-1 px-1.5 text-xs font-bold rounded-lg border border-slate-200 dark:border-[#1f3358] bg-slate-50 dark:bg-[#121e35] text-slate-800 dark:text-slate-200 btn-tactile';
+      });
+    }
+
+    function handleDesktopAmountInput(valStr) {
+      const val = parseFloat(valStr);
+      if (isNaN(val) || val < 10) { 
+        document.getElementById('desktopAmountError')?.classList.remove('hidden'); 
+      } else { 
+        document.getElementById('desktopAmountError')?.classList.add('hidden'); 
+        donationSelectedAmount = Math.round(val); 
+        updateDesktopQr(donationSelectedAmount); 
+      }
+    }
+
+    function generateDesktopCustomQr() {
+      const val = parseFloat(document.getElementById('desktopCustomAmountInput')?.value);
+      if (isNaN(val) || val < 10) { 
+        document.getElementById('desktopAmountError')?.classList.remove('hidden'); 
+        return; 
+      }
+      document.getElementById('desktopAmountError')?.classList.add('hidden');
+      donationSelectedAmount = Math.round(val);
+      updateDesktopQr(donationSelectedAmount);
+      selectDesktopAmount(donationSelectedAmount);
+    }
+
+    function updateDesktopQr(amount) {
+      const label = document.getElementById('desktopQrAmountLabel');
+      if (label) label.textContent = "₹ " + amount;
+      const uri = `upi://pay?pa=${DONATION_SECRET_UPI_VPA}&pn=StudySphere&am=${amount}&cu=INR&tn=StudySphere%20MPSC%20Donation`;
+      const img = document.getElementById('desktopDynamicQrImg');
+      if(img) {
+        img.setAttribute('data-upi-uri', uri);
+        img.src = `https://api.qrserver.com/v1/create-qr-code/?size=135x135&data=${encodeURIComponent(uri)}`;
+      }
+    }
+
+    function handleQrImageError(img) {
+      if (!img) return;
+      img.onerror = null; 
+      const uri = img.getAttribute('data-upi-uri') || `upi://pay?pa=${DONATION_SECRET_UPI_VPA}&pn=StudySphere&am=${donationSelectedAmount}&cu=INR&tn=StudySphere%20MPSC%20Donation`;
+      img.src = `https://quickchart.io/qr?size=135&text=${encodeURIComponent(uri)}`;
+    }
+
+    document.addEventListener('visibilitychange', () => {
+      if (document.visibilityState === 'visible' && donationPaymentTriggered) {
+        donationPaymentTriggered = false;
+        setTimeout(() => openModal('thankYouModal'), 600);
+      }
     });
-  }, 120);
-}
 
+    /* -------------------------------------------------------------------------
+       15. Utility Helpers & Service Worker
+       ------------------------------------------------------------------------- */
     function shareWebsite() {
-      const shareData = { title: 'QuickQuiz By StudySphere', text: 'Practice MPSC with AI-powered tests!\n👉 Web: ' + window.location.href, url: window.location.href };
-      if (navigator.share) navigator.share(shareData).catch(() => { navigator.clipboard.writeText(window.location.href); showToast('Link copied!'); });
-      else { navigator.clipboard.writeText(window.location.href); showToast('Link copied!'); }
+      const shareData = { title: 'QuickQuiz By StudySphere', text: 'MPSC परीक्षांची तयारी करा १००% मोफत AI टेस्ट्ससह!\n👉 Web: ' + window.location.href, url: window.location.href };
+      if (navigator.share) navigator.share(shareData).catch(() => copyLinkFallback());
+      else copyLinkFallback();
     }
 
-    function openModal(id) { const m = document.getElementById(id); if(m){ m.classList.remove('hidden'); m.classList.add('flex'); } }
-    function closeModal(id) { 
-      const m = document.getElementById(id); 
-      if(m){ 
-        m.classList.remove('flex'); 
-        m.classList.add('hidden'); 
-      }
-      if (id === 'filterModal' && isAwaitingGreetingChoice && !currentQuestion) {
-        const sessionCount = parseInt(localStorage.getItem('qq_user_sessions') || '1', 10);
-        showSmartGreetingBanner(sessionCount);
-      }
+    function copyLinkFallback() {
+      navigator.clipboard.writeText(window.location.href);
+      showToast('वेबसाइट लिंक कॉपी झाली!');
     }
-    function openInfoModal() { openModal('infoModal'); }
-
-let currentDonation = 100;
-const UPI_VPA = "vikram.joshi9089@oksbi"; // Your UPI ID
-
-function handleDonateClick() {
-  const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent) || window.innerWidth < 640;
-  const qrBox = document.getElementById('desktopQrBox');
-  const upiBtn = document.getElementById('mobileUpiBtn');
-
-  if (isMobile) {
-    if (qrBox) qrBox.classList.add('hidden');
-    if (upiBtn) upiBtn.classList.remove('hidden');
-  } else {
-    if (qrBox) qrBox.classList.remove('hidden');
-    if (upiBtn) upiBtn.classList.add('hidden');
-  }
-
-  setDonationVal(currentDonation);
-  openModal('unifiedDonationModal');
-}
-
-function setDonationVal(amt) {
-  currentDonation = amt;
-  const label = document.getElementById('displayDonationAmount');
-  if (label) label.textContent = `₹ ${amt}`;
-
-  // Update QR Code
-  const qrImg = document.getElementById('liveQrImage');
-  if (qrImg) {
-    const upiUri = `upi://pay?pa=${UPI_VPA}&pn=StudySphere&am=${amt}&cu=INR&tn=StudySphere%20Donation`;
-    qrImg.src = `https://api.qrserver.com/v1/create-qr-code/?size=140x140&data=${encodeURIComponent(upiUri)}`;
-  }
-
-  // Update Chip Styles
-  document.querySelectorAll('.don-chip').forEach(btn => {
-    if (btn.textContent.includes(amt.toString())) {
-      btn.className = 'don-chip active py-1.5 px-2 text-xs font-bold rounded-lg border-2 border-amber-500 bg-amber-50 dark:bg-amber-950/40 text-amber-700 dark:text-amber-300';
-    } else {
-      btn.className = 'don-chip py-1.5 px-2 text-xs font-bold rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-700/50 text-slate-800 dark:text-slate-200';
-    }
-  });
-}
-
-function executeUpiTransfer() {
-  const upiUri = `upi://pay?pa=${UPI_VPA}&pn=StudySphere&am=${currentDonation}&cu=INR&tn=StudySphere%20Donation`;
-  window.location.href = upiUri;
-}
-
-function openModal(id) {
-  const el = document.getElementById(id);
-  if (el) {
-    el.classList.remove('hidden');
-    el.classList.add('flex');
-  }
-}
-
-function closeModal(id) {
-  const el = document.getElementById(id);
-  if (el) {
-    el.classList.add('hidden');
-    el.classList.remove('flex');
-  }
-}
 
     function registerServiceWorker() {
       if ('serviceWorker' in navigator) {
@@ -2016,178 +2393,9 @@ function closeModal(id) {
     document.addEventListener('keydown', e => { 
       if (e.key === 'Escape') {
         if (!isOnboardingActive) closeModal('apiKeyModal');
-        ['infoModal','filterModal','mobileDonationModal','desktopDonationModal','reportModal'].forEach(id => closeModal(id)); 
+        ['infoModal','filterModal','mobileDonationModal','desktopDonationModal','reportModal','resultModal','thankYouModal'].forEach(id => closeModal(id)); 
       }
     });
-
-
-    let testSession = {
-  total: 0,
-  correct: 0,
-  wrong: 0,
-  skipped: 0,
-  records: [] // stores { question, selectedOption, isCorrect }
-};
-
-function recordQuestionOutcome(q, userIndex) {
-  testSession.total++;
-  const isCorrect = (userIndex === q.correctAnswerIndex);
-  
-  if (userIndex === null || userIndex === -1) {
-    testSession.skipped++;
-  } else if (isCorrect) {
-    testSession.correct++;
-  } else {
-    testSession.wrong++;
-  }
-
-  testSession.records.push({
-    question: q,
-    userSelection: userIndex,
-    isCorrect: isCorrect
-  });
-}
-
-function calculateScorecard() {
-  const marksPerCorrect = 1.0;
-  const negativeMarking = 0.25; // Official MPSC 1/4 rule
-  
-  const rawScore = (testSession.correct * marksPerCorrect) - (testSession.wrong * negativeMarking);
-  const finalScore = Math.max(0, rawScore).toFixed(2);
-  const accuracy = testSession.total > 0 
-    ? Math.round((testSession.correct / (testSession.correct + testSession.wrong)) * 100) || 0 
-    : 0;
-
-  return {
-    total: testSession.total,
-    correct: testSession.correct,
-    wrong: testSession.wrong,
-    skipped: testSession.skipped,
-    finalScore: finalScore,
-    accuracy: accuracy
-  };
-}
-
-// Finish Quiz Trigger
-function confirmFinishQuiz() {
-  // If user hasn't answered anything yet
-  const totalAttempted = sessionHistory.length + (isAnswered ? 1 : 0);
-  if (totalAttempted === 0) {
-    showToast("कृपया आधी किमान १ प्रश्न सोडवा!");
-    return;
-  }
-
-  calculateAndShowResult();
-}
-
-function calculateAndShowResult() {
-  // Compile stats directly from session history
-  let correct = 0;
-  let wrong = 0;
-  let skipped = 0;
-
-  sessionHistory.forEach(item => {
-    if (item.selectedOptionIndex === null || item.selectedOptionIndex === -1) {
-      skipped++;
-    } else if (item.selectedOptionIndex === item.question.correctAnswerIndex) {
-      correct++;
-    } else {
-      wrong++;
-    }
-  });
-
-  // Check current question if answered and not yet pushed to history
-  if (currentQuestion && isAnswered) {
-    const alreadyLogged = sessionHistory.some(h => h.question.id === currentQuestion.id);
-    if (!alreadyLogged) {
-      if (selectedOptionIndex === currentQuestion.correctAnswerIndex) {
-        correct++;
-      } else if (selectedOptionIndex !== null && selectedOptionIndex !== -1) {
-        wrong++;
-      }
-    }
-  }
-
-  const marksPerCorrect = 1.0;
-  const negativeMarking = 0.25;
-  const rawScore = (correct * marksPerCorrect) - (wrong * negativeMarking);
-  const finalScore = Math.max(0, rawScore).toFixed(2);
-  const totalQuestions = correct + wrong + skipped;
-  const accuracy = (correct + wrong) > 0 ? Math.round((correct / (correct + wrong)) * 100) : 0;
-
-  // Update Modal DOM
-  document.getElementById('resFinalScore').textContent = finalScore;
-  document.getElementById('resAccuracy').textContent = `${accuracy}%`;
-  document.getElementById('resCorrect').textContent = correct;
-  document.getElementById('resWrong').textContent = wrong;
-  document.getElementById('resSkipped').textContent = skipped;
-
-  openModal('resultModal');
-}
-
-function startNewQuizBatch() {
-  closeModal('resultModal');
-  sessionHistory = [];
-  currentHistoryIndex = -1;
-  sessionStorage.removeItem('qq_current_q');
-  sessionStorage.removeItem('qq_active_queue');
-  sessionStorage.removeItem('qq_session_history');
-  questionQueue = [];
-  correctStreak = 0;
-  localStorage.setItem('qq_correct_streak', '0');
-  document.getElementById('streakCount').textContent = '0 Streak';
-  showToast("नवीन सराव सुरू होत आहे...");
-  fetchAiQuestionsBatch(true);
-}
   </script>
-
-  <!-- Result Scorecard Modal (MPSC 1/4 Negative Marking) -->
-<div id="resultModal" role="dialog" aria-modal="true" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-xs hidden items-center justify-center p-3">
-  <div class="bg-white dark:bg-slate-800 rounded-3xl w-full max-w-sm p-4 sm:p-5 text-center shadow-2xl border border-slate-200 dark:border-slate-700 animate-slide-up flex flex-col">
-    
-    <div class="w-12 h-12 mx-auto mb-1.5 rounded-2xl bg-amber-100 dark:bg-amber-900/40 text-amber-600 flex items-center justify-center text-2xl shadow-inner">
-      🏆
-    </div>
-
-    <h3 class="text-sm sm:text-base font-black text-slate-900 dark:text-white">चाचणी निकाल (Performance Summary)</h3>
-    <p class="text-[10px] sm:text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">MPSC 1/4 (-0.25) निगेटिव्ह मार्किंगनुसार</p>
-
-    <!-- Score Card -->
-    <div class="my-3 p-3 rounded-2xl bg-gradient-to-r from-orange-50 to-amber-50 dark:from-slate-900/60 dark:to-amber-950/20 border border-orange-200 dark:border-amber-800/40">
-      <span class="text-[9px] font-black uppercase tracking-wider text-slate-500">अंतिम गुण (Final Score)</span>
-      <div class="text-3xl font-black text-orange-600 dark:text-orange-400 leading-tight" id="resFinalScore">0.00</div>
-      <div class="text-[11px] font-bold text-slate-600 dark:text-slate-300 mt-0.5">
-        अचूकता (Accuracy): <span id="resAccuracy" class="text-emerald-600 dark:text-emerald-400">0%</span>
-      </div>
-    </div>
-
-    <!-- 3-Column Breakdown -->
-    <div class="grid grid-cols-3 gap-1.5 text-center text-xs mb-3.5">
-      <div class="p-2 rounded-xl bg-emerald-50 dark:bg-emerald-950/30 border border-emerald-200 dark:border-emerald-800">
-        <span class="text-emerald-700 dark:text-emerald-400 font-black text-sm block" id="resCorrect">0</span>
-        <span class="text-[9px] font-bold text-slate-500">बरोबर (+1.0)</span>
-      </div>
-      <div class="p-2 rounded-xl bg-rose-50 dark:bg-rose-950/30 border border-rose-200 dark:border-rose-800">
-        <span class="text-rose-600 dark:text-rose-400 font-black text-sm block" id="resWrong">0</span>
-        <span class="text-[9px] font-bold text-slate-500">चूक (-0.25)</span>
-      </div>
-      <div class="p-2 rounded-xl bg-slate-100 dark:bg-slate-700/50 border border-slate-200 dark:border-slate-600">
-        <span class="text-slate-700 dark:text-slate-200 font-black text-sm block" id="resSkipped">0</span>
-        <span class="text-[9px] font-bold text-slate-400">सोडवले नाही</span>
-      </div>
-    </div>
-
-    <!-- Actions -->
-    <div class="space-y-1.5">
-      <button onclick="startNewQuizBatch()" class="w-full py-2.5 rounded-xl bg-brand-blue hover:bg-blue-700 text-white font-black text-xs shadow-md active:scale-95 transition-all">
-        🔄 नवीन सराव सुरू करा (Restart)
-      </button>
-      <button onclick="closeModal('resultModal')" class="w-full py-2 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-700 text-slate-800 dark:text-slate-200 font-bold text-xs transition-all border border-slate-200 dark:border-slate-600">
-        पुनरावलोकन चालू ठेवा (Review)
-      </button>
-    </div>
-
-  </div>
-</div>
 </body>
 </html>
