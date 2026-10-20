@@ -198,6 +198,10 @@
         <a href="dashboard.html" title="Open Dashboard & Vault" class="h-9 px-2.5 rounded-xl bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 font-extrabold text-[11px] flex items-center gap-1 active:scale-95 transition-all border border-slate-200 dark:border-slate-700 shadow-xs shrink-0">
           <span>📖</span> <span class="hidden xs:inline">Dash</span>
         </a>
+
+        <button onclick="confirmFinishQuiz()" class="h-8 px-2.5 rounded-xl bg-rose-500 hover:bg-rose-600 text-white font-extrabold text-[11px] flex items-center gap-1 active:scale-95 shadow-xs transition-all">
+        <span>Finish</span>
+        </button>
       </div>
 
       <!-- Toolbar: Snap, Lang, Font, Theme -->
@@ -371,160 +375,54 @@
     </div>
   </div>
 
-<!-- १. मोबाईल डोनेशन मोडल (Mobile UPI Intent — Fixed Zero-Scroll) -->
-<div id="mobileDonationModal" class="fixed inset-0 z-50 bg-black/75 backdrop-blur-xs hidden items-center justify-center p-3 no-print">
-  <div class="bg-white dark:bg-[#0d1728] rounded-2xl w-full max-w-sm shadow-2xl border border-slate-200 dark:border-[#1f3358] relative flex flex-col overflow-hidden animate-slide-up">
+<!-- Unified Responsive Donation Modal -->
+<div id="unifiedDonationModal" role="dialog" aria-modal="true" class="fixed inset-0 z-50 bg-black/75 backdrop-blur-xs hidden items-center justify-center p-3 sm:p-4">
+  <div class="bg-white dark:bg-slate-800 rounded-2xl w-full max-w-sm shadow-2xl border border-slate-200 dark:border-slate-700 relative flex flex-col overflow-hidden animate-slide-up">
     
-    <!-- Header with Sticky Close Button -->
-    <div class="bg-white dark:bg-[#0d1728] px-4 py-2.5 border-b border-slate-100 dark:border-[#1f3358] flex items-center justify-between shrink-0">
-      <div class="flex items-center gap-1.5">
+    <!-- Modal Header -->
+    <div class="px-4 py-3 border-b border-slate-100 dark:border-slate-700 flex items-center justify-between shrink-0">
+      <div class="flex items-center gap-2">
         <span class="text-amber-500 font-bold text-sm">❤️</span>
         <span class="text-xs font-black text-slate-900 dark:text-white">StudySphere ला पाठिंबा द्या</span>
       </div>
-      <button onclick="closeModal('mobileDonationModal')" class="p-1 text-slate-400 hover:text-slate-600 dark:hover:text-white rounded-lg transition-colors" aria-label="Close modal">
+      <button onclick="closeModal('unifiedDonationModal')" class="p-1 text-slate-400 hover:text-slate-600 dark:hover:text-white rounded-lg">
         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
       </button>
     </div>
 
-    <!-- Content (Compact Zero-Scroll Body) -->
-    <div class="p-3.5 flex flex-col gap-2">
-      <div class="text-center">
-        <p class="text-[11px] text-slate-600 dark:text-slate-300 font-medium leading-tight">
-          विद्यार्थ्यांना मोफत व दर्जेदार टेस्ट्स उपलब्ध ठेवण्यासाठी आपले सहकार्य मोलाचे आहे.
-        </p>
-
-        <div class="mt-1.5 p-2 rounded-lg bg-amber-50 dark:bg-amber-950/40 border border-amber-200/80 dark:border-amber-900/50 text-left">
-          <p class="text-[10px] text-amber-900 dark:text-amber-200 leading-tight font-semibold">
-            💡 <span class="underline">नोंद:</span> ही वेबसाइट विनामूल्य चालवली जात आहे. तुमच्या सहकार्यामुळे ती अखंड व वेगवान राहील.
-          </p>
-        </div>
-      </div>
-
-      <!-- Quick Amount Selection Buttons -->
-      <div class="grid grid-cols-3 gap-1.5 pt-0.5">
-        <button type="button" onclick="selectDonationAmount(50)" class="donation-btn py-1.5 px-2 text-xs font-bold rounded-lg border border-slate-200 dark:border-[#1f3358] bg-slate-50 dark:bg-[#121e35] text-slate-800 dark:text-slate-200 transition-all">
-          ₹ ५०
-        </button>
-        <button type="button" onclick="selectDonationAmount(100)" class="donation-btn py-1.5 px-2 text-xs font-bold rounded-lg border-2 border-amber-500 bg-amber-50 dark:bg-amber-950/40 text-amber-700 dark:text-amber-300 transition-all">
-          ₹ १००
-        </button>
-        <button type="button" onclick="selectDonationAmount(200)" class="donation-btn py-1.5 px-2 text-xs font-bold rounded-lg border border-slate-200 dark:border-[#1f3358] bg-slate-50 dark:bg-[#121e35] text-slate-800 dark:text-slate-200 transition-all">
-          ₹ २००
-        </button>
-      </div>
-
-      <!-- Custom Amount Input -->
-      <div>
-        <label for="customAmountInput" class="block text-[10px] font-semibold text-slate-600 dark:text-slate-300 mb-0.5">किंवा आपली ऐच्छिक रक्कम (किमान ₹१०):</label>
-        <div class="relative">
-          <span class="absolute left-2.5 top-1.5 text-xs font-bold text-slate-400">₹</span>
-          <input type="number" id="customAmountInput" value="100" min="10" step="1" 
-                 oninput="validateCustomAmount()"
-                 placeholder="रक्कम टाका" 
-                 class="w-full pl-6 pr-2.5 py-1 text-xs rounded-lg border border-slate-200 dark:border-[#1f3358] bg-white dark:bg-[#121e35] text-slate-900 dark:text-white focus:outline-none focus:ring-1 focus:ring-amber-500 font-bold">
-        </div>
-        <p id="amountError" class="text-[10px] text-rose-500 mt-0.5 hidden font-medium">कृपया किमान ₹१० रक्कम टाका.</p>
-      </div>
-
-      <!-- UPI Intent Pay Button -->
-      <button onclick="triggerUPIPayment()" id="payNowBtn" 
-              class="w-full py-2 rounded-xl bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white font-bold text-xs shadow-md shadow-amber-500/20 active:scale-[0.98] transition-all flex items-center justify-center gap-1.5 mt-0.5">
-        <span>Pay with UPI (GPay / PhonePe / Paytm)</span>
-        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
-      </button>
-
-      <p class="text-[9px] text-center text-slate-400 font-medium">UPI ॲप्सद्वारे थेट व १००% सुरक्षित ट्रान्सफर</p>
-    </div>
-  </div>
-</div>
-
-<!-- २. डेस्कटॉप डोनेशन मोडल (Desktop Live QR Code — Fixed Zero-Scroll) -->
-<div id="desktopDonationModal" class="fixed inset-0 z-50 bg-black/75 backdrop-blur-xs hidden items-center justify-center p-3 no-print">
-  <div class="bg-white dark:bg-[#0d1728] rounded-2xl w-full max-w-sm shadow-2xl border-2 border-slate-300 dark:border-[#1f3358] relative flex flex-col overflow-hidden animate-slide-up">
-    
-    <!-- Sticky Header -->
-    <div class="bg-white dark:bg-[#0d1728] px-4 py-2.5 border-b border-slate-200 dark:border-[#1f3358] flex items-center justify-between shrink-0">
-      <h3 class="text-xs font-bold text-slate-900 dark:text-white flex items-center gap-1.5">
-        <span>❤️</span> <span>StudySphere ला पाठिंबा द्या</span>
-      </h3>
-      <button onclick="closeModal('desktopDonationModal')" class="p-1 text-slate-400 hover:text-slate-600 dark:hover:text-white rounded-lg transition-colors" aria-label="Close modal">
-        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
-      </button>
-    </div>
-
-    <!-- Scrollable Body (Trimmed to fit cleanly) -->
-    <div class="p-3.5 flex flex-col gap-2 text-center">
-      <p class="text-[11px] text-slate-600 dark:text-slate-300 leading-tight font-medium">
-        कोणत्याही UPI ॲपवरून खालील QR कोड स्कॅन करून सुरक्षित सहकार्य करा.
+    <!-- Modal Body -->
+    <div class="p-4 text-center space-y-3">
+      <p class="text-[11px] text-slate-600 dark:text-slate-300 font-medium leading-tight">
+        विद्यार्थ्यांना मोफत व दर्जेदार टेस्ट्स अखंड उपलब्ध ठेवण्यासाठी आपले योगदान मोलाचे आहे.
       </p>
 
-      <!-- Quick Amount Selection Buttons -->
-      <div class="grid grid-cols-3 gap-1.5">
-        <button type="button" onclick="selectDesktopAmount(50)" class="desktop-donation-btn py-1 px-1.5 text-xs font-bold rounded-lg border border-slate-200 dark:border-[#1f3358] bg-slate-50 dark:bg-[#121e35] text-slate-800 dark:text-slate-200">
-          ₹ ५०
-        </button>
-        <button type="button" onclick="selectDesktopAmount(100)" class="desktop-donation-btn py-1 px-1.5 text-xs font-bold rounded-lg border-2 border-amber-500 bg-amber-50 dark:bg-amber-950/40 text-amber-700 dark:text-amber-300">
-          ₹ १००
-        </button>
-        <button type="button" onclick="selectDesktopAmount(200)" class="desktop-donation-btn py-1 px-1.5 text-xs font-bold rounded-lg border border-slate-200 dark:border-[#1f3358] bg-slate-50 dark:bg-[#121e35] text-slate-800 dark:text-slate-200">
-          ₹ २००
-        </button>
+      <!-- Amount Selector Buttons -->
+      <div class="grid grid-cols-4 gap-1.5">
+        <button type="button" onclick="setDonationVal(50)" class="don-chip py-1.5 px-2 text-xs font-bold rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-700/50">₹५०</button>
+        <button type="button" onclick="setDonationVal(100)" class="don-chip active py-1.5 px-2 text-xs font-bold rounded-lg border-2 border-amber-500 bg-amber-50 dark:bg-amber-950/40 text-amber-700 dark:text-amber-300">₹१००</button>
+        <button type="button" onclick="setDonationVal(200)" class="don-chip py-1.5 px-2 text-xs font-bold rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-700/50">₹२००</button>
+        <button type="button" onclick="setDonationVal(500)" class="don-chip py-1.5 px-2 text-xs font-bold rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-700/50">₹५००</button>
+        <button type="button" onclick="setDonationVal(1000)" class="don-chip py-1.5 px-2 text-xs font-bold rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-700/50">₹१०००</button>
       </div>
 
-      <!-- Desktop Custom Amount Input & Dynamic QR Button -->
-      <div class="text-left">
-        <div class="flex items-center gap-1.5">
-          <div class="relative flex-1">
-            <span class="absolute left-2.5 top-1.5 text-xs font-bold text-slate-400">₹</span>
-            <input type="number" id="desktopCustomAmountInput" value="100" min="10" step="1" 
-                   oninput="handleDesktopAmountInput(this.value)"
-                   placeholder="रक्कम टाका" 
-                   class="w-full pl-6 pr-2 py-1 text-xs rounded-lg border border-slate-200 dark:border-[#1f3358] bg-white dark:bg-[#121e35] text-slate-900 dark:text-white focus:outline-none focus:ring-1 focus:ring-amber-500 font-bold">
-          </div>
-          <button type="button" onclick="generateDesktopCustomQr()" 
-                  class="px-2.5 py-1 rounded-lg bg-orange-600 hover:bg-orange-700 text-white font-bold text-xs transition-all shadow-xs shrink-0 active:scale-95">
-            QR बनवा
-          </button>
-        </div>
-        <p id="desktopAmountError" class="text-[10px] text-rose-500 mt-0.5 hidden font-medium">किमान ₹१० किंवा अधिक रक्कम टाका.</p>
+      <!-- Desktop View: Live QR Code -->
+      <div id="desktopQrBox" class="bg-white p-2 rounded-xl border border-dashed border-amber-400 w-36 h-36 mx-auto flex items-center justify-center shadow-xs">
+        <img id="liveQrImage" src="" alt="UPI QR" class="w-32 h-32 object-contain block">
       </div>
 
-      <!-- Live Dynamic QR Code Container (Scaled to 135px) -->
-      <div class="bg-white p-2 rounded-xl border-2 border-dashed border-amber-400 w-36 h-36 mx-auto flex flex-col items-center justify-center shadow-xs">
-        <img id="desktopDynamicQrImg" 
-             src="https://api.qrserver.com/v1/create-qr-code/?size=135x135&data=upi%3A%2F%2Fpay%3Fpa%3Dvikram.joshi9089%40oksbi%26pn%3DStudySphere%26am%3D100%26cu%3DINR%26tn%3DStudySphere%2520MPSC%2520Donation" 
-             onerror="handleQrImageError(this)"
-             alt="StudySphere UPI QR Code" 
-             class="w-32 h-32 object-contain rounded-md block">
-      </div>
-
-      <!-- Scannable Amount Tag -->
       <div class="text-xs font-bold text-slate-700 dark:text-slate-300">
-        स्कॅन रक्कम: <span id="desktopQrAmountLabel" class="text-orange-600 dark:text-orange-400 font-black text-xs">₹ १००</span>
+        स्कॅन / देणगी रक्कम: <span id="displayDonationAmount" class="text-orange-600 dark:text-orange-400 font-black text-sm">₹ १०१</span>
       </div>
 
-      <div class="pt-1 border-t border-slate-200 dark:border-[#1f3358]">
-        <button onclick="closeModal('desktopDonationModal')" class="px-4 py-1 rounded-lg bg-slate-100 hover:bg-slate-200 dark:bg-[#121e35] dark:hover:bg-[#172744] text-[11px] font-bold text-slate-700 dark:text-slate-300">
-          बंद करा (Close)
-        </button>
-      </div>
-    </div>
-  </div>
-</div>
+      <!-- Mobile Button: UPI Intent -->
+      <button id="mobileUpiBtn" onclick="executeUpiTransfer()" class="w-full py-2.5 rounded-xl bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white font-black text-xs shadow-md active:scale-95 transition-all flex items-center justify-center gap-1.5">
+        <span>Pay with UPI (GPay / PhonePe / Paytm)</span>
+      </button>
 
-<!-- ३. आभार मोडल (Thank You Confirmation Modal) -->
-<div id="thankYouModal" class="fixed inset-0 z-50 bg-black/75 backdrop-blur-xs hidden items-center justify-center p-3 no-print">
-  <div class="bg-white dark:bg-[#0d1728] rounded-2xl w-full max-w-xs p-5 shadow-2xl border-2 border-emerald-500 text-center relative animate-slide-up">
-    <div class="w-10 h-10 bg-emerald-100 dark:bg-emerald-950 text-emerald-600 rounded-full flex items-center justify-center mx-auto mb-2">
-      <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+      <p class="text-[9px] text-slate-400 font-medium">
+        सुरक्षित UPI पेमेंट • १००% सुरक्षित ट्रान्सफर
+      </p>
     </div>
-    <h3 class="text-sm font-extrabold text-slate-900 dark:text-white">सहकार्य केल्याबद्दल धन्यवाद!</h3>
-    <p class="text-[11px] text-slate-600 dark:text-slate-300 mt-1.5 leading-snug font-medium">
-      तुमचा हा पाठिंबा महाराष्ट्रातील हजारो होतकरू स्पर्धा परीक्षा विद्यार्थ्यांना मोफत टेस्ट्स पोहोचवण्यासाठी आणि वेबसाइट अधिक गतिशील ठेवण्यासाठी मोलाचा ठरेल.
-    </p>
-    <button onclick="closeModal('thankYouModal')" class="mt-3 w-full py-2 rounded-xl bg-orange-600 hover:bg-orange-700 text-white font-bold text-xs shadow-md">
-      सराव सुरू ठेवा (Continue)
-    </button>
   </div>
 </div>
 
@@ -668,6 +566,54 @@
     </div>
   </div>
 
+  <div id="resultModal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden items-center justify-center p-3">
+  <div class="bg-white dark:bg-slate-800 rounded-3xl w-full max-w-sm p-5 text-center shadow-2xl border border-slate-200 dark:border-slate-700 animate-slide-up">
+    
+    <div class="w-14 h-14 mx-auto mb-2 rounded-2xl bg-amber-100 dark:bg-amber-900/30 text-amber-600 flex items-center justify-center text-2xl shadow-inner">
+      🏆
+    </div>
+
+    <h3 class="text-base font-black text-slate-900 dark:text-white">चाचणी निकाल (Performance Summary)</h3>
+    <p class="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">MPSC 1/4 निगेटिव्ह मार्किंगनुसार गुण</p>
+
+    <!-- Score Pill -->
+    <div class="my-3.5 p-3 rounded-2xl bg-gradient-to-r from-orange-50 to-amber-50 dark:from-slate-900/60 dark:to-amber-950/20 border border-orange-200 dark:border-amber-800/40">
+      <span class="text-[10px] font-black uppercase tracking-wider text-slate-500">अंतिम गुण (Final Score)</span>
+      <div class="text-3xl font-black text-orange-600 dark:text-orange-400" id="resFinalScore">0.00</div>
+      <div class="text-xs font-bold text-slate-600 dark:text-slate-300 mt-0.5">
+        अचूकता (Accuracy): <span id="resAccuracy" class="text-emerald-600">0%</span>
+      </div>
+    </div>
+
+    <!-- 3-Column Breakdown -->
+    <div class="grid grid-cols-3 gap-2 text-center text-xs mb-4">
+      <div class="p-2 rounded-xl bg-emerald-50 dark:bg-emerald-950/30 border border-emerald-200 dark:border-emerald-800">
+        <span class="text-emerald-700 dark:text-emerald-400 font-black text-sm block" id="resCorrect">0</span>
+        <span class="text-[9px] font-bold text-slate-500">बरोबर (+1.0)</span>
+      </div>
+      <div class="p-2 rounded-xl bg-rose-50 dark:bg-rose-950/30 border border-rose-200 dark:border-rose-800">
+        <span class="text-rose-600 dark:text-rose-400 font-black text-sm block" id="resWrong">0</span>
+        <span class="text-[9px] font-bold text-slate-500">चूक (-0.25)</span>
+      </div>
+      <div class="p-2 rounded-xl bg-slate-100 dark:bg-slate-700/50 border border-slate-200 dark:border-slate-600">
+        <span class="text-slate-700 dark:text-slate-200 font-black text-sm block" id="resSkipped">0</span>
+        <span class="text-[9px] font-bold text-slate-400">सोडवले नाही</span>
+      </div>
+    </div>
+
+    <!-- Action Buttons -->
+    <div class="space-y-2">
+      <button onclick="startNewQuizBatch()" class="w-full py-2.5 rounded-xl bg-brand-blue hover:bg-blue-700 text-white font-black text-xs shadow-md active:scale-95 transition-all">
+        🔄 नवीन सराव सुरू करा (Restart)
+      </button>
+      <a href="dashboard.html" class="block w-full py-2 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-700 text-slate-800 dark:text-slate-200 font-bold text-xs transition-all border border-slate-200 dark:border-slate-600">
+        📖 डॅशबोर्ड व सेव्ह केलेले प्रश्न पहा
+      </a>
+    </div>
+
+  </div>
+</div>
+
   <script>
     /* Global Application State */
     let questionQueue = [];
@@ -748,7 +694,7 @@
       restoreSavedFilters();
       restoreStreak();
       updateAPIKeyUI();
-      updateDesktopQr(101);
+      updateDesktopQr(100);
       registerServiceWorker();
 
       const apiKey = getStoredApiKey();
@@ -1996,87 +1942,68 @@ Return ONLY a valid JSON array matching this exact schema:
     }
     function openInfoModal() { openModal('infoModal'); }
 
-    const DONATION_SECRET_UPI_VPA = "vikram.joshi9089@oksbi";
-    let donationSelectedAmount = 101;
-    let donationPaymentTriggered = false;
+let currentDonation = 100;
+const UPI_VPA = "vikram.joshi9089@oksbi"; // Your UPI ID
 
-    function isMobileDevice() { 
-      return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || window.innerWidth < 768; 
+function handleDonateClick() {
+  const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent) || window.innerWidth < 640;
+  const qrBox = document.getElementById('desktopQrBox');
+  const upiBtn = document.getElementById('mobileUpiBtn');
+
+  if (isMobile) {
+    if (qrBox) qrBox.classList.add('hidden');
+    if (upiBtn) upiBtn.classList.remove('hidden');
+  } else {
+    if (qrBox) qrBox.classList.remove('hidden');
+    if (upiBtn) upiBtn.classList.add('hidden');
+  }
+
+  setDonationVal(currentDonation);
+  openModal('unifiedDonationModal');
+}
+
+function setDonationVal(amt) {
+  currentDonation = amt;
+  const label = document.getElementById('displayDonationAmount');
+  if (label) label.textContent = `₹ ${amt}`;
+
+  // Update QR Code
+  const qrImg = document.getElementById('liveQrImage');
+  if (qrImg) {
+    const upiUri = `upi://pay?pa=${UPI_VPA}&pn=StudySphere&am=${amt}&cu=INR&tn=StudySphere%20Donation`;
+    qrImg.src = `https://api.qrserver.com/v1/create-qr-code/?size=140x140&data=${encodeURIComponent(upiUri)}`;
+  }
+
+  // Update Chip Styles
+  document.querySelectorAll('.don-chip').forEach(btn => {
+    if (btn.textContent.includes(amt.toString())) {
+      btn.className = 'don-chip active py-1.5 px-2 text-xs font-bold rounded-lg border-2 border-amber-500 bg-amber-50 dark:bg-amber-950/40 text-amber-700 dark:text-amber-300';
+    } else {
+      btn.className = 'don-chip py-1.5 px-2 text-xs font-bold rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-700/50 text-slate-800 dark:text-slate-200';
     }
-    
-    // ३. मोबाईलवरील रक्कम निवड (Pill Buttons)
-  function selectDonationAmount(amount) {
-    donationSelectedAmount = amount;
-    var input = document.getElementById('customAmountInput');
-    if (input) input.value = amount;
-    validateCustomAmount();
+  });
+}
 
-    document.querySelectorAll('.donation-btn').forEach(function(btn) {
-      if (btn.textContent.indexOf(amount.toString()) !== -1) {
-        btn.className = 'donation-btn py-1.5 px-2 text-xs font-bold rounded-lg border-2 border-amber-500 bg-amber-50 dark:bg-amber-950/40 text-amber-700 dark:text-amber-300 transition-all';
-      } else {
-        btn.className = 'donation-btn py-1.5 px-2 text-xs font-bold rounded-lg border border-slate-200 dark:border-[#1f3358] bg-slate-50 dark:bg-[#121e35] text-slate-800 dark:text-slate-200 transition-all';
-      }
-    });
+function executeUpiTransfer() {
+  const upiUri = `upi://pay?pa=${UPI_VPA}&pn=StudySphere&am=${currentDonation}&cu=INR&tn=StudySphere%20Donation`;
+  window.location.href = upiUri;
+}
+
+function openModal(id) {
+  const el = document.getElementById(id);
+  if (el) {
+    el.classList.remove('hidden');
+    el.classList.add('flex');
   }
+}
 
-  // ६. डेस्कटॉप रक्कम निवड (Pill Buttons)
-  function selectDesktopAmount(amount) {
-    donationSelectedAmount = amount;
-    var customInput = document.getElementById('desktopCustomAmountInput');
-    if (customInput) customInput.value = amount;
-    var errorMsg = document.getElementById('desktopAmountError');
-    if (errorMsg) errorMsg.classList.add('hidden');
-
-    updateDesktopQr(amount);
-
-    document.querySelectorAll('.desktop-donation-btn').forEach(function(btn) {
-      if (btn.textContent.indexOf(amount.toString()) !== -1) {
-        btn.className = 'desktop-donation-btn py-1 px-1.5 text-xs font-bold rounded-lg border-2 border-amber-500 bg-amber-50 dark:bg-amber-950/40 text-amber-700 dark:text-amber-300';
-      } else {
-        btn.className = 'desktop-donation-btn py-1 px-1.5 text-xs font-bold rounded-lg border border-slate-200 dark:border-[#1f3358] bg-slate-50 dark:bg-[#121e35] text-slate-800 dark:text-slate-200';
-      }
-    });
+function closeModal(id) {
+  const el = document.getElementById(id);
+  if (el) {
+    el.classList.add('hidden');
+    el.classList.remove('flex');
   }
-
-  // ८. डेस्कटॉपवर 'QR बनवा' बटण दाबल्यावर नवीन QR बनवणे
-  function generateDesktopCustomQr() {
-    var input = document.getElementById('desktopCustomAmountInput');
-    var errorMsg = document.getElementById('desktopAmountError');
-    if (!input) return;
-    var val = parseFloat(input.value);
-
-    if (isNaN(val) || val < 10) {
-      if (errorMsg) errorMsg.classList.remove('hidden');
-      return;
-    }
-    if (errorMsg) errorMsg.classList.add('hidden');
-    donationSelectedAmount = Math.round(val);
-    updateDesktopQr(donationSelectedAmount);
-
-    document.querySelectorAll('.desktop-donation-btn').forEach(function(btn) {
-      if (btn.textContent.indexOf(donationSelectedAmount.toString()) !== -1) {
-        btn.className = 'desktop-donation-btn py-1 px-1.5 text-xs font-bold rounded-lg border-2 border-amber-500 bg-amber-50 dark:bg-amber-950/40 text-amber-700 dark:text-amber-300';
-      } else {
-        btn.className = 'desktop-donation-btn py-1 px-1.5 text-xs font-bold rounded-lg border border-slate-200 dark:border-[#1f3358] bg-slate-50 dark:bg-[#121e35] text-slate-800 dark:text-slate-200';
-      }
-    });
-  }
-
-  // ९. QR कोड प्रतिमा अद्ययावत करणे (UPI ID बॅकएंडमध्ये सुरक्षित ठेवून + Dual API Fallback)
-  function updateDesktopQr(amount) {
-    var qrImg = document.getElementById('desktopDynamicQrImg');
-    var amountLabel = document.getElementById('desktopQrAmountLabel');
-    if (amountLabel) amountLabel.textContent = "₹ " + amount;
-
-    var upiUri = "upi://pay?pa=" + DONATION_SECRET_UPI_VPA + "&pn=StudySphere&am=" + amount + "&cu=INR&tn=StudySphere%20MPSC%20Donation";
-    var primaryUrl = "https://api.qrserver.com/v1/create-qr-code/?size=135x135&data=" + encodeURIComponent(upiUri);
-
-    if (qrImg) {
-      qrImg.setAttribute('data-upi-uri', upiUri);
-      qrImg.src = primaryUrl;
-    }
-  }
+}
 
     function registerServiceWorker() {
       if ('serviceWorker' in navigator) {
@@ -2092,6 +2019,175 @@ Return ONLY a valid JSON array matching this exact schema:
         ['infoModal','filterModal','mobileDonationModal','desktopDonationModal','reportModal'].forEach(id => closeModal(id)); 
       }
     });
+
+
+    let testSession = {
+  total: 0,
+  correct: 0,
+  wrong: 0,
+  skipped: 0,
+  records: [] // stores { question, selectedOption, isCorrect }
+};
+
+function recordQuestionOutcome(q, userIndex) {
+  testSession.total++;
+  const isCorrect = (userIndex === q.correctAnswerIndex);
+  
+  if (userIndex === null || userIndex === -1) {
+    testSession.skipped++;
+  } else if (isCorrect) {
+    testSession.correct++;
+  } else {
+    testSession.wrong++;
+  }
+
+  testSession.records.push({
+    question: q,
+    userSelection: userIndex,
+    isCorrect: isCorrect
+  });
+}
+
+function calculateScorecard() {
+  const marksPerCorrect = 1.0;
+  const negativeMarking = 0.25; // Official MPSC 1/4 rule
+  
+  const rawScore = (testSession.correct * marksPerCorrect) - (testSession.wrong * negativeMarking);
+  const finalScore = Math.max(0, rawScore).toFixed(2);
+  const accuracy = testSession.total > 0 
+    ? Math.round((testSession.correct / (testSession.correct + testSession.wrong)) * 100) || 0 
+    : 0;
+
+  return {
+    total: testSession.total,
+    correct: testSession.correct,
+    wrong: testSession.wrong,
+    skipped: testSession.skipped,
+    finalScore: finalScore,
+    accuracy: accuracy
+  };
+}
+
+// Finish Quiz Trigger
+function confirmFinishQuiz() {
+  // If user hasn't answered anything yet
+  const totalAttempted = sessionHistory.length + (isAnswered ? 1 : 0);
+  if (totalAttempted === 0) {
+    showToast("कृपया आधी किमान १ प्रश्न सोडवा!");
+    return;
+  }
+
+  calculateAndShowResult();
+}
+
+function calculateAndShowResult() {
+  // Compile stats directly from session history
+  let correct = 0;
+  let wrong = 0;
+  let skipped = 0;
+
+  sessionHistory.forEach(item => {
+    if (item.selectedOptionIndex === null || item.selectedOptionIndex === -1) {
+      skipped++;
+    } else if (item.selectedOptionIndex === item.question.correctAnswerIndex) {
+      correct++;
+    } else {
+      wrong++;
+    }
+  });
+
+  // Check current question if answered and not yet pushed to history
+  if (currentQuestion && isAnswered) {
+    const alreadyLogged = sessionHistory.some(h => h.question.id === currentQuestion.id);
+    if (!alreadyLogged) {
+      if (selectedOptionIndex === currentQuestion.correctAnswerIndex) {
+        correct++;
+      } else if (selectedOptionIndex !== null && selectedOptionIndex !== -1) {
+        wrong++;
+      }
+    }
+  }
+
+  const marksPerCorrect = 1.0;
+  const negativeMarking = 0.25;
+  const rawScore = (correct * marksPerCorrect) - (wrong * negativeMarking);
+  const finalScore = Math.max(0, rawScore).toFixed(2);
+  const totalQuestions = correct + wrong + skipped;
+  const accuracy = (correct + wrong) > 0 ? Math.round((correct / (correct + wrong)) * 100) : 0;
+
+  // Update Modal DOM
+  document.getElementById('resFinalScore').textContent = finalScore;
+  document.getElementById('resAccuracy').textContent = `${accuracy}%`;
+  document.getElementById('resCorrect').textContent = correct;
+  document.getElementById('resWrong').textContent = wrong;
+  document.getElementById('resSkipped').textContent = skipped;
+
+  openModal('resultModal');
+}
+
+function startNewQuizBatch() {
+  closeModal('resultModal');
+  sessionHistory = [];
+  currentHistoryIndex = -1;
+  sessionStorage.removeItem('qq_current_q');
+  sessionStorage.removeItem('qq_active_queue');
+  sessionStorage.removeItem('qq_session_history');
+  questionQueue = [];
+  correctStreak = 0;
+  localStorage.setItem('qq_correct_streak', '0');
+  document.getElementById('streakCount').textContent = '0 Streak';
+  showToast("नवीन सराव सुरू होत आहे...");
+  fetchAiQuestionsBatch(true);
+}
   </script>
+
+  <!-- Result Scorecard Modal (MPSC 1/4 Negative Marking) -->
+<div id="resultModal" role="dialog" aria-modal="true" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-xs hidden items-center justify-center p-3">
+  <div class="bg-white dark:bg-slate-800 rounded-3xl w-full max-w-sm p-4 sm:p-5 text-center shadow-2xl border border-slate-200 dark:border-slate-700 animate-slide-up flex flex-col">
+    
+    <div class="w-12 h-12 mx-auto mb-1.5 rounded-2xl bg-amber-100 dark:bg-amber-900/40 text-amber-600 flex items-center justify-center text-2xl shadow-inner">
+      🏆
+    </div>
+
+    <h3 class="text-sm sm:text-base font-black text-slate-900 dark:text-white">चाचणी निकाल (Performance Summary)</h3>
+    <p class="text-[10px] sm:text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">MPSC 1/4 (-0.25) निगेटिव्ह मार्किंगनुसार</p>
+
+    <!-- Score Card -->
+    <div class="my-3 p-3 rounded-2xl bg-gradient-to-r from-orange-50 to-amber-50 dark:from-slate-900/60 dark:to-amber-950/20 border border-orange-200 dark:border-amber-800/40">
+      <span class="text-[9px] font-black uppercase tracking-wider text-slate-500">अंतिम गुण (Final Score)</span>
+      <div class="text-3xl font-black text-orange-600 dark:text-orange-400 leading-tight" id="resFinalScore">0.00</div>
+      <div class="text-[11px] font-bold text-slate-600 dark:text-slate-300 mt-0.5">
+        अचूकता (Accuracy): <span id="resAccuracy" class="text-emerald-600 dark:text-emerald-400">0%</span>
+      </div>
+    </div>
+
+    <!-- 3-Column Breakdown -->
+    <div class="grid grid-cols-3 gap-1.5 text-center text-xs mb-3.5">
+      <div class="p-2 rounded-xl bg-emerald-50 dark:bg-emerald-950/30 border border-emerald-200 dark:border-emerald-800">
+        <span class="text-emerald-700 dark:text-emerald-400 font-black text-sm block" id="resCorrect">0</span>
+        <span class="text-[9px] font-bold text-slate-500">बरोबर (+1.0)</span>
+      </div>
+      <div class="p-2 rounded-xl bg-rose-50 dark:bg-rose-950/30 border border-rose-200 dark:border-rose-800">
+        <span class="text-rose-600 dark:text-rose-400 font-black text-sm block" id="resWrong">0</span>
+        <span class="text-[9px] font-bold text-slate-500">चूक (-0.25)</span>
+      </div>
+      <div class="p-2 rounded-xl bg-slate-100 dark:bg-slate-700/50 border border-slate-200 dark:border-slate-600">
+        <span class="text-slate-700 dark:text-slate-200 font-black text-sm block" id="resSkipped">0</span>
+        <span class="text-[9px] font-bold text-slate-400">सोडवले नाही</span>
+      </div>
+    </div>
+
+    <!-- Actions -->
+    <div class="space-y-1.5">
+      <button onclick="startNewQuizBatch()" class="w-full py-2.5 rounded-xl bg-brand-blue hover:bg-blue-700 text-white font-black text-xs shadow-md active:scale-95 transition-all">
+        🔄 नवीन सराव सुरू करा (Restart)
+      </button>
+      <button onclick="closeModal('resultModal')" class="w-full py-2 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-700 text-slate-800 dark:text-slate-200 font-bold text-xs transition-all border border-slate-200 dark:border-slate-600">
+        पुनरावलोकन चालू ठेवा (Review)
+      </button>
+    </div>
+
+  </div>
+</div>
 </body>
 </html>
