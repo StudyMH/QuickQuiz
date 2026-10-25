@@ -1,4 +1,4 @@
-# ⚡ QuickQuiz By StudySphere
+# ⚡ QuickQuiz 2.0 By StudySphere
 
 > **High-Performance, Mobile-First PWA for MPSC Aspirants**
 
