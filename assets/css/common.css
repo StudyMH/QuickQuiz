@@ -1,0 +1,72 @@
+/* -------------------------------------------------------------
+StudySphere QuickQuiz 2.0 Unified Design System Tokens
+------------------------------------------------------------- */
+:root {
+--font-primary: "Plus Jakarta Sans", "Mukta", system-ui, sans-serif;
+--color-brand-primary: #ea580c;
+--color-brand-accent: #2563eb;
+--color-brand-navy: #0f172a;
+}
+
+html, body {
+min-height: 100%;
+-webkit-tap-highlight-color: transparent;
+text-rendering: optimizeLegibility;
+-webkit-font-smoothing: antialiased;
+}
+
+/* Tricolor Flag Stripe */
+.tiranga-stripe {
+background: linear-gradient(90deg, #ea580c 0%, #ea580c 33.33%, #ffffff 33.33%, #ffffff 66.66%, #15803d 66.66%, #15803d 100%);
+height: 3.5px;
+width: 100%;
+}
+
+/* Glassmorphism Surface */
+.glass {
+background: rgba(255, 255, 255, 0.94);
+backdrop-filter: blur(12px);
+-webkit-backdrop-filter: blur(12px);
+}
+.dark .glass {
+background: rgba(15, 23, 42, 0.94);
+}
+
+/* Accessible Focus Ring */
+button:focus-visible, a:focus-visible, input:focus-visible {
+outline: 2px solid var(--color-brand-primary);
+outline-offset: 2px;
+}
+
+/* Subtle Micro-Animations */
+@keyframes slideUp {
+0% { transform: translateY(10px); opacity: 0; }
+100% { transform: translateY(0); opacity: 1; }
+}
+.animate-slide-up {
+animation: slideUp 0.22s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Pairs Matching Table Styling */
+.pairs-table {
+width: 100%;
+border-collapse: separate;
+border-spacing: 0;
+border-radius: 0.65rem;
+overflow: hidden;
+}
+.pairs-table td {
+padding: 0.45rem 0.65rem;
+font-size: 0.85rem;
+border-bottom: 1px solid #e2e8f0;
+background: #ffffff;
+line-height: 1.4;
+}
+.dark .pairs-table td {
+background: #0f172a;
+border-color: #334155;
+color: #e2e8f0;
+}
+.pairs-table tr:last-child td {
+border-bottom: none;
+}

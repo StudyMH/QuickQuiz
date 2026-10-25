@@ -1,0 +1,21 @@
+{
+"name": "QuickQuiz 2.0 | StudySphere MPSC सराव केंद्र",
+"short_name": "QuickQuiz",
+"description": "MPSC व स्पर्धा परीक्षांसाठी मोफत AI-आधारित सराव चाचणी आणि रिव्हिजन व्हॉल्ट केंद्र.",
+"start_url": "./index.html",
+"scope": "./",
+"display": "standalone",
+"orientation": "portrait",
+"background_color": "#0f172a",
+"theme_color": "#ea580c",
+"lang": "mr",
+"categories": ["education", "books"],
+"icons": [
+{
+"src": "icon.svg",
+"sizes": "192x192 512x512",
+"type": "image/svg+xml",
+"purpose": "any maskable"
+}
+]
+}
