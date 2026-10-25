@@ -205,29 +205,29 @@
       </div>
 
       <!-- State B: Active Target Display -->
-      <div id="heroActiveState" class="hidden flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-        <div class="space-y-1.5 min-w-0">
-          <div class="flex items-center gap-2 flex-wrap">
-            <span class="px-2 py-0.5 rounded text-[10px] font-black uppercase bg-emerald-50 dark:bg-emerald-950/60 text-emerald-800 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800">
+      <div id="heroActiveState" class="hidden flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-4">
+        <div class="space-y-1 sm:space-y-1.5 min-w-0">
+          <div class="flex items-center gap-1.5 sm:gap-2 flex-wrap">
+            <span class="px-1.5 sm:px-2 py-0.5 rounded text-[9px] sm:text-[10px] font-black uppercase bg-emerald-50 dark:bg-emerald-950/60 text-emerald-800 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800">
               सक्रिय सराव ध्येय (Target)
             </span>
-            <span id="badgeTargetMode" class="px-2 py-0.5 rounded text-[10px] font-bold bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300">COMPACT</span>
+            <span id="badgeTargetMode" class="px-1.5 sm:px-2 py-0.5 rounded text-[9px] sm:text-[10px] font-bold bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300">COMPACT</span>
           </div>
           
-          <h1 id="heroExamTitle" class="text-base sm:text-lg font-black text-slate-900 dark:text-white truncate">
+          <h1 id="heroExamTitle" class="text-sm sm:text-lg font-black text-slate-900 dark:text-white truncate">
             MPSC Combine Group C • पूर्व परीक्षा
           </h1>
           
-          <p id="heroExamMeta" class="text-sm sm:text-base font-extrabold text-slate-900 dark:text-slate-100">
+          <p id="heroExamMeta" class="text-xs sm:text-base font-bold sm:font-extrabold text-slate-800 dark:text-slate-200 leading-snug">
             घटक: महाराष्ट्राचा इतिहास • काठिण्य: Medium
           </p>
         </div>
 
         <div class="flex items-center gap-2 w-full sm:w-auto shrink-0">
-          <a href="./quiz.html" id="btnStartQuiz" class="flex-1 sm:flex-initial text-center px-5 py-2.5 rounded-xl bg-amber-500 hover:bg-amber-600 text-slate-950 font-black text-xs shadow-xs active:scale-95 transition-all">
+          <a href="./quiz.html" id="btnStartQuiz" class="flex-1 sm:flex-initial text-center px-4 sm:px-5 py-2 sm:py-2.5 rounded-xl bg-amber-500 hover:bg-amber-600 text-slate-950 font-black text-xs shadow-xs active:scale-95 transition-all">
             सराव सुरू करा 🚀
           </a>
-          <button id="btnChangeFilter" type="button" class="px-3.5 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 text-xs font-bold transition-all border border-slate-200 dark:border-slate-700">
+          <button id="btnChangeFilter" type="button" class="px-3 sm:px-3.5 py-2 sm:py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 text-xs font-bold transition-all border border-slate-200 dark:border-slate-700">
             बदला ⚙️
           </button>
         </div>
@@ -238,7 +238,7 @@
     <section id="metricsContainerSection" class="transition-all duration-300">
       <div class="flex items-center justify-between mb-2">
         <h2 class="text-xs font-black uppercase tracking-wider text-slate-400">Study Performance</h2>
-        <!-- <span class="text-[10px] text-slate-400 font-bold">MPSC १/४ निगेटिव्ह पद्धतीवर आधारित</span> -->
+        <span class="text-[10px] text-slate-400 font-bold">MPSC १/४ निगेटिव्ह पद्धतीवर आधारित</span>
       </div>
 
       <div class="grid grid-cols-3 gap-2.5">
@@ -291,7 +291,8 @@
         </div>
         <div>
           <div class="flex items-center gap-2">
-            <h4 class="text-xs font-black text-amber-950 dark:text-amber-100">Feedback & Query</h4>
+            <h4 class="text-xs font-black text-amber-950 dark:text-amber-100">अभिप्राय व घटक अडचण (Feedback & Query)</h4>
+            <span class="px-2 py-0.5 rounded text-[9px] font-bold text-emerald-700 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950/60 border border-emerald-300 dark:border-emerald-800">Google Sheet Sync ✓</span>
           </div>
           <p class="text-[10px] text-amber-800 dark:text-amber-300/90 mt-0.5">
             वेबसाईट संदर्भात आपला अभिप्राय किंवा परीक्षा / घटक निवडीबाबतची अडचण थेट आम्हाला कळवा.
@@ -579,7 +580,7 @@
       
       <div class="flex items-center justify-between pb-2 border-b border-slate-100 dark:border-slate-800">
         <h4 class="text-xs font-black text-slate-900 dark:text-white uppercase tracking-wider flex items-center gap-1.5">
-          <span>💬</span> <span>अभिप्राय व अडचण नोंदवा (Feedback & Query)</span>
+          <span>💬</span> <span>Feedback & Query</span>
         </h4>
         <button id="btnCloseFeedbackModal" type="button" class="text-slate-400 hover:text-slate-700 dark:hover:text-white font-bold p-1">✕</button>
       </div>
