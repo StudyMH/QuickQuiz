@@ -57,59 +57,58 @@
   <!-- Top Tricolor Accent Line -->
   <div class="tiranga-stripe shrink-0 fixed top-0 left-0 right-0 z-50"></div>
 
-  <!-- Header Section -->
-  <header class="app-header glass border-b border-amber-200/60 dark:border-slate-800 sticky top-0 z-40 pt-1">
-    <div class="max-w-4xl mx-auto px-3 sm:px-4 py-2 flex items-center justify-between gap-2">
+  <!-- Header Section (Compact, Zero-Overflow Mobile Layout) -->
+  <header class="app-header glass border-b border-amber-200/60 dark:border-slate-800 sticky top-0 z-40 pt-1 w-full overflow-hidden">
+    <div class="max-w-4xl mx-auto px-2.5 sm:px-4 py-2 flex items-center justify-between gap-1.5 sm:gap-2">
       
       <!-- Brand Logo & Title -->
-      <div id="brandLogoContainer" class="flex items-center gap-2">
-        <a id="brandLogoLink" href="./index.html" class="flex items-center gap-2 group">
-          <img src="./icon.svg" alt="StudySphere Logo" class="w-8 h-8 rounded-full shrink-0 shadow-xs group-hover:scale-105 transition-transform">
-          <div>
-            <div class="flex items-center gap-1.5">
-              <span class="text-sm sm:text-base font-black tracking-tight text-slate-900 dark:text-white uppercase leading-tight">QuickQuiz</span>
-              <span class="text-[9px] font-black uppercase px-1.5 py-0.5 rounded bg-amber-100 dark:bg-amber-950/80 text-amber-800 dark:text-amber-400 border border-amber-300 dark:border-amber-800 leading-tight">2.0</span>
+      <div id="brandLogoContainer" class="flex items-center gap-1.5 sm:gap-2 min-w-0 shrink">
+        <a id="brandLogoLink" href="./index.html" class="flex items-center gap-1.5 sm:gap-2 group min-w-0">
+          <img src="./icon.svg" alt="StudySphere Logo" class="w-7 h-7 sm:w-8 sm:h-8 rounded-full shrink-0 shadow-xs group-hover:scale-105 transition-transform">
+          <div class="min-w-0 truncate">
+            <div class="flex items-center gap-1">
+              <span class="text-xs sm:text-base font-black tracking-tight text-slate-900 dark:text-white uppercase leading-tight truncate">QuickQuiz</span>
+              <span class="text-[8px] sm:text-[9px] font-black uppercase px-1 py-0.2 rounded bg-amber-100 dark:bg-amber-950/80 text-amber-800 dark:text-amber-400 border border-amber-300 dark:border-amber-800 leading-tight shrink-0">2.0</span>
             </div>
-            <p class="text-[9px] sm:text-[10px] text-slate-500 dark:text-slate-400 font-bold leading-tight mt-0.5">StudySphere • MPSC सराव</p>
+            <p class="text-[8px] sm:text-[10px] text-slate-500 dark:text-slate-400 font-bold leading-tight mt-0.5 truncate hidden xs:block">StudySphere • MPSC सराव</p>
           </div>
         </a>
       </div>
 
       <!-- Quick Controls -->
-      <div class="flex items-center gap-1.5 shrink-0">
+      <div class="flex items-center gap-1 sm:gap-1.5 shrink-0">
         
         <!-- Live AI Status / Demo Badge -->
-        <div id="headerStatusBadge" class="hidden items-center gap-1 px-2 py-1 rounded-xl text-[11px] font-black border">
-          <span class="w-2 h-2 rounded-full" id="headerStatusDot"></span>
-          <span id="headerStatusText">तपासणी...</span>
+        <div id="headerStatusBadge" class="hidden items-center gap-1 px-1.5 sm:px-2 py-0.5 sm:py-1 rounded-xl text-[10px] sm:text-[11px] font-black border">
+          <span class="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full" id="headerStatusDot"></span>
+          <span id="headerStatusText" class="truncate max-w-[70px] sm:max-w-none">तपासणी...</span>
         </div>
 
-        <!-- Dashboard / Revision Vault Icon Button -->
-        <a href="./dashboard.html" aria-label="रिव्हिजन व्हॉल्ट व डॅशबोर्ड" title="रिव्हिजन व्हॉल्ट व डॅशबोर्ड" class="h-8 w-8 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-200 hover:bg-amber-50 dark:hover:bg-slate-800 flex items-center justify-center transition-colors shadow-2xs">
-          <span class="text-sm">📖</span>
+        <!-- Dashboard / Revision Vault Green Ladder Icon Button -->
+        <a href="./dashboard.html" aria-label="रिव्हिजन व्हॉल्ट व डॅशबोर्ड" title="रिव्हिजन व्हॉल्ट व प्रगती (Dashboard)" class="h-7 w-7 sm:h-8 sm:w-8 rounded-xl bg-emerald-50 dark:bg-emerald-950/60 border border-emerald-300 dark:border-emerald-800 text-emerald-700 dark:text-emerald-300 hover:bg-emerald-100 dark:hover:bg-emerald-900/60 flex items-center justify-center transition-all active:scale-95 shadow-2xs shrink-0">
+          <span class="text-xs sm:text-sm">🪜</span>
         </a>
 
         <!-- Language Switcher -->
-        <button id="btnLangToggle" type="button" aria-label="भाषा बदला" class="h-8 px-2 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-xs font-bold text-slate-700 dark:text-slate-200 hover:bg-amber-50 dark:hover:bg-slate-800 transition-colors shadow-2xs">
+        <button id="btnLangToggle" type="button" aria-label="भाषा बदला" class="h-7 px-1.5 sm:h-8 sm:px-2 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-[11px] sm:text-xs font-bold text-slate-700 dark:text-slate-200 hover:bg-amber-50 dark:hover:bg-slate-800 transition-all active:scale-95 shadow-2xs shrink-0">
           <span id="langLabel">मराठी</span>
         </button>
 
-
         <!-- Theme Toggle -->
-        <button id="btnThemeToggle" type="button" aria-label="थीम बदला" class="h-8 w-8 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-200 hover:bg-amber-50 dark:hover:bg-slate-800 flex items-center justify-center transition-colors shadow-2xs">
-          <span id="themeIcon">🌓</span>
+        <button id="btnThemeToggle" type="button" aria-label="थीम बदला" class="h-7 w-7 sm:h-8 sm:w-8 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-200 hover:bg-amber-50 dark:hover:bg-slate-800 flex items-center justify-center transition-all active:scale-95 shadow-2xs shrink-0">
+          <span id="themeIcon" class="text-xs">🌓</span>
         </button>
 
         <!-- Menu Drawer Toggle -->
-        <button id="btnMenuToggle" type="button" aria-label="मेनू उघडा" class="h-8 w-8 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-200 flex items-center justify-center transition-colors shadow-2xs">
-          <span>☰</span>
+        <button id="btnMenuToggle" type="button" aria-label="मेनू उघडा" class="h-7 w-7 sm:h-8 sm:w-8 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-200 flex items-center justify-center transition-all active:scale-95 shadow-2xs shrink-0">
+          <span class="text-xs sm:text-sm">☰</span>
         </button>
 
       </div>
     </div>
   </header>
 
-  <!-- Slide-out Menu Drawer (Includes Telegram, Donate & Key options) -->
+  <!-- Slide-out Menu Drawer -->
   <div id="sideMenuDrawer" class="hidden fixed inset-0 z-50 bg-slate-950/60 backdrop-blur-xs flex justify-end">
     <div class="bg-white dark:bg-slate-900 w-72 h-full shadow-2xl border-l border-slate-200 dark:border-slate-800 p-5 flex flex-col justify-between animate-slide-up">
       <div class="space-y-4">
@@ -152,7 +151,7 @@
   <!-- Main Content Layout -->
   <main class="max-w-3xl mx-auto w-full px-3 sm:px-4 py-3 flex-1 flex flex-col gap-3.5">
 
-    <!-- 1. Sleek & Ultra-Compact Countdown Timer Box (Fixed Text Clipping) -->
+    <!-- 1. Countdown Timer Box -->
     <section class="p-2 sm:p-2.5 rounded-2xl bg-white dark:bg-slate-900 border border-amber-200/80 dark:border-slate-800 shadow-2xs flex items-center justify-between gap-2 overflow-visible">
       <div class="flex items-center gap-2 min-w-0">
         <span class="w-6 h-6 rounded-lg bg-amber-100 dark:bg-amber-950/80 text-amber-800 dark:text-amber-400 flex items-center justify-center text-xs shrink-0">⏳</span>
@@ -162,7 +161,7 @@
         </div>
       </div>
 
-      <!-- Minimal Digital Digits -->
+      <!-- Digital Digits -->
       <div class="flex items-center gap-1 shrink-0 font-mono text-[11px] font-black">
         <span id="cdDays" class="px-1.5 py-0.5 rounded bg-amber-50 dark:bg-slate-800 border border-amber-200 dark:border-slate-700 text-amber-700 dark:text-amber-300">--</span>
         <span class="text-slate-400">:</span>
@@ -174,7 +173,7 @@
       </div>
     </section>
 
-    <!-- 2. Active Target Hero Card (Warm Amber & Sage) -->
+    <!-- 2. Active Target Hero Card -->
     <section class="p-4 sm:p-5 rounded-3xl bg-white dark:bg-slate-900 border-2 border-amber-200/90 dark:border-amber-900/60 shadow-xs relative overflow-hidden">
       
       <!-- Demo Notice Bar -->
@@ -235,7 +234,7 @@
       </div>
     </section>
 
-    <!-- 3. Real Performance Metrics (Blurred in Demo Mode) -->
+    <!-- 3. Performance Metrics -->
     <section id="metricsContainerSection" class="transition-all duration-300">
       <div class="flex items-center justify-between mb-2">
         <h2 class="text-xs font-black uppercase tracking-wider text-slate-400">सराव आढावा (Study Performance)</h2>
@@ -263,7 +262,7 @@
       </div>
     </section>
 
-    <!-- 4. Fetch AI Notes Card (Lite Warm Yellow) -->
+    <!-- 4. Fetch AI Notes Card -->
     <section class="p-3.5 sm:p-4 rounded-2xl bg-amber-50/70 dark:bg-amber-950/20 border border-amber-200/80 dark:border-amber-800/50 shadow-2xs flex items-center justify-between gap-3">
       <div class="flex items-center gap-3">
         <div class="w-9 h-9 rounded-xl bg-amber-100 dark:bg-amber-900/60 text-amber-800 dark:text-amber-300 flex items-center justify-center text-lg shrink-0">
@@ -280,11 +279,11 @@
         </div>
       </div>
       <button type="button" disabled class="hidden sm:inline-block px-3 py-1.5 rounded-xl bg-amber-100 dark:bg-slate-800 text-amber-700 dark:text-slate-400 font-bold text-xs cursor-not-allowed">
-        Soon
+        अक्षम (Soon)
       </button>
     </section>
 
-    <!-- 5. Feedback & Query Card (Clean Box with "Feedback" button triggering modal) -->
+    <!-- 5. Feedback & Query Card -->
     <section class="p-3.5 sm:p-4 rounded-2xl bg-amber-50/70 dark:bg-amber-950/20 border border-amber-200/80 dark:border-amber-800/50 shadow-2xs flex items-center justify-between gap-3">
       <div class="flex items-center gap-3">
         <div class="w-9 h-9 rounded-xl bg-amber-100 dark:bg-amber-900/60 text-amber-800 dark:text-amber-300 flex items-center justify-center text-lg shrink-0">
@@ -292,8 +291,7 @@
         </div>
         <div>
           <div class="flex items-center gap-2">
-            <h4 class="text-xs font-black text-amber-950 dark:text-amber-100">अभिप्राय व घटक अडचण (Feedback & Query)</h4>
-            <!-- <span class="px-2 py-0.5 rounded text-[9px] font-bold text-emerald-700 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950/60 border border-emerald-300 dark:border-emerald-800">Google Sheet Sync ✓</span> -->
+            <h4 class="text-xs font-black text-amber-950 dark:text-amber-100">Feedback & Query</h4>
           </div>
           <p class="text-[10px] text-amber-800 dark:text-amber-300/90 mt-0.5">
             वेबसाईट संदर्भात आपला अभिप्राय किंवा परीक्षा / घटक निवडीबाबतची अडचण थेट आम्हाला कळवा.
@@ -301,7 +299,7 @@
         </div>
       </div>
       <button id="btnOpenFeedbackModal" type="button" class="px-3.5 py-2 rounded-xl bg-amber-500 hover:bg-amber-600 text-slate-950 font-black text-xs shrink-0 shadow-2xs active:scale-95 transition-all">
-        Feedback ↗
+        अभिप्राय (Feedback) ↗
       </button>
     </section>
 
@@ -315,7 +313,7 @@
           ब्राउझर कॅशे क्लिअर झाल्यास अभ्यास टिकवण्यासाठी बॅकअप घ्या किंवा Google द्वारे सिंक करा.
         </p>
         <div id="cloudUserMeta" class="hidden items-center gap-2 pt-1">
-          <img id="cloudUserImg" src="./icon.svg" class="w-5 h-5 rounded-full border border-emerald-400">
+          <img id="cloudUserImg" src="./icon.svg" alt="User avatar" class="w-5 h-5 rounded-full border border-emerald-400">
           <span id="cloudUserName" class="text-[10px] font-bold text-emerald-600">लॉगिन यशस्वी</span>
         </div>
       </div>
@@ -341,10 +339,10 @@
       </button>
     </div>
 
-    <!-- 8. Separate Clean Footer Box for Menus, Legal Links & Social Buttons -->
+    <!-- 8. Footer Section -->
     <footer class="mt-4 p-4 rounded-3xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-2xs text-center space-y-3.5">
       
-      <!-- Clean Legal Links (No border, clean text with icons) -->
+      <!-- Clean Legal Links -->
       <div class="flex flex-wrap items-center justify-center gap-x-4 gap-y-2 text-xs font-bold text-slate-600 dark:text-slate-400">
         <button type="button" onclick="openPolicyModal('about')" class="hover:text-amber-600 dark:hover:text-amber-400 transition-colors flex items-center gap-1">
           <span>ℹ️</span> <span>About Us</span>
@@ -366,24 +364,19 @@
       <!-- Copyright Notice -->
       <p class="text-[11px] font-bold text-slate-400">© 2026 StudySphere • MPSC सराव केंद्र • सर्व हक्क राखीव</p>
 
-      <!-- Telegram, Donation & Share Buttons (Placed AFTER Copyright, Small text with icon & transparent theme colors) -->
+      <!-- Telegram, Donation & Share Buttons -->
       <div class="flex items-center justify-center gap-2 pt-1 border-t border-slate-100 dark:border-slate-800/80">
-        
-        <!-- Telegram (Blue) -->
         <a href="https://t.me/MPSCstudysphere" target="_blank" rel="noopener noreferrer" class="px-2.5 py-1.5 rounded-xl bg-sky-500/10 hover:bg-sky-500/20 text-sky-700 dark:text-sky-300 text-xs font-bold flex items-center gap-1.5 transition-colors">
           <span>✈️</span> <span>Telegram</span>
         </a>
 
-        <!-- Donation (Orange / Amber) -->
         <button id="btnTriggerDonate" type="button" class="px-2.5 py-1.5 rounded-xl bg-amber-500/15 hover:bg-amber-500/25 text-amber-800 dark:text-amber-300 text-xs font-bold flex items-center gap-1.5 transition-colors">
           <span>❤️</span> <span>Donate</span>
         </button>
 
-        <!-- Share (Green) -->
         <button id="btnTriggerShare" type="button" class="px-2.5 py-1.5 rounded-xl bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-700 dark:text-emerald-300 text-xs font-bold flex items-center gap-1.5 transition-colors">
           <span>🔗</span> <span>Share</span>
         </button>
-
       </div>
     </footer>
 
@@ -422,7 +415,7 @@
         तुमची API Key फक्त तुमच्या ब्राऊझरमध्ये (Local Device) साठवली जाते. ती कोणत्याही बाह्य सर्व्हरवर पाठवली जात नाही. ही की दररोज मोफत MPSC प्रश्न तयार करण्यासाठी वापरली जाते.
       </div>
 
-      <!-- Instant Demo Option Card (Disabled automatically when key is saved) -->
+      <!-- Instant Demo Option Card -->
       <div id="demoCardContainer" class="p-3.5 rounded-2xl bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-800/60 flex items-center justify-between gap-3">
         <div class="min-w-0">
           <h4 class="text-xs font-black text-amber-950 dark:text-amber-200">सध्या Key नाहीये?</h4>
@@ -441,25 +434,21 @@
           <label for="inputApiKey" class="text-xs font-black text-slate-900 dark:text-white">
             Google Gemini AI इंजिन सेटअप
           </label>
-          <!-- Recognizable Blinking Dot Link -->
           <a id="linkGetFreeKey" href="https://aistudio.google.com/app/apikey" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-black bg-amber-50 text-amber-900 dark:bg-amber-950 dark:text-amber-300 border border-amber-300 dark:border-amber-800 hover:bg-amber-100 transition-all">
             <span class="w-2 h-2 rounded-full bg-amber-500 pulse-dot"></span>
             <span>मोफत Key मिळवा ↗</span>
           </a>
         </div>
 
-        <!-- Input Box with Paste, Clear & Eye Buttons -->
+        <!-- Input Box -->
         <div class="relative">
           <input type="password" id="inputApiKey" placeholder="AIzaSy... येथे की पेस्ट करा" class="w-full pl-3 pr-28 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-xs font-mono text-slate-900 dark:text-white focus:outline-none focus:border-amber-500 transition-all disabled:opacity-60 disabled:cursor-not-allowed">
           
           <div class="absolute right-2 top-1/2 -translate-y-1/2 flex items-center gap-1 text-slate-400">
-            <!-- Paste Button -->
             <button id="btnPasteApiKey" type="button" class="px-2 py-1 rounded-lg bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-200 text-[10px] font-bold hover:bg-slate-200 disabled:opacity-40 disabled:pointer-events-none" title="क्लिपबोर्डवरून पेस्ट करा">
               📋 Paste
             </button>
-            <!-- Clear Button -->
             <button id="btnClearApiKeyInput" type="button" class="hidden w-5 h-5 rounded-full bg-slate-200 dark:bg-slate-700 text-[10px] font-black flex items-center justify-center hover:text-slate-700 dark:hover:text-white" title="क्लिअर करा">✕</button>
-            <!-- Eye Toggle -->
             <button id="btnToggleApiKeyVisibility" type="button" class="text-sm hover:text-slate-600 dark:hover:text-slate-200 p-0.5" title="दाखवा / लपवा">👁️</button>
           </div>
         </div>
@@ -486,86 +475,86 @@
   </div>
 
   <!-- ========================================================================= -->
-  <!-- MODAL 2: FILTER & TARGET SYLLABUS MODAL (Locked in Demo Mode)             -->
+  <!-- MODAL 2: FILTER & TARGET SYLLABUS MODAL                                    -->
   <!-- ========================================================================= -->
-  <div id="targetFilterModal" role="dialog" aria-modal="true" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-md hidden items-center justify-center p-3 sm:p-4">
-    <div class="bg-white dark:bg-slate-900 w-full max-w-xl rounded-3xl p-5 shadow-2xl border border-slate-200 dark:border-slate-800 flex flex-col gap-4 animate-slide-up max-h-[90vh] overflow-hidden">
+  <div id="targetFilterModal" role="dialog" aria-modal="true" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-md hidden items-center justify-center p-2.5 sm:p-4">
+    <div class="bg-white dark:bg-slate-900 w-full max-w-xl rounded-3xl p-4 sm:p-5 shadow-2xl border border-slate-200 dark:border-slate-800 flex flex-col gap-3.5 sm:gap-4 animate-slide-up max-h-[92vh] overflow-hidden">
       
       <!-- Modal Header -->
-      <div class="flex items-center justify-between pb-3 border-b border-slate-100 dark:border-slate-800 shrink-0">
+      <div class="flex items-center justify-between pb-2.5 sm:pb-3 border-b border-slate-100 dark:border-slate-800 shrink-0">
         <div>
-          <h3 class="text-sm sm:text-base font-black text-slate-900 dark:text-white">⚙️ सराव ध्येय रचना (Practice Target)</h3>
-          <p class="text-[10px] text-slate-400">आयोगाच्या अधिकृत अभ्यासक्रमानुसार घटक निवडा</p>
+          <h3 class="text-xs sm:text-base font-black text-slate-900 dark:text-white">⚙️ सराव ध्येय रचना (Practice Target)</h3>
+          <p class="text-[9px] sm:text-[10px] text-slate-400">आयोगाच्या अधिकृत अभ्यासक्रमानुसार घटक निवडा</p>
         </div>
-        <div class="flex items-center gap-2">
-          <button id="btnClearAllFilterSubjects" type="button" class="px-2.5 py-1 rounded-lg text-xs font-bold text-rose-600 dark:text-rose-400 hover:bg-rose-50 dark:hover:bg-rose-950/40 transition-colors">
+        <div class="flex items-center gap-1.5">
+          <button id="btnClearAllFilterSubjects" type="button" class="px-2 py-1 rounded-lg text-[11px] sm:text-xs font-bold text-rose-600 dark:text-rose-400 hover:bg-rose-50 dark:hover:bg-rose-950/40 active:scale-95 transition-all">
             Clear All
           </button>
-          <button id="btnCloseFilterModal" type="button" class="text-slate-400 hover:text-slate-700 dark:hover:text-white font-bold p-1 text-base">✕</button>
+          <button id="btnCloseFilterModal" type="button" class="text-slate-400 hover:text-slate-700 dark:hover:text-white font-bold p-1 text-sm sm:text-base active:scale-90 transition-transform">✕</button>
         </div>
       </div>
 
       <!-- Scrollable Options Body -->
-      <div class="overflow-y-auto flex-1 space-y-4 pr-1">
+      <div class="overflow-y-auto flex-1 space-y-3 sm:space-y-4 pr-1">
         
-        <!-- Step 1: Syllabus Mode Toggle (Compact vs Detailed) -->
-        <div class="p-3 rounded-2xl bg-amber-50/50 dark:bg-slate-800/60 border border-amber-200 dark:border-slate-700 space-y-2">
+        <!-- Step 1: Syllabus Mode Toggle -->
+        <div class="p-2.5 sm:p-3 rounded-2xl bg-amber-50/50 dark:bg-slate-800/60 border border-amber-200 dark:border-slate-700 space-y-1.5 sm:space-y-2">
           <div class="flex items-center justify-between">
-            <span class="text-[10px] font-black uppercase text-slate-500 dark:text-slate-400 tracking-wider">अभ्यासक्रम पद्धत (Syllabus Mode)</span>
-            <span class="text-[10px] font-bold text-amber-800 dark:text-amber-400" id="currentModeLabel">Compact Focus</span>
+            <span class="text-[9px] sm:text-[10px] font-black uppercase text-slate-500 dark:text-slate-400 tracking-wider">अभ्यासक्रम पद्धत (Syllabus Mode)</span>
+            <span class="text-[9px] sm:text-[10px] font-bold text-amber-800 dark:text-amber-400" id="currentModeLabel">Compact Focus</span>
           </div>
           <div class="grid grid-cols-2 gap-2">
-            <button id="btnModeCompact" type="button" class="py-2 px-3 rounded-xl border text-xs font-black transition-all flex items-center justify-center gap-1.5">
-              <span>📚 सर्वसाधारण (Compact)</span>
+            <button id="btnModeCompact" type="button" class="py-2 px-2.5 rounded-xl border text-[11px] sm:text-xs font-black transition-all duration-200 transform active:scale-95 flex items-center justify-center gap-1">
+              <span>📚 सर्वसाधारण</span>
             </button>
-            <button id="btnModeDetailed" type="button" class="py-2 px-3 rounded-xl border text-xs font-black transition-all flex items-center justify-center gap-1.5">
-              <span>🔍 सखोल घटक (Detailed)</span>
+            <button id="btnModeDetailed" type="button" class="py-2 px-2.5 rounded-xl border text-[11px] sm:text-xs font-black transition-all duration-200 transform active:scale-95 flex items-center justify-center gap-1">
+              <span>🔍 सखोल घटक</span>
             </button>
           </div>
         </div>
 
         <!-- Step 2: Select Exam Target -->
         <div class="space-y-1.5">
-          <label class="block text-[10px] font-black uppercase tracking-wider text-slate-400">परीक्षेचे नाव निवडा</label>
-          <div class="grid grid-cols-3 gap-2">
-            <button id="btnExamGroupC" type="button" class="exam-pill py-2 rounded-xl border text-xs font-bold text-center transition-all">Combine गट क</button>
-            <button id="btnExamGroupB" type="button" class="exam-pill py-2 rounded-xl border text-xs font-bold text-center transition-all">Combine गट ब</button>
-            <button id="btnExamRajya" type="button" class="exam-pill py-2 rounded-xl border text-xs font-bold text-center transition-all">राज्यसेवा</button>
+          <label class="block text-[9px] sm:text-[10px] font-black uppercase tracking-wider text-slate-400">परीक्षेचे नाव निवडा</label>
+          <div class="grid grid-cols-3 gap-1.5 sm:gap-2">
+            <button id="btnExamGroupC" type="button" class="exam-pill py-2 rounded-xl border text-[11px] sm:text-xs font-bold text-center transition-all duration-200 transform active:scale-95">Combine गट क</button>
+            <button id="btnExamGroupB" type="button" class="exam-pill py-2 rounded-xl border text-[11px] sm:text-xs font-bold text-center transition-all duration-200 transform active:scale-95">Combine गट ब</button>
+            <button id="btnExamRajya" type="button" class="exam-pill py-2 rounded-xl border text-[11px] sm:text-xs font-bold text-center transition-all duration-200 transform active:scale-95">राज्यसेवा</button>
           </div>
         </div>
 
         <!-- Step 3: Select Stage (Prelims / Mains) -->
         <div class="space-y-1.5">
-          <label class="block text-[10px] font-black uppercase tracking-wider text-slate-400">परीक्षेचा टप्पा</label>
-          <div class="grid grid-cols-2 gap-2">
-            <button id="btnStagePrelims" type="button" class="stage-pill py-2 rounded-xl border text-xs font-bold text-center transition-all">पूर्व परीक्षा (Prelims)</button>
-            <button id="btnStageMains" type="button" class="stage-pill py-2 rounded-xl border text-xs font-bold text-center transition-all">मुख्य परीक्षा (Mains)</button>
+          <label class="block text-[9px] sm:text-[10px] font-black uppercase tracking-wider text-slate-400">परीक्षेचा टप्पा</label>
+          <div class="grid grid-cols-2 gap-1.5 sm:gap-2">
+            <button id="btnStagePrelims" type="button" class="stage-pill py-2 rounded-xl border text-[11px] sm:text-xs font-bold text-center transition-all duration-200 transform active:scale-95">पूर्व परीक्षा (Prelims)</button>
+            <button id="btnStageMains" type="button" class="stage-pill py-2 rounded-xl border text-[11px] sm:text-xs font-bold text-center transition-all duration-200 transform active:scale-95">मुख्य परीक्षा (Mains)</button>
           </div>
         </div>
 
         <!-- Step 4: Dynamic Subjects List -->
-        <div class="space-y-2">
+        <div class="space-y-1.5 sm:space-y-2">
           <div class="flex items-center justify-between">
-            <label class="block text-[10px] font-black uppercase tracking-wider text-slate-400">अभ्यासक्रम विषय (किमान १ अनिवार्य)</label>
-            <span class="text-[10px] font-bold text-amber-800 dark:text-amber-400" id="selectedSubjectsCount">१ निवडले</span>
+            <label class="block text-[9px] sm:text-[10px] font-black uppercase tracking-wider text-slate-400">अभ्यासक्रम विषय (किमान १ अनिवार्य)</label>
+            <span class="text-[9px] sm:text-[10px] font-bold text-amber-800 dark:text-amber-400" id="selectedSubjectsCount">१ निवडले</span>
           </div>
           <div id="dynamicSubjectsContainer" class="flex flex-wrap gap-1.5"></div>
         </div>
 
         <!-- Step 5: Difficulty & Language -->
-        <div class="grid grid-cols-2 gap-3 pt-1">
+        <div class="grid grid-cols-2 gap-2 sm:gap-3 pt-1">
           <div class="space-y-1">
-            <label class="block text-[10px] font-black uppercase tracking-wider text-slate-400">काठिण्य पातळी</label>
-            <div class="grid grid-cols-2 gap-1.5">
-              <button id="btnDiffMed" type="button" class="diff-pill py-1.5 rounded-xl border text-xs font-bold text-center transition-all">Medium</button>
-              <button id="btnDiffHard" type="button" class="diff-pill py-1.5 rounded-xl border text-xs font-bold text-center transition-all">Hard</button>
+            <label class="block text-[9px] sm:text-[10px] font-black uppercase tracking-wider text-slate-400">काठिण्य पातळी</label>
+            <div class="grid grid-cols-2 gap-1 sm:gap-1.5">
+              <button id="btnDiffMed" type="button" class="diff-pill py-1.5 rounded-xl border text-[11px] sm:text-xs font-bold text-center transition-all duration-200 transform active:scale-95">Medium</button>
+              <button id="btnDiffHard" type="button" class="diff-pill py-1.5 rounded-xl border text-[11px] sm:text-xs font-bold text-center transition-all duration-200 transform active:scale-95">Hard</button>
             </div>
           </div>
           <div class="space-y-1">
-            <label class="block text-[10px] font-black uppercase tracking-wider text-slate-400">माध्यम (Language)</label>
-            <div class="grid grid-cols-2 gap-1.5">
-              <button id="btnLangMr" type="button" class="lang-pill py-1.5 rounded-xl border text-xs font-bold text-center transition-all">मराठी</button>
-              <button id="btnLangEn" type="button" class="lang-pill py-1.5 rounded-xl border text-xs font-bold text-center transition-all">English</button>
+            <label class="block text-[9px] sm:text-[10px] font-black uppercase tracking-wider text-slate-400">माध्यम (Language)</label>
+            <div class="grid grid-cols-2 gap-1 sm:gap-1.5">
+              <button id="btnLangMr" type="button" class="lang-pill py-1.5 rounded-xl border text-[11px] sm:text-xs font-bold text-center transition-all duration-200 transform active:scale-95">मराठी</button>
+              <button id="btnLangEn" type="button" class="lang-pill py-1.5 rounded-xl border text-[11px] sm:text-xs font-bold text-center transition-all duration-200 transform active:scale-95">English</button>
             </div>
           </div>
         </div>
@@ -574,7 +563,7 @@
 
       <!-- Apply & Start Practice Button -->
       <div class="pt-2 border-t border-slate-100 dark:border-slate-800 shrink-0">
-        <button id="btnApplyAndStartQuiz" type="button" class="w-full py-2.5 rounded-xl bg-amber-500 hover:bg-amber-600 disabled:opacity-40 disabled:cursor-not-allowed text-slate-950 font-black text-xs sm:text-sm shadow-xs active:scale-95 transition-all">
+        <button id="btnApplyAndStartQuiz" type="button" class="w-full py-2.5 rounded-xl bg-amber-500 hover:bg-amber-600 disabled:opacity-40 disabled:cursor-not-allowed text-slate-950 font-black text-xs sm:text-sm shadow-xs transition-all duration-200 transform active:scale-95">
           Apply & Start Practice (सराव सुरू करा 🚀)
         </button>
       </div>
@@ -583,7 +572,7 @@
   </div>
 
   <!-- ========================================================================= -->
-  <!-- MODAL 3: FEEDBACK & QUERY MODAL (Connected to Google Apps Script / Sheet)   -->
+  <!-- MODAL 3: FEEDBACK & QUERY MODAL                                            -->
   <!-- ========================================================================= -->
   <div id="feedbackModal" role="dialog" aria-modal="true" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-md hidden items-center justify-center p-3 sm:p-4">
     <div class="bg-white dark:bg-slate-900 w-full max-w-md rounded-3xl p-5 shadow-2xl border border-slate-200 dark:border-slate-800 space-y-3.5 animate-slide-up">
@@ -619,36 +608,36 @@
   </div>
 
   <!-- ========================================================================= -->
-  <!-- MODAL 4: DONATE (SUPPORT PLATFORM) MODAL — Dynamic QR & Mobile Intent     -->
+  <!-- MODAL 4: DONATE (SUPPORT PLATFORM) MODAL                                   -->
   <!-- ========================================================================= -->
-  <div id="donateModal" role="dialog" aria-modal="true" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-md hidden items-center justify-center p-3 sm:p-4">
-    <div class="bg-white dark:bg-slate-900 w-full max-w-sm rounded-3xl p-5 text-center shadow-2xl border border-slate-200 dark:border-slate-800 space-y-3 animate-slide-up">
-      <div class="flex items-center justify-between pb-1 border-b border-slate-100 dark:border-slate-800">
+  <div id="donateModal" role="dialog" aria-modal="true" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-md hidden items-center justify-center p-3 sm:p-4 overflow-y-auto">
+    <div class="bg-white dark:bg-slate-900 w-full max-w-sm rounded-3xl p-4 sm:p-5 text-center shadow-2xl border border-slate-200 dark:border-slate-800 space-y-3 animate-slide-up max-h-[90vh] overflow-y-auto flex flex-col justify-start">
+      <div class="flex items-center justify-between pb-1 border-b border-slate-100 dark:border-slate-800 shrink-0">
         <h4 class="text-xs font-black text-slate-900 dark:text-white uppercase tracking-wider flex items-center gap-1.5">
           <span>❤️</span> <span>StudySphere ला पाठिंबा द्या</span>
         </h4>
         <button id="btnCloseDonateModal" type="button" class="text-slate-400 hover:text-slate-700 dark:hover:text-white font-bold p-1">✕</button>
       </div>
 
-      <p class="text-xs text-slate-600 dark:text-slate-300 leading-tight">
+      <p class="text-[11px] sm:text-xs text-slate-600 dark:text-slate-300 leading-snug">
         विद्यार्थ्यांना मोफत व दर्जेदार सराव उपलब्ध ठेवण्यासाठी आपले सहकार्य मोलाचे आहे.
       </p>
 
       <!-- Preset Amount Chips -->
-      <div class="grid grid-cols-3 gap-1.5">
-        <button type="button" onclick="setDonationAmount(50)" id="d-btn-50" class="donation-amt-btn py-1.5 px-2 text-xs font-bold rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-800 dark:text-slate-200">
+      <div class="grid grid-cols-3 gap-1.5 shrink-0">
+        <button type="button" onclick="setDonationAmount(50)" id="d-btn-50" class="donation-amt-btn py-1.5 px-2 text-xs font-bold rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-800 dark:text-slate-200 transition-all duration-200 transform active:scale-95">
           ₹ ५०
         </button>
-        <button type="button" onclick="setDonationAmount(100)" id="d-btn-100" class="donation-amt-btn py-1.5 px-2 text-xs font-bold rounded-xl border-2 border-amber-500 bg-amber-50 dark:bg-amber-950/40 text-amber-900 dark:text-amber-300">
+        <button type="button" onclick="setDonationAmount(100)" id="d-btn-100" class="donation-amt-btn py-1.5 px-2 text-xs font-bold rounded-xl border-2 border-amber-500 bg-amber-50 dark:bg-amber-950/40 text-amber-900 dark:text-amber-300 transition-all duration-200 transform active:scale-95">
           ₹ १००
         </button>
-        <button type="button" onclick="setDonationAmount(200)" id="d-btn-200" class="donation-amt-btn py-1.5 px-2 text-xs font-bold rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-800 dark:text-slate-200">
+        <button type="button" onclick="setDonationAmount(200)" id="d-btn-200" class="donation-amt-btn py-1.5 px-2 text-xs font-bold rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-800 dark:text-slate-200 transition-all duration-200 transform active:scale-95">
           ₹ २००
         </button>
       </div>
 
       <!-- Custom Amount Input -->
-      <div class="text-left">
+      <div class="text-left shrink-0">
         <label for="customDonationAmount" class="block text-[10px] font-bold text-slate-500 mb-0.5">किंवा आपली ऐच्छिक रक्कम टाका (किमान ₹१०):</label>
         <div class="relative">
           <span class="absolute left-2.5 top-1.5 text-xs font-bold text-slate-400">₹</span>
@@ -656,15 +645,15 @@
         </div>
       </div>
 
-      <!-- Desktop QR View -->
-      <div class="hidden sm:flex flex-col items-center justify-center p-2 rounded-2xl bg-amber-50/50 dark:bg-slate-800 border border-amber-200 dark:border-slate-700">
-        <img id="dynamicQRImg" src="https://api.qrserver.com/v1/create-qr-code/?size=140x140&data=upi://pay?pa=vikram.joshi9089@oksbi%26pn=StudySphere%26am=100%26cu=INR%26tn=StudySphere%2520Donation" alt="UPI QR Code" class="w-32 h-32 rounded-xl border border-slate-300 dark:border-slate-600">
-        <span id="desktopQrAmountLabel" class="text-[11px] font-bold text-amber-800 dark:text-amber-300 mt-1 font-mono">स्कॅन रक्कम: ₹ १००</span>
+      <!-- QR View -->
+      <div class="flex flex-col items-center justify-center p-2 rounded-2xl bg-amber-50/50 dark:bg-slate-800 border border-amber-200 dark:border-slate-700 shrink-0">
+        <img id="dynamicQRImg" src="https://api.qrserver.com/v1/create-qr-code/?size=130x130&data=upi://pay?pa=vikram.joshi9089@oksbi%26pn=StudySphere%26am=100%26cu=INR%26tn=StudySphere%2520Donation" alt="UPI QR Code" class="w-28 h-28 sm:w-32 sm:h-32 rounded-xl border border-slate-300 dark:border-slate-600">
+        <span id="desktopQrAmountLabel" class="text-[10px] sm:text-[11px] font-bold text-amber-800 dark:text-amber-300 mt-1 font-mono">स्कॅन रक्कम: ₹ १००</span>
       </div>
 
       <!-- Mobile Direct UPI Intent Button -->
-      <div class="sm:hidden">
-        <button id="btnMobilePayUPI" type="button" class="w-full py-2.5 rounded-xl bg-amber-500 hover:bg-amber-600 text-slate-950 font-black text-xs flex items-center justify-center gap-1.5 shadow-xs">
+      <div class="w-full shrink-0">
+        <button id="btnMobilePayUPI" type="button" class="w-full py-2.5 rounded-xl bg-amber-500 hover:bg-amber-600 text-slate-950 font-black text-xs flex items-center justify-center gap-1.5 shadow-xs transition-all duration-200 transform active:scale-95">
           <span>📲</span> <span>Pay with UPI (GPay / PhonePe / Paytm)</span>
         </button>
       </div>
@@ -672,7 +661,7 @@
   </div>
 
   <!-- ========================================================================= -->
-  <!-- MODAL 5: AUTHENTIC LEGAL & POLICY MODALS (From app.js)                     -->
+  <!-- MODAL 5: LEGAL & POLICY MODALS                                            -->
   <!-- ========================================================================= -->
   <div id="policyModal" role="dialog" aria-modal="true" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-xs hidden items-center justify-center p-3 sm:p-4">
     <div class="bg-white dark:bg-slate-900 w-full max-w-lg rounded-3xl p-5 sm:p-6 shadow-2xl border border-slate-200 dark:border-slate-800 space-y-3.5 animate-slide-up max-h-[88vh] overflow-y-auto">
