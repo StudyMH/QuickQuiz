@@ -44,10 +44,12 @@ function initTheme() {
   const currentTheme = AppStorage.getTheme();
   if (currentTheme === 'dark') {
     document.documentElement.classList.add('dark');
-    document.getElementById('themeIcon').textContent = '☀️';
+    const icon = document.getElementById('themeIcon');
+    if (icon) icon.textContent = '☀️';
   } else {
     document.documentElement.classList.remove('dark');
-    document.getElementById('themeIcon').textContent = '🌙';
+    const icon = document.getElementById('themeIcon');
+    if (icon) icon.textContent = '🌙';
   }
 }
 
@@ -55,7 +57,8 @@ function toggleTheme() {
   const isDark = document.documentElement.classList.toggle('dark');
   const newTheme = isDark ? 'dark' : 'light';
   AppStorage.setTheme(newTheme);
-  document.getElementById('themeIcon').textContent = isDark ? '☀️' : '🌙';
+  const icon = document.getElementById('themeIcon');
+  if (icon) icon.textContent = isDark ? '☀️' : '🌙';
 }
 
 function initLanguage() {
@@ -127,8 +130,8 @@ function checkOnboardingGateway() {
 
       if (statusBadge && statusText && statusDot) {
         statusBadge.classList.remove('hidden');
-        statusBadge.className = "flex items-center gap-1.5 px-2.5 py-1 rounded-xl text-xs font-black bg-emerald-50 text-emerald-800 dark:bg-emerald-950/60 dark:text-emerald-300 border border-emerald-300 dark:border-emerald-800";
-        statusDot.className = "w-2 h-2 rounded-full bg-emerald-500";
+        statusBadge.className = "flex items-center gap-1 px-1.5 sm:px-2 py-0.5 sm:py-1 rounded-xl text-[10px] sm:text-[11px] font-black bg-emerald-50 text-emerald-800 dark:bg-emerald-950/60 dark:text-emerald-300 border border-emerald-300 dark:border-emerald-800";
+        statusDot.className = "w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full bg-emerald-500";
         statusText.textContent = "AI सक्रिय ✓";
       }
     } else if (isDemo) {
@@ -145,8 +148,8 @@ function checkOnboardingGateway() {
 
       if (statusBadge && statusText && statusDot) {
         statusBadge.classList.remove('hidden');
-        statusBadge.className = "flex items-center gap-1.5 px-2.5 py-1 rounded-xl text-xs font-black bg-amber-100 text-amber-900 dark:bg-amber-950/80 dark:text-amber-300 border border-amber-300 dark:border-amber-800";
-        statusDot.className = "w-2 h-2 rounded-full bg-amber-500 animate-pulse";
+        statusBadge.className = "flex items-center gap-1 px-1.5 sm:px-2 py-0.5 sm:py-1 rounded-xl text-[10px] sm:text-[11px] font-black bg-amber-100 text-amber-900 dark:bg-amber-950/80 dark:text-amber-300 border border-amber-300 dark:border-amber-800";
+        statusDot.className = "w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full bg-amber-500 animate-pulse";
         statusText.textContent = "डेमो मोड";
       }
     }
@@ -219,12 +222,10 @@ async function handleCheckConnection() {
     AppStorage.setGeminiKey(rawKey);
     sessionStorage.removeItem('qq_demo_active');
 
-    // Immediately disable button
     btnCheck.disabled = true;
     btnCheck.className = "flex-1 py-2.5 rounded-xl bg-emerald-50 dark:bg-emerald-950/40 text-emerald-800 dark:text-emerald-300 font-black text-xs border border-emerald-400 cursor-default";
     btnCheck.textContent = "✓ की सेव्ह झाली आहे (Key Active)";
     
-    // Disable demo button upon saving key
     if (demoCardContainer) demoCardContainer.classList.add('opacity-40', 'pointer-events-none');
 
     showToast("AI Key यशस्वीरित्या सेव्ह झाली!");
@@ -249,7 +250,7 @@ async function handleCheckConnection() {
     statusText.className = "text-sky-500";
   }
 
-  const candidateModels = ['gemini-3.5-flash-lite'];
+  const candidateModels = ['gemini-2.5-flash', 'gemini-1.5-flash', 'gemini-2.0-flash'];
   let verifiedModel = null;
 
   for (const model of candidateModels) {
@@ -330,7 +331,7 @@ function handleEnterDemo() {
 }
 
 // -------------------------------------------------------------
-// 3. Ultra-Compact Countdown Timer (3 Jan 2027)
+// 3. Countdown Timer (3 Jan 2027)
 // -------------------------------------------------------------
 function startCountdownTimer() {
   const targetDate = new Date('2027-01-03T00:00:00+05:30').getTime();
@@ -340,10 +341,14 @@ function startCountdownTimer() {
     const diff = targetDate - now;
 
     if (diff <= 0) {
-      document.getElementById('cdDays').textContent = '00';
-      document.getElementById('cdHours').textContent = '00';
-      document.getElementById('cdMinutes').textContent = '00';
-      document.getElementById('cdSeconds').textContent = '00';
+      const d = document.getElementById('cdDays');
+      const h = document.getElementById('cdHours');
+      const m = document.getElementById('cdMinutes');
+      const s = document.getElementById('cdSeconds');
+      if (d) d.textContent = '00';
+      if (h) h.textContent = '00';
+      if (m) m.textContent = '00';
+      if (s) s.textContent = '00';
       clearInterval(DashboardState.countdownInterval);
       return;
     }
@@ -414,7 +419,7 @@ function renderDashboardOverview() {
     activeState?.classList.add('hidden');
   }
 
-  // Real Metrics Calculation
+  // Metrics Calculation
   const history = AppStorage.getSessionHistory();
   const vault = AppStorage.getVault();
 
@@ -444,7 +449,7 @@ function renderDashboardOverview() {
 }
 
 // -------------------------------------------------------------
-// 5. Target Filter Modal (Locked in Demo Mode)
+// 5. Target Filter Modal
 // -------------------------------------------------------------
 function openTargetFilterModal() {
   const isDemo = sessionStorage.getItem('qq_demo_active') === 'true';
@@ -485,37 +490,37 @@ function renderFilterModalUI(isDemo = false) {
   if (btnDetailed) btnDetailed.disabled = isDemo;
 
   if (f.syllabusMode === 'detailed') {
-    if (btnDetailed) btnDetailed.className = "py-2 px-3 rounded-xl border-2 border-amber-500 bg-amber-50 dark:bg-amber-950/40 text-amber-900 dark:text-amber-200 font-black text-xs flex items-center justify-center gap-1.5 shadow-2xs";
-    if (btnCompact) btnCompact.className = "py-2 px-3 rounded-xl border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 font-bold text-xs flex items-center justify-center gap-1.5";
+    if (btnDetailed) btnDetailed.className = "py-2 px-2.5 rounded-xl border-2 border-amber-500 bg-amber-50 dark:bg-amber-950/40 text-amber-900 dark:text-amber-200 font-black text-[11px] sm:text-xs flex items-center justify-center gap-1 shadow-2xs transition-all duration-200 transform active:scale-95";
+    if (btnCompact) btnCompact.className = "py-2 px-2.5 rounded-xl border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 font-bold text-[11px] sm:text-xs flex items-center justify-center gap-1 transition-all duration-200 transform active:scale-95";
     if (modeLabel) modeLabel.textContent = "सखोल उपघटक (Detailed Focus)";
   } else {
-    if (btnCompact) btnCompact.className = "py-2 px-3 rounded-xl border-2 border-emerald-600 bg-emerald-50 dark:bg-emerald-950/40 text-emerald-900 dark:text-emerald-200 font-black text-xs flex items-center justify-center gap-1.5 shadow-2xs";
-    if (btnDetailed) btnDetailed.className = "py-2 px-3 rounded-xl border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 font-bold text-xs flex items-center justify-center gap-1.5";
+    if (btnCompact) btnCompact.className = "py-2 px-2.5 rounded-xl border-2 border-emerald-600 bg-emerald-50 dark:bg-emerald-950/40 text-emerald-900 dark:text-emerald-200 font-black text-[11px] sm:text-xs flex items-center justify-center gap-1 shadow-2xs transition-all duration-200 transform active:scale-95";
+    if (btnDetailed) btnDetailed.className = "py-2 px-2.5 rounded-xl border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 font-bold text-[11px] sm:text-xs flex items-center justify-center gap-1 transition-all duration-200 transform active:scale-95";
     if (modeLabel) modeLabel.textContent = "सर्वसाधारण घटक (Compact Focus)";
   }
 
-  // 2. Exam Pills (Disabled in demo)
+  // 2. Exam Pills
   document.querySelectorAll('.exam-pill').forEach(btn => {
     const isSel = (btn.id === 'btnExamGroupC' && f.exam === 'group-c') ||
                   (btn.id === 'btnExamGroupB' && f.exam === 'group-b') ||
                   (btn.id === 'btnExamRajya' && f.exam === 'rajyaseva');
     btn.className = isSel
-      ? "exam-pill py-2 rounded-xl border-2 border-emerald-600 bg-emerald-50 text-emerald-900 dark:bg-emerald-950/60 dark:text-emerald-200 dark:border-emerald-500 font-black text-xs text-center shadow-2xs"
-      : "exam-pill py-2 rounded-xl border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 text-xs font-bold text-center";
+      ? "exam-pill py-2 rounded-xl border-2 border-emerald-600 bg-emerald-50 text-emerald-900 dark:bg-emerald-950/60 dark:text-emerald-200 dark:border-emerald-500 font-black text-[11px] sm:text-xs text-center shadow-2xs transition-all duration-200 transform active:scale-95"
+      : "exam-pill py-2 rounded-xl border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 text-[11px] sm:text-xs font-bold text-center transition-all duration-200 transform active:scale-95";
     btn.disabled = isDemo;
   });
 
-  // 3. Stage Pills (Disabled in demo)
+  // 3. Stage Pills
   document.querySelectorAll('.stage-pill').forEach(btn => {
     const isSel = (btn.id === 'btnStagePrelims' && f.stage === 'Prelims') ||
                   (btn.id === 'btnStageMains' && f.stage === 'Mains');
     btn.className = isSel
-      ? "stage-pill py-2 rounded-xl border-2 border-emerald-600 bg-emerald-50 text-emerald-900 dark:bg-emerald-950/60 dark:text-emerald-200 dark:border-emerald-500 font-black text-xs text-center shadow-2xs"
-      : "stage-pill py-2 rounded-xl border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 text-xs font-bold text-center";
+      ? "stage-pill py-2 rounded-xl border-2 border-emerald-600 bg-emerald-50 text-emerald-900 dark:bg-emerald-950/60 dark:text-emerald-200 dark:border-emerald-500 font-black text-[11px] sm:text-xs text-center shadow-2xs transition-all duration-200 transform active:scale-95"
+      : "stage-pill py-2 rounded-xl border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 text-[11px] sm:text-xs font-bold text-center transition-all duration-200 transform active:scale-95";
     btn.disabled = isDemo;
   });
 
-  // 4. Dynamic Subjects / Micro-topics Container
+  // 4. Dynamic Subjects Container
   const container = document.getElementById('dynamicSubjectsContainer');
   if (container) {
     container.innerHTML = '';
@@ -541,8 +546,8 @@ function renderFilterModalUI(isDemo = false) {
           btn.disabled = isDemo;
           const isSel = f.microTopics.includes(t);
           btn.className = isSel
-            ? "px-2 py-1 rounded-lg border-2 border-amber-500 bg-amber-500 text-slate-950 text-[11px] font-black shadow-2xs disabled:opacity-60"
-            : "px-2 py-1 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 text-[11px] font-bold disabled:opacity-60";
+            ? "px-2 py-1 rounded-lg border-2 border-amber-500 bg-amber-500 text-slate-950 text-[11px] font-black shadow-2xs transition-all duration-200 transform active:scale-95 disabled:opacity-60"
+            : "px-2 py-1 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 text-[11px] font-bold transition-all duration-200 transform hover:border-amber-400 active:scale-95 disabled:opacity-60";
           btn.textContent = t;
           if (!isDemo) btn.onclick = () => toggleMicroTopicSelection(t, grp.category);
           subChips.appendChild(btn);
@@ -559,8 +564,8 @@ function renderFilterModalUI(isDemo = false) {
         btn.disabled = isDemo;
         const isSel = f.subjects.includes(sub);
         btn.className = isSel
-          ? "px-2.5 py-1.5 rounded-xl border-2 border-amber-500 bg-amber-500 text-slate-950 text-xs font-black shadow-2xs disabled:opacity-60"
-          : "px-2.5 py-1.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 text-xs font-bold disabled:opacity-60";
+          ? "px-2.5 py-1.5 rounded-xl border-2 border-amber-500 bg-amber-500 text-slate-950 text-xs font-black shadow-2xs transition-all duration-200 transform active:scale-95 disabled:opacity-60"
+          : "px-2.5 py-1.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 text-xs font-bold transition-all duration-200 transform hover:border-amber-400 active:scale-95 disabled:opacity-60";
         btn.textContent = sub;
         if (!isDemo) btn.onclick = () => toggleCompactSubjectSelection(sub);
         container.appendChild(btn);
@@ -568,7 +573,7 @@ function renderFilterModalUI(isDemo = false) {
     }
   }
 
-  // 5. Update Selection Counters & Apply Button Validation
+  // 5. Update Selection Counters
   const countLabel = document.getElementById('selectedSubjectsCount');
   const count = f.syllabusMode === 'detailed' ? f.microTopics.length : f.subjects.length;
   if (countLabel) countLabel.textContent = `${count} घटक निवडले`;
@@ -585,16 +590,16 @@ function renderFilterModalUI(isDemo = false) {
   document.querySelectorAll('.diff-pill').forEach(btn => {
     const isSel = (btn.id === 'btnDiffMed' && f.diff === 'Medium') || (btn.id === 'btnDiffHard' && f.diff === 'Hard');
     btn.className = isSel
-      ? "diff-pill py-1.5 rounded-xl border-2 border-slate-900 dark:border-white bg-slate-900 dark:bg-white text-white dark:text-slate-900 font-black text-xs text-center"
-      : "diff-pill py-1.5 rounded-xl border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 text-xs font-bold text-center";
+      ? "diff-pill py-1.5 rounded-xl border-2 border-slate-900 dark:border-white bg-slate-900 dark:bg-white text-white dark:text-slate-900 font-black text-[11px] sm:text-xs text-center transition-all duration-200 transform active:scale-95"
+      : "diff-pill py-1.5 rounded-xl border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 text-[11px] sm:text-xs font-bold text-center transition-all duration-200 transform active:scale-95";
     btn.disabled = isDemo;
   });
 
   document.querySelectorAll('.lang-pill').forEach(btn => {
     const isSel = (btn.id === 'btnLangMr' && f.lang === 'mr') || (btn.id === 'btnLangEn' && f.lang === 'en');
     btn.className = isSel
-      ? "lang-pill py-1.5 rounded-xl border-2 border-slate-900 dark:border-white bg-slate-900 dark:bg-white text-white dark:text-slate-900 font-black text-xs text-center"
-      : "lang-pill py-1.5 rounded-xl border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 text-xs font-bold text-center";
+      ? "lang-pill py-1.5 rounded-xl border-2 border-slate-900 dark:border-white bg-slate-900 dark:bg-white text-white dark:text-slate-900 font-black text-[11px] sm:text-xs text-center transition-all duration-200 transform active:scale-95"
+      : "lang-pill py-1.5 rounded-xl border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 text-[11px] sm:text-xs font-bold text-center transition-all duration-200 transform active:scale-95";
     btn.disabled = isDemo;
   });
 }
@@ -703,7 +708,7 @@ function closeFeedbackModal() {
 }
 
 // -------------------------------------------------------------
-// 7. Dual Donation System (QR + Mobile Intent)
+// 7. Dual Donation System
 // -------------------------------------------------------------
 function setDonationAmount(amt) {
   DashboardState.donationAmount = amt;
@@ -712,9 +717,9 @@ function setDonationAmount(amt) {
 
   document.querySelectorAll('.donation-amt-btn').forEach(btn => {
     if (btn.innerText.includes(amt.toString())) {
-      btn.className = 'donation-amt-btn py-1.5 px-2 text-xs font-bold rounded-xl border-2 border-amber-500 bg-amber-50 dark:bg-amber-950/40 text-amber-900 dark:text-amber-300 transition-all';
+      btn.className = 'donation-amt-btn py-1.5 px-2 text-xs font-bold rounded-xl border-2 border-amber-500 bg-amber-50 dark:bg-amber-950/40 text-amber-900 dark:text-amber-300 transition-all duration-200 transform active:scale-95';
     } else {
-      btn.className = 'donation-amt-btn py-1.5 px-2 text-xs font-bold rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-800 dark:text-slate-200 transition-all';
+      btn.className = 'donation-amt-btn py-1.5 px-2 text-xs font-bold rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-800 dark:text-slate-200 transition-all duration-200 transform active:scale-95';
     }
   });
 
@@ -728,7 +733,7 @@ function updateDesktopQR() {
 
   const secretUPI = "vikram.joshi9089@oksbi";
   const upiUri = `upi://pay?pa=${secretUPI}&pn=StudySphere&am=${DashboardState.donationAmount}&cu=INR&tn=StudySphere%20Donation`;
-  const primaryUrl = `https://api.qrserver.com/v1/create-qr-code/?size=140x140&data=${encodeURIComponent(upiUri)}`;
+  const primaryUrl = `https://api.qrserver.com/v1/create-qr-code/?size=130x130&data=${encodeURIComponent(upiUri)}`;
 
   if (qrImg) qrImg.src = primaryUrl;
 }
@@ -742,7 +747,7 @@ function triggerMobileUPI() {
 }
 
 // -------------------------------------------------------------
-// 8. Policy Modals Content (From app.js)
+// 8. Policy Modals
 // -------------------------------------------------------------
 const POLICY_DATA = {
   about: {
@@ -867,7 +872,7 @@ function setupDashboardEventListeners() {
     document.body.classList.remove('overflow-hidden');
   });
 
-  // API Key Input Controls & Auto-Disable Paste Button
+  // API Key Input Controls
   const inputKey = document.getElementById('inputApiKey');
   const btnClear = document.getElementById('btnClearApiKeyInput');
   const btnPaste = document.getElementById('btnPasteApiKey');
@@ -1036,7 +1041,7 @@ function setupDashboardEventListeners() {
     }
   });
 
-  // Feedback Modal Controls & Submission
+  // Feedback Modal Controls
   document.getElementById('btnOpenFeedbackModal')?.addEventListener('click', openFeedbackModal);
   document.getElementById('btnCloseFeedbackModal')?.addEventListener('click', closeFeedbackModal);
 
