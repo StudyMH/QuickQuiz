@@ -250,7 +250,7 @@ async function handleCheckConnection() {
     statusText.className = "text-sky-500";
   }
 
-  const candidateModels = ['gemini-2.5-flash', 'gemini-1.5-flash', 'gemini-2.0-flash'];
+  const candidateModels = ['gemini-3.5-flash-lite'];
   let verifiedModel = null;
 
   for (const model of candidateModels) {
